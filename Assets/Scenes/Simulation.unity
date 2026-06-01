@@ -534,7 +534,7 @@ MonoBehaviour:
       m_Action: Zoom
       m_Flags: 8
     - m_Name: 
-      m_Id: 21285ec9-9b75-4aa9-bd7b-502b95adda1d
+      m_Id: 500a7121-147e-4bc7-ab5d-d6831e14f806
       m_Path: <Mouse>/scroll/y
       m_Interactions: 
       m_Processors: Scale(factor=200)
@@ -613,6 +613,63 @@ MonoBehaviour:
       m_Processors: 
       m_Groups: 
       m_Action: Pan
+      m_Flags: 8
+    m_Flags: 0
+  height:
+    m_Name: Height
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: d57eb4b0-8788-4b75-ae64-f1d91f808f82
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: One Modifier
+      m_Id: 8b4caef1-d481-4484-a188-0496eb3ed8da
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: Scale(factor=10)
+      m_Groups: 
+      m_Action: Height
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 048f41fc-0fbc-4d68-81be-a2717de84987
+      m_Path: <Keyboard>/shift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Height
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: 7ca0b3db-78c3-423e-adc4-ebc47bd26742
+      m_Path: <Mouse>/scroll/y
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Height
+      m_Flags: 8
+    - m_Name: 1D Axis
+      m_Id: 268240f9-9041-47ac-a506-19d5f472f929
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: Scale(factor=5)
+      m_Groups: 
+      m_Action: Height
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: a6279996-eefd-459c-8359-752649e5ce62
+      m_Path: <Keyboard>/q
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Height
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: 366a6cf2-d44d-4467-be6b-a6fd4bfa40c6
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Height
       m_Flags: 8
     m_Flags: 0
   reset:

@@ -19,6 +19,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private InputAction rotate;
     [SerializeField] private InputAction zoom;
     [SerializeField] private InputAction pan;
+    [SerializeField] private InputAction height;
     [SerializeField] private InputAction reset;
     
     [SerializeField] private Origin origin;
@@ -37,6 +38,7 @@ public class CameraManager : MonoBehaviour
         rotate.Enable();
         zoom.Enable();
         pan.Enable();
+        height.Enable();
         reset.Enable();
     }
 
@@ -54,12 +56,23 @@ public class CameraManager : MonoBehaviour
         transform.Rotate(0, rotation.x, 0, Space.World);
         transform.Rotate(rotation.y, 0, 0, Space.Self);
         
-        // zoom
-        var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
+        // height
+        var heightAmount = height.ReadValue<float>() * Time.deltaTime;
 
-        if (Math.Abs(mainCamera.localPosition.z + zoomAmount) < MaxZoom && Math.Abs(mainCamera.localPosition.z + zoomAmount) > MinZoom)
+        if (Math.Abs(mainCamera.localPosition.y + heightAmount) > 0)
         {
-            mainCamera.Translate(0, 0, zoomAmount);
+            transform.Translate(0, heightAmount, 0, Space.World);
+        }
+        
+        // zoom
+        if (heightAmount == 0)
+        {
+            var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
+
+            if (Math.Abs(mainCamera.localPosition.z + zoomAmount) < MaxZoom && Math.Abs(mainCamera.localPosition.z + zoomAmount) > MinZoom)
+            {
+                mainCamera.Translate(0, 0, zoomAmount);
+            }
         }
         
         // pan
