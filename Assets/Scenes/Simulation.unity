@@ -476,54 +476,71 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Rotate
       m_Flags: 8
-    - m_Name: Mouse Control
-      m_Id: 42336d36-d05b-4ed5-89a7-98ba339d0c9e
-      m_Path: MouseControl(mode=2)
+    - m_Name: One Modifier
+      m_Id: c24fc70f-8129-465e-8a7d-4e1280e47a60
+      m_Path: OneModifier
       m_Interactions: 
       m_Processors: ScaleVector2(x=100,y=-50)
       m_Groups: 
       m_Action: Rotate
       m_Flags: 4
-    - m_Name: enable
-      m_Id: 7a797ace-470f-45b4-b252-13ee840c3767
+    - m_Name: modifier
+      m_Id: b5312e40-30d6-4c70-b46c-3df5ae2af272
       m_Path: <Mouse>/rightButton
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Rotate
       m_Flags: 8
-    - m_Name: up
-      m_Id: c94271a1-5197-4f30-87cf-40d795d16da6
-      m_Path: <Mouse>/delta/up
+    - m_Name: binding
+      m_Id: cb7faead-61e9-40c5-a4a1-32df47a8d20f
+      m_Path: <Mouse>/delta
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Rotate
       m_Flags: 8
-    - m_Name: down
-      m_Id: e137b0fd-0112-4753-a81f-b8c0957e48c0
-      m_Path: <Mouse>/delta/down
+    m_Flags: 0
+  zoom:
+    m_Name: Zoom
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3205a933-4936-43f5-ab46-33917435e01b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 1D Axis
+      m_Id: adbc8bc3-f6d1-406c-9e45-ed905157265f
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: Scale(factor=0.1)
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: c6126a19-0c2e-44b9-83b3-55a365f6191f
+      m_Path: <Keyboard>/#(-)
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Rotate
+      m_Action: Zoom
       m_Flags: 8
-    - m_Name: left
-      m_Id: 62fc76d7-de1f-49d2-8702-6696cf63cf43
-      m_Path: <Mouse>/delta/left
+    - m_Name: positive
+      m_Id: 48f827a8-7deb-4074-94f1-116d1791ae63
+      m_Path: <Keyboard>/#(=)
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Rotate
+      m_Action: Zoom
       m_Flags: 8
-    - m_Name: right
-      m_Id: 7923885b-b53c-4b70-9010-76b8fb849773
-      m_Path: <Mouse>/delta/right
+    - m_Name: 
+      m_Id: 21285ec9-9b75-4aa9-bd7b-502b95adda1d
+      m_Path: <Mouse>/scroll/y
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Rotate
-      m_Flags: 8
+      m_Action: Zoom
+      m_Flags: 0
     m_Flags: 0
   origin:
     originPosition: {x: 0, y: 0, z: 0}
