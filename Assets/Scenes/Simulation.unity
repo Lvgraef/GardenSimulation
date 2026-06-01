@@ -513,7 +513,7 @@ MonoBehaviour:
       m_Id: adbc8bc3-f6d1-406c-9e45-ed905157265f
       m_Path: 1DAxis
       m_Interactions: 
-      m_Processors: Scale(factor=0.1)
+      m_Processors: Scale(factor=10)
       m_Groups: 
       m_Action: Zoom
       m_Flags: 4
@@ -537,9 +537,99 @@ MonoBehaviour:
       m_Id: 21285ec9-9b75-4aa9-bd7b-502b95adda1d
       m_Path: <Mouse>/scroll/y
       m_Interactions: 
-      m_Processors: 
+      m_Processors: Scale(factor=200)
       m_Groups: 
       m_Action: Zoom
+      m_Flags: 0
+    m_Flags: 0
+  pan:
+    m_Name: Pan
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: f2c9f08b-fcfa-4dcc-a8d4-7b0597b580f2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 2D Vector
+      m_Id: 6cc95ffc-783b-42af-8259-249166b46841
+      m_Path: 2DVector(mode=2)
+      m_Interactions: 
+      m_Processors: ScaleVector2(x=5,y=5)
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 4
+    - m_Name: up
+      m_Id: 5aecee23-26d7-4ea7-a3af-74dc80e1961a
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: down
+      m_Id: b99e5cbb-b39d-4f1a-b29f-31f98d6b4509
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: left
+      m_Id: bbb38ceb-2bf9-40a9-a151-b505c4917b78
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: right
+      m_Id: e5d85438-52aa-434c-95c9-801f73891e70
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: One Modifier
+      m_Id: 97e6b217-6dc6-45c4-8ba2-24fb2500042b
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: ScaleVector2(x=2,y=2)
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 425aad3d-1e0f-4f12-99bb-f5adb0a3853f
+      m_Path: <Mouse>/middleButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: 235a0279-a3ea-4ccc-9d0d-0a0dead39c6a
+      m_Path: <Mouse>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    m_Flags: 0
+  reset:
+    m_Name: Reset
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: deaa4bf8-a407-4b8a-b088-3a3f614c3968
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: e1093044-c724-4cfd-8825-987ea62149ea
+      m_Path: <Keyboard>/r
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Reset
       m_Flags: 0
     m_Flags: 0
   origin:

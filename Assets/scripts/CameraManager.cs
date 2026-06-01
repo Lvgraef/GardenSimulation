@@ -18,6 +18,8 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] private InputAction rotate;
     [SerializeField] private InputAction zoom;
+    [SerializeField] private InputAction pan;
+    [SerializeField] private InputAction reset;
     
     [SerializeField] private Origin origin;
 
@@ -34,22 +36,48 @@ public class CameraManager : MonoBehaviour
 
         rotate.Enable();
         zoom.Enable();
+        pan.Enable();
+        reset.Enable();
     }
 
     void Update()
     {
+        // reset
+        if (reset.IsPressed())
+        {
+            ResetTransform();
+        }
+        
         // rotation
-        var rotation = rotate.ReadValue<Vector2>();
+        var rotation = rotate.ReadValue<Vector2>() * Time.deltaTime;
 
-        transform.Rotate(0, rotation.x * Time.deltaTime, 0, Space.World);
-        transform.Rotate(rotation.y * Time.deltaTime, 0, 0, Space.Self);
+        transform.Rotate(0, rotation.x, 0, Space.World);
+        transform.Rotate(rotation.y, 0, 0, Space.Self);
         
         // zoom
-        var zoomAmount = zoom.ReadValue<float>();
+        var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
 
         if (Math.Abs(mainCamera.localPosition.z + zoomAmount) < MaxZoom && Math.Abs(mainCamera.localPosition.z + zoomAmount) > MinZoom)
         {
             mainCamera.Translate(0, 0, zoomAmount);
         }
+        
+        // pan
+        var panAmount = pan.ReadValue<Vector2>() * Time.deltaTime;
+
+        var forward = transform.forward;
+        forward.y = 0;
+        forward.Normalize();
+
+        var right = transform.right;
+        right.y = 0;
+        right.Normalize();
+        
+        transform.Translate(right * panAmount.x + forward * panAmount.y, Space.World);
+    }
+    
+    void ResetTransform()
+    {
+        transform.position = Vector3.zero;
     }
 }
