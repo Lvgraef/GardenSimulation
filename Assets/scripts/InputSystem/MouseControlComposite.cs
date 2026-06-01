@@ -19,8 +19,7 @@ public class MouseControlComposite : InputBindingComposite<Vector2>
 
     public override Vector2 ReadValue(ref InputBindingCompositeContext context)
     {
-        if (!context.ReadValue<bool>(enable)) return Vector2.zero;
-        
+        if (context.ReadValue<float>(enable) < 0.5) return Vector2.zero;
         var mode = this.mode;
 
         if (mode == Mode.Analog)
@@ -55,6 +54,16 @@ public class MouseControlComposite : InputBindingComposite<Vector2>
         Digital = 1
     }
     
+#if UNITY_EDITOR
+    static MouseControlComposite()
+    {
+        Init();
+    }
+#endif
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    static void Init() {} 
+    static void Init()
+    {
+        InputSystem.RegisterBindingComposite<MouseControlComposite>();
+    } 
 }

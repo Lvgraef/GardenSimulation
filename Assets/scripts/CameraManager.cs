@@ -11,26 +11,28 @@ public class CameraManager : MonoBehaviour
         public Vector2 originRotation;
         public float originDistance;
     }
-    
-    [SerializeField]
-    private InputAction rotate;
-    
-    
-    [SerializeField]
-    private Origin origin;
 
-    [SerializeField] 
-    private Transform mainCamera;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private InputAction rotate;
+
+    [SerializeField] private Origin origin;
+
+    [SerializeField] private Transform mainCamera;
+
+
     void Start()
     {
-        
+        transform.position = origin.originPosition;
+        mainCamera.position = new Vector3(mainCamera.position.x, mainCamera.position.y, -origin.originDistance);
+        transform.rotation = Quaternion.Euler(origin.originRotation);
+
+        rotate.Enable();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        var rotation = rotate.ReadValue<Vector2>();
+
+        transform.Rotate(0, rotation.x * Time.deltaTime, 0, Space.World);
+        transform.Rotate(rotation.y * Time.deltaTime, 0, 0, Space.Self);
     }
 }
