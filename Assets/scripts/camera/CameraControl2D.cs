@@ -31,6 +31,7 @@ namespace camera
 
             pan.Enable();
             zoom.Enable();
+            reset.Enable();
         }
 
         private void Update()
@@ -52,6 +53,7 @@ namespace camera
 
         private void ResetTransform()
         {
+            Debug.Log("Reset");
             transform.position = origin.originPosition;
         }
     }
