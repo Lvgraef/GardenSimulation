@@ -1,5 +1,7 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace camera
 {
@@ -11,6 +13,21 @@ namespace camera
         [SerializeField] private GameObject camera2D;
 
         [SerializeField] private TMP_Text buttonText;
+
+        [SerializeField] private InputAction switchButton;
+
+        private void Start()
+        {
+            switchButton.Enable();
+        }
+
+        private void Update()
+        {
+            if (switchButton.WasPerformedThisFrame())
+            {
+                SwitchCameraView();
+            }
+        }
 
         public void SwitchCameraView()
         {

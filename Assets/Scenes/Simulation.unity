@@ -1218,6 +1218,23 @@ MonoBehaviour:
   camera3D: {fileID: 609462950}
   camera2D: {fileID: 1827771832}
   buttonText: {fileID: 1917779810}
+  switchButton:
+    m_Name: Switch Button
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: f15d9a5c-1ccb-40c4-923a-af79f83df749
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: a5b78e08-bc23-4cae-8e81-3a711d698542
+      m_Path: <Keyboard>/v
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Switch Button
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &1827771832
 GameObject:
   m_ObjectHideFlags: 0
