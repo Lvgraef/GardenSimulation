@@ -72,7 +72,7 @@ namespace camera
 
                 if (Math.Abs(mainCamera.localPosition.z + zoomAmount) < MaxZoom && Math.Abs(mainCamera.localPosition.z + zoomAmount) > MinZoom)
                 {
-                    mainCamera.Translate(0, 0, zoomAmount);
+                    mainCamera.localPosition = new Vector3(mainCamera.localPosition.x, mainCamera.localPosition.y, Math.Clamp(mainCamera.localPosition.z + zoomAmount, -MaxZoom, -MinZoom));
                 }
             }
         
