@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 namespace camera
 {
@@ -53,7 +52,6 @@ namespace camera
 
         private void ResetTransform()
         {
-            Debug.Log("Reset");
             transform.position = origin.originPosition;
         }
     }
