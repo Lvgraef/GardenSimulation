@@ -17,14 +17,23 @@ namespace GridSystem
                 tiles[x, y].ClearMaterial();
             }
 
+            private (int x, int y) WorldToGrid(Vector3 worldPos)
+            {
+                int x = Mathf.FloorToInt((worldPos - transform.position).x );
+                int y = Mathf.FloorToInt((worldPos - transform.position).z );
+                
+                return (x, y);
+            }
+
             /// <summary>
             /// Places the material on the grid
             /// </summary>
             /// <param name="material"></param>
             /// <param name="x"></param>
             /// <param name="y"></param>
-            public void PlaceMaterial(Material material, int x, int y)
+            public void PlaceMaterial(Material material, Vector3 vector)
             {
+                (int x, int y) = WorldToGrid(vector);
                 tiles[x, y].SetMaterial(material);
             }
 
