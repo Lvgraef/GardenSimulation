@@ -87,21 +87,21 @@ namespace GridSystem
             /// </summary>
             private void OnDrawGizmos()
             {
-                Gizmos.color = Color.black;
+                Gizmos.color = Color.forestGreen;
                 if (width <= 0 || height <= 0) return;
                 Vector3 origin = transform.position;
 
                 for (int y = 0; y <= height; y++)
                 {
-                    Vector3 start = origin + new Vector3(0, 0.01f, y * tileSize);
-                    Vector3 end = origin + new Vector3(width * tileSize, 0.01f, y * tileSize);
+                    Vector3 start = origin + new Vector3(0, 0, y * tileSize);
+                    Vector3 end = origin + new Vector3(width * tileSize, 0, y * tileSize);
                     Gizmos.DrawLine(start, end);
                 }
 
                 for (int x = 0; x <= width; x++)
                 {
-                    Vector3 start = origin + new Vector3(x * tileSize, 0.01f, 0);
-                    Vector3 end = origin + new Vector3(x * tileSize, 0.01f, height * tileSize);
+                    Vector3 start = origin + new Vector3(x * tileSize, 0f, 0);
+                    Vector3 end = origin + new Vector3(x * tileSize, 0f, height * tileSize);
                     Gizmos.DrawLine(start, end);
                 }
             }
