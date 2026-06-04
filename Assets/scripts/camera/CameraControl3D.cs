@@ -7,6 +7,9 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace camera
 {
+    /// <summary>
+    /// Controls the 3D camera
+    /// </summary>
     public class CameraControl3D : MonoBehaviour
     {
         [Serializable]

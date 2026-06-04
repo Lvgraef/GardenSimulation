@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 namespace camera
 {
+    /// <summary>
+    /// Controls the 2D camera
+    /// </summary>
     public class CameraControl2D : MonoBehaviour
     {
         [Serializable]

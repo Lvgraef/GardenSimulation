@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 namespace camera
 {
+    /// <summary>
+    /// Manages the switching between camera modes
+    /// </summary>
     public class CameraManager : MonoBehaviour
     {
         public bool Is2D { get; private set; }
@@ -29,6 +32,9 @@ namespace camera
             }
         }
 
+        /// <summary>
+        /// Switch the view between 2D and 3D
+        /// </summary>
         public void SwitchCameraView()
         {
             Is2D = !Is2D;
