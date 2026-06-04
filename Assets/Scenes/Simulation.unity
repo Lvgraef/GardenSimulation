@@ -166,6 +166,8 @@ MonoBehaviour:
   width: 7
   height: 6
   cameraManager: {fileID: 1440299375}
+  menu: {fileID: 2106689585}
+  tileSize: 1
 --- !u!1 &257780460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,63 +1054,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640017633}
   m_CullTransparentMesh: 1
---- !u!1001 &749065367
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7002659129679064049, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_Name
-      value: Grass
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
 --- !u!1 &751011789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,7 +1979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: f52f5e66ecc8afc4f8a1fe74915c613a, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -2247,14 +2192,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb4580577dbc0b4c8b347fa57dcd3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GardenSimulation.MaterialMenu
+  outlineMaterial: {fileID: 2100000, guid: ca598d25359bc964a99dc81a1484a06a, type: 2}
   Materials:
-  - {fileID: 11400000, guid: 49a5bfbd708378d4cb9fb7428eafd5c6, type: 2}
-  - {fileID: 11400000, guid: 2ddd2a276352a0143966f8eb72ee146c, type: 2}
-  - {fileID: 11400000, guid: 14060c97e540a8c45923c6c619e2263b, type: 2}
-  - {fileID: 11400000, guid: ee107febb37fd614f895eb262d78e935, type: 2}
-  - {fileID: 11400000, guid: d083af89ec7f84a4f82b2a432e1e06e4, type: 2}
+  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
+  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   ButtonContainer: {fileID: 1026326289}
-  SelectedMaterial: {fileID: 0}
   ButtonPrefab: {fileID: 4319799257796120153, guid: 978514da4f53d424886618a4db25ca00, type: 3}
   EraserButton: {fileID: 1890375209}
   Eraser: 0
@@ -2269,4 +2214,3 @@ SceneRoots:
   - {fileID: 257780464}
   - {fileID: 751011792}
   - {fileID: 1440299374}
-  - {fileID: 749065367}
