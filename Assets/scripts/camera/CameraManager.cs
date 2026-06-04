@@ -15,6 +15,11 @@ namespace camera
         [SerializeField] private GameObject camera3D;
         [SerializeField] private GameObject camera2D;
 
+        [SerializeField]
+        private Camera cameraComponent3D;
+        [SerializeField]
+        private Camera cameraComponent2D;
+
         [SerializeField] private TMP_Text buttonText;
 
         [SerializeField] private InputAction switchButton;
@@ -41,6 +46,11 @@ namespace camera
             camera2D.SetActive(Is2D);
             camera3D.SetActive(!Is2D);
             buttonText.text = Is2D ? "3D" : "2D";
+        }
+
+        public Camera GetCurrentCamera()
+        {
+            return Is2D ? cameraComponent2D : cameraComponent3D;
         }
     }
 }
