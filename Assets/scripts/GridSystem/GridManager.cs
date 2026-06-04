@@ -1,5 +1,6 @@
 using System;
 using camera;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,8 +14,9 @@ namespace GridSystem
         [SerializeField] private int height;
         
         [SerializeField] private CameraManager cameraManager;
+        [SerializeField] private MaterialMenu menu;
 
-        private float tileSize = 1f;
+        public float tileSize = 1f;
 
         private void Update()
         {
@@ -26,12 +28,14 @@ namespace GridSystem
 
         private void ShootRay()
         {
+            var material = menu.SelectedMaterial;
+            if (material is null) return;
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Plane gridPlane = new Plane(Vector3.up, transform.position);
             Ray ray = cameraManager.GetCurrentCamera().ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
             gridPlane.Raycast(ray, out float distance);
             var intersectPosition = ray.direction * distance + ray.origin;
-            // place the material in the grid
+            PlaceMaterial(material, intersectPosition);
         }
 
         public void RemoveTile(int x, int y)
@@ -41,7 +45,7 @@ namespace GridSystem
 
         private bool OutOfBounds(int x, int y)
         {
-            if (x > width || y > height || x < 0 || y < 0)
+            if (x > width-1 || y > height-1 || x < 0 || y < 0)
             {
                 return true;
             }
@@ -68,7 +72,6 @@ namespace GridSystem
             (int x, int y) = WorldToGrid(vector);
             if (OutOfBounds(x, y))
             {
-                Debug.LogError("Material is being placed out of bounds");
                 return;
             }
 
@@ -101,7 +104,7 @@ namespace GridSystem
             {
                 for (int y = 0; y < height; y++)
                 {
-                    tiles[x, y] = new Tile(x, y);
+                    tiles[x, y] = new Tile(x, y, this);
                 }
             }
         }

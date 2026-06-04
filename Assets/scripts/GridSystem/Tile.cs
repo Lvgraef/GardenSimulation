@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace GridSystem
 {
@@ -9,23 +10,28 @@ namespace GridSystem
     public class Tile
     {
         private Material _material;
-        private int _x;
-        private int _y;
+        private readonly GridManager _manager;
+        private readonly int _x;
+        private readonly int _z;
 
-        public Tile(int x, int y)
+        public Tile(int x, int z, GridManager manager)
         {
-            this._x = x;
-            this._y = y;
+            _x = x;
+            _z = z;
+            _manager = manager;
         }
 
         public void SetMaterial(Material material)
         {
-            this._material = material;
+            _material = Object.Instantiate(material,
+                _manager.transform.position + new Vector3(_x * _manager.tileSize + material.offset.x, material.offset.y, _z * _manager.tileSize + material.offset.z),
+                new Quaternion());
         }
-        
+
         public void ClearMaterial()
         {
-            this._material = null;
+            Object.Destroy(_material);
+            _material = null;
         }
 
         public Material GetMaterial()

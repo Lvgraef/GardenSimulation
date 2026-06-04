@@ -8,12 +8,22 @@ namespace GridSystem
     /// </summary>
     public class Material : MonoBehaviour
     {
+        public enum Category
+        {
+            Tile,
+            Grass,
+            Shrub,
+            Tree,
+            Flower,
+            Water
+        }
+        
         private GameObject _material;
         
-        private MaterialData _materialData;
+        public Category category;
         
-        // Need to instantiate the material on to the platform
-        
-        
+        public Sprite sprite;
+
+        public Vector3 offset = new(0.5f, 0f, 0.5f);
     }
 }
