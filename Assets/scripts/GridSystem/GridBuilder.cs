@@ -17,6 +17,16 @@ namespace GridSystem
                 tiles[x, y].ClearMaterial();
             }
 
+            private bool OutOfBounds(int x, int y)
+            {
+                if (x > width || y > height || x < 0 || y < 0)
+                {
+                    return true;
+                }
+
+               return  false;
+            }
+
             private (int x, int y) WorldToGrid(Vector3 worldPos)
             {
                 int x = Mathf.FloorToInt((worldPos - transform.position).x );
@@ -34,6 +44,11 @@ namespace GridSystem
             public void PlaceMaterial(Material material, Vector3 vector)
             {
                 (int x, int y) = WorldToGrid(vector);
+                if (OutOfBounds(x, y))
+                {
+                    Debug.LogError("Material is being placed out of bounds");
+                    return;
+                }
                 tiles[x, y].SetMaterial(material);
             }
 
@@ -45,6 +60,10 @@ namespace GridSystem
             /// <returns></returns>
             public Material GetMaterial(int x, int y)
             {
+                if (OutOfBounds(x, y))
+                {
+                    return null;
+                }
                 return tiles[x, y].GetMaterial();
             }
         
