@@ -10,7 +10,7 @@ namespace GridSystem
             [SerializeField] private int width;
             [SerializeField] private int height;
 
-            private float tileSize = 1f;
+            private readonly float tileSize = 0.5f;
             
             public void RemoveTile(int x, int y)
             {
@@ -29,8 +29,8 @@ namespace GridSystem
 
             private (int x, int y) WorldToGrid(Vector3 worldPos)
             {
-                int x = Mathf.FloorToInt((worldPos - transform.position).x );
-                int y = Mathf.FloorToInt((worldPos - transform.position).z );
+                int x = Mathf.FloorToInt((worldPos - transform.position).x / tileSize);
+                int y = Mathf.FloorToInt((worldPos - transform.position).z / tileSize);
                 
                 return (x, y);
             }
