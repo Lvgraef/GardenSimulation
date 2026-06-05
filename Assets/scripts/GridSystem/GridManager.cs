@@ -8,9 +8,9 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
-        private Tile[,] tiles;
+        private Tile[,] _tiles;
 
-        private UnityEngine.Material material;
+        private UnityEngine.Material _lineMaterial;
 
         [SerializeField] private int width;
         [SerializeField] private int height;
@@ -18,7 +18,7 @@ namespace GridSystem
         [SerializeField] private CameraManager cameraManager;
         [SerializeField] private MaterialMenu menu;
 
-        public float tileSize = 1f;
+        public float tileSize = 0.5f;
 
         private void Update()
         {
@@ -43,30 +43,30 @@ namespace GridSystem
             var mat = GetMaterial(gridPos.x, gridPos.y);
             if (menu.Eraser)
             {
-                RemoveTile(gridPos.x, gridPos.y);
+                RemoveMaterial((gridPos.x, gridPos.y));
             }
 
             if (selectedMaterial is null || (mat is not null &&
-                                             mat.name.Substring(0, selectedMaterial.name.Length) ==
+                                             mat.name[..selectedMaterial.name.Length] ==
                                              selectedMaterial.name)) return;
 
-            PlaceMaterial(selectedMaterial, intersectPosition);
+            PlaceMaterial(selectedMaterial, gridPos);
         }
 
         public void RemoveTile(int x, int y)
         {
-            tiles[x, y].ClearMaterial();
+            _tiles[x, y].ClearMaterial();
         }
 
         private bool OutOfBounds(int x, int y)
         {
-            return x > width - 1 || y > height - 1 || x < 0 || y < 0;
+            return x > width-1 || y > height-1 || x < 0 || y < 0;
         }
 
         private (int x, int y) WorldToGrid(Vector3 worldPos)
         {
-            int x = Mathf.FloorToInt((worldPos - transform.position).x);
-            int y = Mathf.FloorToInt((worldPos - transform.position).z);
+            int x = Mathf.FloorToInt((worldPos - transform.position).x / tileSize);
+            int y = Mathf.FloorToInt((worldPos - transform.position).z / tileSize);
 
             return (x, y);
         }
@@ -85,7 +85,52 @@ namespace GridSystem
                 return;
             }
 
-            tiles[x, y].SetMaterial(material);
+            _tiles[x, y].SetMaterial(material);
+        }
+        
+        /// <summary>
+        /// Places the material on the grid
+        /// </summary>
+        /// <param name="material"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void PlaceMaterial(Material material, (int x, int y) tile)
+        {
+            if (OutOfBounds(tile.x, tile.y))
+            {
+                return;
+            }
+
+            _tiles[tile.x, tile.y].SetMaterial(material);
+        }
+        
+        /// <summary>
+        /// Removes the material from the grid
+        /// </summary>
+        /// <param name="vector"></param>
+        public void RemoveMaterial(Vector3 vector)
+        {
+            (int x, int y) = WorldToGrid(vector);
+            if (OutOfBounds(x, y))
+            {
+                return;
+            }
+
+            _tiles[x, y].ClearMaterial();
+        }
+        
+        /// <summary>
+        /// Removes the material from the grid
+        /// </summary>
+        /// <param name="tile"></param>
+        public void RemoveMaterial((int x, int y) tile)
+        {
+            if (OutOfBounds(tile.x, tile.y))
+            {
+                return;
+            }
+
+            _tiles[tile.x, tile.y].ClearMaterial();
         }
 
         /// <summary>
@@ -96,12 +141,12 @@ namespace GridSystem
         /// <returns></returns>
         public Material GetMaterial(int x, int y)
         {
-            if (OutOfBounds(x, y) || tiles[x, y] is null)
+            if (OutOfBounds(x, y) || _tiles[x, y] is null)
             {
                 return null;
             }
 
-            return tiles[x, y].GetMaterial();
+            return _tiles[x, y].GetMaterial();
         }
 
 
@@ -114,7 +159,7 @@ namespace GridSystem
             {
                 for (int y = 0; y < height; y++)
                 {
-                    tiles[x, y] = new Tile(x, y, this);
+                    _tiles[x, y] = new Tile(x, y, this);
                 }
             }
         }
@@ -124,10 +169,10 @@ namespace GridSystem
         /// </summary>
         private void OnRenderObject()
         {
-            if (!material) return;
+            if (!_lineMaterial) return;
 
             GL.PushMatrix();
-            material.SetPass(0);
+            _lineMaterial.SetPass(0);
 
             if (width <= 0 || height <= 0)
             {
@@ -166,8 +211,8 @@ namespace GridSystem
         void Start()
         {
             Shader shader = Shader.Find("Hidden/Internal-Colored");
-            material = new UnityEngine.Material(shader);
-            tiles = new Tile[width, height];
+            _lineMaterial = new UnityEngine.Material(shader);
+            _tiles = new Tile[width, height];
             GenerateGrid();
         }
     }

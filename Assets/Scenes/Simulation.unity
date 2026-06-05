@@ -163,12 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d5f32d78b44b71b9e900f9b2ef6582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridSystem.GridBuilder
-  material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-  width: 7
-  height: 6
+  width: 20
+  height: 30
   cameraManager: {fileID: 1440299375}
   menu: {fileID: 2106689585}
-  tileSize: 1
+  tileSize: 0.5
 --- !u!1 &257780460
 GameObject:
   m_ObjectHideFlags: 0
