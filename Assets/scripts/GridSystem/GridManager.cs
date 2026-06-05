@@ -31,9 +31,8 @@ namespace GridSystem
         private void ShootRay()
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
-            
+
             var selectedMaterial = menu.SelectedMaterial;
-            if (selectedMaterial is null) return;
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Plane gridPlane = new Plane(Vector3.up, transform.position);
             Ray ray = cameraManager.GetCurrentCamera()
@@ -42,12 +41,14 @@ namespace GridSystem
             var intersectPosition = ray.direction * distance + ray.origin;
             var gridPos = WorldToGrid(intersectPosition);
             var mat = GetMaterial(gridPos.x, gridPos.y);
-            if (mat is not null &&
-                mat.name.Substring(0, selectedMaterial.name.Length) == selectedMaterial.name) return;
             if (menu.Eraser)
             {
                 RemoveTile(gridPos.x, gridPos.y);
             }
+
+            if (selectedMaterial is null || (mat is not null &&
+                                             mat.name.Substring(0, selectedMaterial.name.Length) ==
+                                             selectedMaterial.name)) return;
 
             PlaceMaterial(selectedMaterial, intersectPosition);
         }
