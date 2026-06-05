@@ -127,3 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridSystem.Material
   category: 1
   sprite: {fileID: 21300000, guid: 889ce0971eb92a74db8e9daa59cbb604, type: 3}
+  offset: {x: 0.5, y: 0, z: 0.5}

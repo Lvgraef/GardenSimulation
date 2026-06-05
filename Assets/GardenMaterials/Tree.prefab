@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6e34c2ae5d6851c45a14b984ed69f5e1, type: 2}
+  - {fileID: 2100000, guid: fd96f28f8449f6e478eded71ce1f3bdb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,3 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridSystem.Material
   category: 3
   sprite: {fileID: 21300000, guid: e463772d5ec791a45a4e0b197972d931, type: 3}
+  offset: {x: 0.5, y: 0, z: 0.5}
