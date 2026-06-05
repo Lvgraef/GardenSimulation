@@ -1,6 +1,7 @@
 using camera;
 using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace GridSystem
@@ -8,12 +9,12 @@ namespace GridSystem
     public class GridManager : MonoBehaviour
     {
         private Tile[,] tiles;
-        
+
         private UnityEngine.Material material;
-        
+
         [SerializeField] private int width;
         [SerializeField] private int height;
-        
+
         [SerializeField] private CameraManager cameraManager;
         [SerializeField] private MaterialMenu menu;
 
@@ -21,7 +22,7 @@ namespace GridSystem
 
         private void Update()
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (Mouse.current.leftButton.isPressed)
             {
                 ShootRay();
             }
@@ -29,19 +30,26 @@ namespace GridSystem
 
         private void ShootRay()
         {
-            var material = menu.SelectedMaterial;
-            if (material is null) return;
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+            
+            var selectedMaterial = menu.SelectedMaterial;
+            if (selectedMaterial is null) return;
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Plane gridPlane = new Plane(Vector3.up, transform.position);
-            Ray ray = cameraManager.GetCurrentCamera().ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
+            Ray ray = cameraManager.GetCurrentCamera()
+                .ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
             gridPlane.Raycast(ray, out float distance);
             var intersectPosition = ray.direction * distance + ray.origin;
+            var gridPos = WorldToGrid(intersectPosition);
+            var mat = GetMaterial(gridPos.x, gridPos.y);
+            if (mat is not null &&
+                mat.name.Substring(0, selectedMaterial.name.Length) == selectedMaterial.name) return;
             if (menu.Eraser)
             {
-                (int x, int y) = WorldToGrid(intersectPosition);
-                RemoveTile(x, y);
+                RemoveTile(gridPos.x, gridPos.y);
             }
-            PlaceMaterial(material, intersectPosition);
+
+            PlaceMaterial(selectedMaterial, intersectPosition);
         }
 
         public void RemoveTile(int x, int y)
@@ -51,7 +59,7 @@ namespace GridSystem
 
         private bool OutOfBounds(int x, int y)
         {
-            return x > width-1 || y > height-1 || x < 0 || y < 0;
+            return x > width - 1 || y > height - 1 || x < 0 || y < 0;
         }
 
         private (int x, int y) WorldToGrid(Vector3 worldPos)
@@ -87,7 +95,7 @@ namespace GridSystem
         /// <returns></returns>
         public Material GetMaterial(int x, int y)
         {
-            if (OutOfBounds(x, y))
+            if (OutOfBounds(x, y) || tiles[x, y] is null)
             {
                 return null;
             }
@@ -116,7 +124,7 @@ namespace GridSystem
         private void OnRenderObject()
         {
             if (!material) return;
-            
+
             GL.PushMatrix();
             material.SetPass(0);
 
@@ -125,8 +133,9 @@ namespace GridSystem
                 GL.PopMatrix();
                 return;
             }
+
             Vector3 origin = transform.position;
-            
+
             for (int y = 0; y <= height; y++)
             {
                 Vector3 start = origin + new Vector3(0, 0, y * tileSize);
@@ -148,6 +157,7 @@ namespace GridSystem
                 GL.Vertex(end);
                 GL.End();
             }
+
             GL.PopMatrix();
         }
 

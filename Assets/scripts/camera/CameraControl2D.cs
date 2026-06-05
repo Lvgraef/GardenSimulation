@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace camera
@@ -45,9 +46,12 @@ namespace camera
             }
             
             // Zoom
-            var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
-            cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
-            
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
+                cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
+            }
+              
             // Pan
             var panAmount = pan.ReadValue<Vector2>() * Time.deltaTime;
             transform.Translate(panAmount.x, 0, panAmount.y, Space.World);
