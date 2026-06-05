@@ -23,6 +23,7 @@ namespace GridSystem
 
         public void SetMaterial(Material material)
         {
+            ClearMaterial();
             _material = Object.Instantiate(material,
                 _manager.transform.position + new Vector3(_x * _manager.tileSize + material.offset.x, material.offset.y, _z * _manager.tileSize + material.offset.z),
                 new Quaternion());
@@ -30,7 +31,8 @@ namespace GridSystem
 
         public void ClearMaterial()
         {
-            Object.Destroy(_material);
+            if (_material is null) return;
+            Object.Destroy(_material.gameObject);
             _material = null;
         }
 
