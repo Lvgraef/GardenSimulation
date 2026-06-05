@@ -90,15 +90,15 @@ Shader "Custom/Sprite-Outline"
                 fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 
                 // If outline is enabled and there is a pixel, try to draw an outline.
-                if (_Outline > 0 && c.a == 0) {
+                if (_Outline > 0 && c.a <= 0.5) {
                     // Get the neighbouring four pixels.
                     fixed4 pixelUp = tex2D(_MainTex, IN.texcoord - fixed2(0, _MainTex_TexelSize.y * _Outline));
                     fixed4 pixelDown = tex2D(_MainTex, IN.texcoord + fixed2(0, _MainTex_TexelSize.y * _Outline));
                     fixed4 pixelRight = tex2D(_MainTex, IN.texcoord - fixed2(_MainTex_TexelSize.x * _Outline, 0));
                     fixed4 pixelLeft = tex2D(_MainTex, IN.texcoord + fixed2(_MainTex_TexelSize.x * _Outline, 0));
 
-                    // If one of the neighbouring pixels is invisible, we render an outline.
-                    if (pixelUp.a + pixelDown.a + pixelRight.a + pixelLeft.a >= 1) {
+                    // If one of the pixels is not transparent you are at an edge.
+                    if (pixelUp.a > 0.5 || pixelDown.a > 0.5 || pixelRight.a > 0.5 || pixelLeft.a > 0.5) {
                         c.rgba = fixed4(1, 1, 1, 1) * _OutlineColor;
                     }
                 }

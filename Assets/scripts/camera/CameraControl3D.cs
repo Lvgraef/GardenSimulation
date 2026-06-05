@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -71,11 +72,14 @@ namespace camera
             // zoom
             if (heightAmount == 0)
             {
-                var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
-
-                if (Math.Abs(mainCamera.localPosition.z + zoomAmount) < MaxZoom && Math.Abs(mainCamera.localPosition.z + zoomAmount) > MinZoom)
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    mainCamera.localPosition = new Vector3(mainCamera.localPosition.x, mainCamera.localPosition.y, Math.Clamp(mainCamera.localPosition.z + zoomAmount, -MaxZoom, -MinZoom));
+                    var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
+
+                    if (Math.Abs(mainCamera.localPosition.z + zoomAmount) < MaxZoom && Math.Abs(mainCamera.localPosition.z + zoomAmount) > MinZoom)
+                    {
+                        mainCamera.localPosition = new Vector3(mainCamera.localPosition.x, mainCamera.localPosition.y, Math.Clamp(mainCamera.localPosition.z + zoomAmount, -MaxZoom, -MinZoom));
+                    }
                 }
             }
         

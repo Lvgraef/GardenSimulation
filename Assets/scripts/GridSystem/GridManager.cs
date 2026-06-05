@@ -1,4 +1,3 @@
-using System;
 using camera;
 using UI;
 using UnityEngine;
@@ -9,6 +8,8 @@ namespace GridSystem
     public class GridManager : MonoBehaviour
     {
         private Tile[,] tiles;
+        
+        private UnityEngine.Material material;
         
         [SerializeField] private int width;
         [SerializeField] private int height;
@@ -35,6 +36,11 @@ namespace GridSystem
             Ray ray = cameraManager.GetCurrentCamera().ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
             gridPlane.Raycast(ray, out float distance);
             var intersectPosition = ray.direction * distance + ray.origin;
+            if (menu.Eraser)
+            {
+                (int x, int y) = WorldToGrid(intersectPosition);
+                RemoveTile(x, y);
+            }
             PlaceMaterial(material, intersectPosition);
         }
 
@@ -45,12 +51,7 @@ namespace GridSystem
 
         private bool OutOfBounds(int x, int y)
         {
-            if (x > width-1 || y > height-1 || x < 0 || y < 0)
-            {
-                return true;
-            }
-
-            return false;
+            return x > width-1 || y > height-1 || x < 0 || y < 0;
         }
 
         private (int x, int y) WorldToGrid(Vector3 worldPos)
@@ -112,30 +113,49 @@ namespace GridSystem
         /// <summary>
         /// Draw lines in unity
         /// </summary>
-        private void OnDrawGizmos()
+        private void OnRenderObject()
         {
-            Gizmos.color = Color.forestGreen;
-            if (width <= 0 || height <= 0) return;
-            Vector3 origin = transform.position;
+            if (!material) return;
+            
+            GL.PushMatrix();
+            material.SetPass(0);
 
+            if (width <= 0 || height <= 0)
+            {
+                GL.PopMatrix();
+                return;
+            }
+            Vector3 origin = transform.position;
+            
             for (int y = 0; y <= height; y++)
             {
                 Vector3 start = origin + new Vector3(0, 0, y * tileSize);
                 Vector3 end = origin + new Vector3(width * tileSize, 0, y * tileSize);
-                Gizmos.DrawLine(start, end);
+                GL.Begin(GL.LINES);
+                GL.Color(Color.forestGreen);
+                GL.Vertex(start);
+                GL.Vertex(end);
+                GL.End();
             }
 
             for (int x = 0; x <= width; x++)
             {
                 Vector3 start = origin + new Vector3(x * tileSize, 0f, 0);
                 Vector3 end = origin + new Vector3(x * tileSize, 0f, height * tileSize);
-                Gizmos.DrawLine(start, end);
+                GL.Begin(GL.LINES);
+                GL.Color(Color.forestGreen);
+                GL.Vertex(start);
+                GL.Vertex(end);
+                GL.End();
             }
+            GL.PopMatrix();
         }
 
 
         void Start()
         {
+            Shader shader = Shader.Find("Hidden/Internal-Colored");
+            material = new UnityEngine.Material(shader);
             tiles = new Tile[width, height];
             GenerateGrid();
         }
