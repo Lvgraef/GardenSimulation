@@ -1,4 +1,7 @@
+using System;
+using calculation;
 using camera;
+using gardensettings;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,9 +11,16 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
+        [SerializeField] 
+        private GardenSettings gardenSettings;
+        
+        public GardenSettings GardenSettings => gardenSettings;
+
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
+
+        private Calculator _calculator;
 
         [SerializeField] private int width;
         [SerializeField] private int height;
@@ -18,7 +28,16 @@ namespace GridSystem
         [SerializeField] private CameraManager cameraManager;
         [SerializeField] private MaterialMenu menu;
 
+
         public float tileSize = 0.5f;
+
+        public void ForEachTile(Action<Tile> action)
+        {
+            foreach (var tile in _tiles)
+            {
+                action(tile);
+            }
+        }
 
         private void Update()
         {
@@ -207,6 +226,10 @@ namespace GridSystem
             GL.PopMatrix();
         }
 
+        private void Awake()
+        {
+            _calculator = new Calculator(BasicCalculationModel.Instance, this);
+        }
 
         void Start()
         {

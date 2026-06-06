@@ -3,7 +3,7 @@ using GridSystem;
 
 namespace calculation
 {
-    public static class CalculationConstants
+    public static class BasicCalculationConstants
     {
         // Pijler 1 - Water in de bodem
         public const float NonPermeableWaterCoefficient = 0f; // Volledige volharding
