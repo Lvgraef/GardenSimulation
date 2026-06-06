@@ -1,80 +1,68 @@
-﻿namespace calculation
+﻿using System;
+using gardensettings;
+using GridSystem;
+
+namespace calculation
 {
-    public static class Calculator
+    public class Calculator
     {
-        private static float GetTotalArea(CalculationData data)
+        private readonly ICalculationModel _calculationModel;
+        private readonly GridManager _gridManager;
+
+        public Calculator(ICalculationModel calculationModel, GridManager gridManager)
         {
-            return data.NonPermeable + data.SemiPermeable + data.Bare + data.Bare + data.Flowers + data.Grass +
-                   data.Shrubs + data.Tree;
+            _calculationModel = calculationModel;
+            _gridManager = gridManager;
         }
 
-        private static float GetTotalVegetationArea(CalculationData data)
+        public CalculationResult Calculate()
         {
-            return data.Flowers + data.Grass + data.Shrubs + data.Tree;
-        }
+            GardenSettings gardenSettings = _gridManager.GardenSettings;
 
-        private static float GetVegetationPercentage(CalculationData data)
-        {
-            return GetTotalVegetationArea(data) / GetTotalArea(data);
-        }
+            float nonPermeableArea = 0,
+                semiPermeableArea = 0,
+                bareArea = 0,
+                flowerArea = 0,
+                grassArea = 0,
+                shrubArea = 0,
+                treeArea = 0;
 
-        private static float CalculateWaterScore(CalculationData data)
-        {
-            float nonPermeableScore = data.NonPermeable * CalculationConstants.NonPermeableWaterCoefficient;
-            float semiPermeableScore = data.SemiPermeable * CalculationConstants.SemiPermeableWaterCoefficient;
-            float bareScore = data.Bare * CalculationConstants.BareWaterCoefficient;
-            float flowerScore = data.Flowers * CalculationConstants.FlowerWaterCoefficient;
-            float grassScore = data.Grass * CalculationConstants.GrassWaterCoefficient;
-            float shrubScore = data.Shrubs * CalculationConstants.ShrubWaterCoefficient;
-            float treeScore = data.Tree * CalculationConstants.TreeWaterCoefficient;
-
-            return nonPermeableScore + semiPermeableScore + bareScore + flowerScore + grassScore + shrubScore +
-                   treeScore;
-        }
-
-        private static float CalculateSoilScore(CalculationData data)
-        {
-            return CalculationConstants.GetFertilizationCoefficient(data.Fertilizer, data.CompostCleanup) *
-                   GetVegetationPercentage(data);
-        }
-
-        private static float CalculateAnimalScore(CalculationData data)
-        {
-            float vegetationPercentage = GetVegetationPercentage(data);
-
-            float flyingInsectScore = (data.FlyingInsects ? 1 : 0) * CalculationConstants.FlyingInsectCoefficient *
-                                      vegetationPercentage;
-            float birdScore = (data.Birds ? 1 : 0) * CalculationConstants.BirdCoefficient *
-                              vegetationPercentage;
-            float spiderScore = (data.Spiders ? 1 : 0) * CalculationConstants.SpiderCoefficient *
-                                vegetationPercentage;
-            float otherAnimalScore = (data.OtherAnimals ? 1 : 0) * CalculationConstants.OtherAnimalCoefficient *
-                                     vegetationPercentage;
-
-            return flyingInsectScore + birdScore + spiderScore + otherAnimalScore;
-        }
-
-        private static float CalculatePlantScore(CalculationData data)
-        {
-            float plantSpeciesDiversityCoefficient =
-                CalculationConstants.GetPlantSpeciesDiversityCoefficient(data.PlantDiversity);
-
-            float flowerScore = CalculationConstants.FlowerDiversityCoefficient * (data.Flowers / GetTotalArea(data)) *
-                                plantSpeciesDiversityCoefficient;
-            float grassScore = CalculationConstants.GrassDiversityCoefficient * (data.Grass / GetTotalArea(data)) *
-                               plantSpeciesDiversityCoefficient;
-            float shrubScore = CalculationConstants.ShrubDiversityCoefficient * (data.Shrubs / GetTotalArea(data)) *
-                               plantSpeciesDiversityCoefficient;
-            float treeScore = CalculationConstants.TreeDiversityCoefficient * (data.Shrubs / GetTotalArea(data)) *
-                              plantSpeciesDiversityCoefficient;
-
-            return flowerScore + grassScore + shrubScore + treeScore;
-        }
-
-        public static CalculationResult Calculate(CalculationData data)
-        {
-            return new CalculationResult(CalculateWaterScore(data), CalculateSoilScore(data),
-                CalculateAnimalScore(data), CalculatePlantScore(data));
+            _gridManager.ForEachTile(coords =>
+            {
+                switch (coords.GetMaterial().category)
+                {
+                    case Material.Category.NonPermeable:
+                        nonPermeableArea++;
+                        break;
+                    case Material.Category.SemiPermeable:
+                        semiPermeableArea++;
+                        break;
+                    case Material.Category.Bare:
+                        bareArea++;
+                        break;
+                    case Material.Category.Flowers:
+                        flowerArea++;
+                        break;
+                    case Material.Category.Grass:
+                        grassArea++;
+                        break;
+                    case Material.Category.Shrubs:
+                        shrubArea++;
+                        break;
+                    case Material.Category.Tree:
+                        treeArea++;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            });
+            
+            CalculationData data = new CalculationData(nonPermeableArea, semiPermeableArea, bareArea, flowerArea,
+                grassArea, shrubArea, treeArea, gardenSettings.Fertilizer, gardenSettings.CompostCleanup,
+                gardenSettings.FlyingInsects, gardenSettings.Birds, gardenSettings.Spiders, gardenSettings.OtherAnimals,
+                gardenSettings.PlantDiversity);
+            
+            return _calculationModel.Calculate(data);
         }
     }
 }

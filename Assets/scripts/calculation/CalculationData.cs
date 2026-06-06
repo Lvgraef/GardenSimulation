@@ -9,7 +9,7 @@
         public readonly float Grass; // Gras
         public readonly float Shrubs; // Struiken, heg, haag, of kleine bomen
         public readonly float Tree; // Grote boom
-        
+
         public readonly Fertilizer Fertilizer; // Type mest
         public readonly CompostCleanup CompostCleanup; // Groenresten laten liggen
 
@@ -20,7 +20,9 @@
 
         public readonly PlantDiversity PlantDiversity; // Hoeveel soorten planten
 
-        public CalculationData(float nonPermeable, float semiPermeable, float bare, float flowers, float grass, float tree, Fertilizer fertilizer, CompostCleanup compostCleanup, bool flyingInsects, bool birds, bool spiders, bool otherAnimals, PlantDiversity plantDiversity, float shrubs)
+        public CalculationData(float nonPermeable, float semiPermeable, float bare, float flowers, float grass,
+            float shrubs, float tree, Fertilizer fertilizer, CompostCleanup compostCleanup, bool flyingInsects,
+            bool birds, bool spiders, bool otherAnimals, PlantDiversity plantDiversity)
         {
             NonPermeable = nonPermeable;
             SemiPermeable = semiPermeable;
