@@ -15,7 +15,7 @@ namespace calculation
             _gridManager = gridManager;
         }
 
-        public CalculationResult Calculate()
+        public ReportData Calculate()
         {
             GardenSettings gardenSettings = _gridManager.GardenSettings;
 
@@ -61,8 +61,10 @@ namespace calculation
                 grassArea, shrubArea, treeArea, gardenSettings.Fertilizer, gardenSettings.CompostCleanup,
                 gardenSettings.FlyingInsects, gardenSettings.Birds, gardenSettings.Spiders, gardenSettings.OtherAnimals,
                 gardenSettings.PlantDiversity);
+
+            CalculationResult result = _calculationModel.Calculate(data);
             
-            return _calculationModel.Calculate(data);
+            return new ReportData(result, nonPermeableArea, semiPermeableArea, bareArea, flowerArea, grassArea, shrubArea, treeArea);
         }
     }
 }
