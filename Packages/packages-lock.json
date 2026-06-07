@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "986fe7e575a9fb0259528e393175ab7cbd4764e7"
     },
+    "com.monitor1394.xcharts.daemon": {
+      "version": "https://github.com/XCharts-Team/XCharts-Daemon.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e40f5250ef5e5a2417cc6ab41f85dd43a0aa36c0"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.12",
       "depth": 0,
@@ -168,6 +175,14 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.unity.textmeshpro": {
+      "version": "5.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.ugui": "2.0.0"
+      }
     },
     "com.unity.timeline": {
       "version": "1.8.12",
