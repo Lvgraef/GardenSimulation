@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using calculation;
+using gardensettings;
 using GridSystem;
 using TMPro;
 using UnityEngine;
@@ -11,7 +12,8 @@ namespace report
     public class ReportManager : MonoBehaviour
     {
         [SerializeField] private GridManager gridManager;
-
+        [SerializeField] private GardenSettings gardenSettings;
+        
         [SerializeField] private TMP_Text nonPermeableAreaText;
         [SerializeField] private TMP_Text semiPermeableAreaText;
         [SerializeField] private TMP_Text bareAreaText;
@@ -30,7 +32,7 @@ namespace report
 
         private void Awake()
         {
-            _calculator = new Calculator(BasicCalculationModel.Instance, gridManager);
+            _calculator = new Calculator(BasicCalculationModel.Instance, gridManager, gardenSettings);
         }
 
         private void Start()
@@ -50,17 +52,17 @@ namespace report
             shrubAreaText.text = "Struiken, heg, haag of kleine bomen: " + data.shrubArea.ToString(CultureInfo.CurrentCulture);
             treeAreaText.text = "Grote boom: " + data.treeArea.ToString(CultureInfo.CurrentCulture);
             
-            sustainabilityReportChart.ClearData();
-            sustainabilityReportChart.AddData(0, data.CalculationResult.WaterScore);
-            sustainabilityReportChart.AddData(1, data.CalculationResult.SoilScore);
-            sustainabilityReportChart.AddData(2, data.CalculationResult.AnimalScore);
-            sustainabilityReportChart.AddData(3, data.CalculationResult.PlantScore);
+            //sustainabilityReportChart.ClearData();
+            sustainabilityReportChart.UpdateData(0, 0, data.CalculationResult.WaterScore);
+            sustainabilityReportChart.UpdateData(0, 1, data.CalculationResult.SoilScore);
+            sustainabilityReportChart.UpdateData(0, 2, data.CalculationResult.AnimalScore);
+            sustainabilityReportChart.UpdateData(0, 3, data.CalculationResult.PlantScore);
             
-            miniReportChart.ClearData();
-            miniReportChart.AddData(0, data.CalculationResult.WaterScore);
-            miniReportChart.AddData(1, data.CalculationResult.SoilScore);
-            miniReportChart.AddData(2, data.CalculationResult.AnimalScore);
-            miniReportChart.AddData(3, data.CalculationResult.PlantScore);
+            //miniReportChart.ClearData();
+            miniReportChart.UpdateData(0, 0, data.CalculationResult.WaterScore);
+            miniReportChart.UpdateData(0, 1, data.CalculationResult.SoilScore);
+            miniReportChart.UpdateData(0, 2, data.CalculationResult.AnimalScore);
+            miniReportChart.UpdateData(0, 3, data.CalculationResult.PlantScore);
         }
 
         public void ToggleMiniReport()

@@ -11,11 +11,6 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
-        [SerializeField] 
-        private GardenSettings gardenSettings;
-        
-        public GardenSettings GardenSettings => gardenSettings;
-
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
@@ -28,6 +23,7 @@ namespace GridSystem
 
 
         public float tileSize = 0.5f;
+        public float tileArea;
 
         public event Action GridChangeEvent;
         
@@ -227,6 +223,11 @@ namespace GridSystem
             }
 
             GL.PopMatrix();
+        }
+
+        private void Awake()
+        {
+            tileArea = tileSize * tileSize;
         }
 
         void Start()
