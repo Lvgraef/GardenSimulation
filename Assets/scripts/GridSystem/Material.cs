@@ -10,12 +10,13 @@ namespace GridSystem
     {
         public enum Category
         {
-            Tile,
+            NonPermeable,
+            SemiPermeable,
+            Bare,
+            Flowers,
             Grass,
-            Shrub,
-            Tree,
-            Flower,
-            Water
+            Shrubs,
+            Tree
         }
         
         private GameObject _material;
