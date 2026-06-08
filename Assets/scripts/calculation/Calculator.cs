@@ -8,17 +8,17 @@ namespace calculation
     {
         private readonly ICalculationModel _calculationModel;
         private readonly GridManager _gridManager;
+        private readonly GardenSettings _gardenSettings;
 
-        public Calculator(ICalculationModel calculationModel, GridManager gridManager)
+        public Calculator(ICalculationModel calculationModel, GridManager gridManager, GardenSettings gardenSettings)
         {
             _calculationModel = calculationModel;
             _gridManager = gridManager;
+            _gardenSettings = gardenSettings;
         }
 
-        public CalculationResult Calculate()
+        public ReportData Calculate()
         {
-            GardenSettings gardenSettings = _gridManager.GardenSettings;
-
             float nonPermeableArea = 0,
                 semiPermeableArea = 0,
                 bareArea = 0,
@@ -29,28 +29,30 @@ namespace calculation
 
             _gridManager.ForEachTile(coords =>
             {
+                if (coords.GetMaterial() is null) return;
+                
                 switch (coords.GetMaterial().category)
                 {
                     case Material.Category.NonPermeable:
-                        nonPermeableArea++;
+                        nonPermeableArea += _gridManager.tileArea;
                         break;
                     case Material.Category.SemiPermeable:
-                        semiPermeableArea++;
+                        semiPermeableArea += _gridManager.tileArea;
                         break;
                     case Material.Category.Bare:
-                        bareArea++;
+                        bareArea += _gridManager.tileArea;
                         break;
                     case Material.Category.Flowers:
-                        flowerArea++;
+                        flowerArea += _gridManager.tileArea;
                         break;
                     case Material.Category.Grass:
-                        grassArea++;
+                        grassArea += _gridManager.tileArea;
                         break;
                     case Material.Category.Shrubs:
-                        shrubArea++;
+                        shrubArea += _gridManager.tileArea;
                         break;
                     case Material.Category.Tree:
-                        treeArea++;
+                        treeArea += _gridManager.tileArea;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -58,11 +60,13 @@ namespace calculation
             });
             
             CalculationData data = new CalculationData(nonPermeableArea, semiPermeableArea, bareArea, flowerArea,
-                grassArea, shrubArea, treeArea, gardenSettings.Fertilizer, gardenSettings.CompostCleanup,
-                gardenSettings.FlyingInsects, gardenSettings.Birds, gardenSettings.Spiders, gardenSettings.OtherAnimals,
-                gardenSettings.PlantDiversity);
+                grassArea, shrubArea, treeArea, _gardenSettings.Fertilizer, _gardenSettings.CompostCleanup,
+                _gardenSettings.FlyingInsects, _gardenSettings.Birds, _gardenSettings.Spiders, _gardenSettings.OtherAnimals,
+                _gardenSettings.PlantDiversity);
+
+            CalculationResult result = _calculationModel.Calculate(data);
             
-            return _calculationModel.Calculate(data);
+            return new ReportData(result, nonPermeableArea, semiPermeableArea, bareArea, flowerArea, grassArea, shrubArea, treeArea);
         }
     }
 }

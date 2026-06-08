@@ -1,4 +1,6 @@
-﻿namespace calculation
+﻿using System;
+
+namespace calculation
 {
     public class BasicCalculationModel : ICalculationModel
     {
@@ -30,14 +32,14 @@
             float shrubScore = data.Shrubs * BasicCalculationConstants.ShrubWaterCoefficient;
             float treeScore = data.Tree * BasicCalculationConstants.TreeWaterCoefficient;
 
-            return nonPermeableScore + semiPermeableScore + bareScore + flowerScore + grassScore + shrubScore +
-                   treeScore;
+            return Math.Min(10, (nonPermeableScore + semiPermeableScore + bareScore + flowerScore + grassScore + shrubScore +
+                   treeScore) / GetTotalArea(data));
         }
 
         private float CalculateSoilScore(CalculationData data)
         {
-            return BasicCalculationConstants.GetFertilizationCoefficient(data.Fertilizer, data.CompostCleanup) *
-                   GetVegetationPercentage(data);
+            return Math.Min(10, BasicCalculationConstants.GetFertilizationCoefficient(data.Fertilizer, data.CompostCleanup) *
+                   GetVegetationPercentage(data));
         }
 
         private float CalculateAnimalScore(CalculationData data)
@@ -53,7 +55,7 @@
             float otherAnimalScore = (data.OtherAnimals ? 1 : 0) * BasicCalculationConstants.OtherAnimalCoefficient *
                                      vegetationPercentage;
 
-            return flyingInsectScore + birdScore + spiderScore + otherAnimalScore;
+            return Math.Min(10, flyingInsectScore + birdScore + spiderScore + otherAnimalScore);
         }
 
         private float CalculatePlantScore(CalculationData data)
@@ -70,7 +72,7 @@
             float treeScore = BasicCalculationConstants.TreeDiversityCoefficient * (data.Tree / GetTotalArea(data)) *
                               plantSpeciesDiversityCoefficient;
 
-            return flowerScore + grassScore + shrubScore + treeScore;
+            return Math.Min(10, flowerScore + grassScore + shrubScore + treeScore);
         }
 
         public CalculationResult Calculate(CalculationData data)

@@ -11,17 +11,10 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
-        [SerializeField] 
-        private GardenSettings gardenSettings;
-        
-        public GardenSettings GardenSettings => gardenSettings;
-
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
-
-        private Calculator _calculator;
-
+        
         [SerializeField] private int width;
         [SerializeField] private int height;
 
@@ -30,7 +23,10 @@ namespace GridSystem
 
 
         public float tileSize = 0.5f;
+        public float tileArea;
 
+        public event Action GridChangeEvent;
+        
         public void ForEachTile(Action<Tile> action)
         {
             foreach (var tile in _tiles)
@@ -63,6 +59,8 @@ namespace GridSystem
             if (menu.Eraser)
             {
                 RemoveMaterial((gridPos.x, gridPos.y));
+                GridChangeEvent?.Invoke();
+                return;
             }
 
             if (selectedMaterial is null || (mat is not null &&
@@ -70,6 +68,7 @@ namespace GridSystem
                                              selectedMaterial.name)) return;
 
             PlaceMaterial(selectedMaterial, gridPos);
+            GridChangeEvent?.Invoke();
         }
 
         public void RemoveTile(int x, int y)
@@ -228,7 +227,7 @@ namespace GridSystem
 
         private void Awake()
         {
-            _calculator = new Calculator(BasicCalculationModel.Instance, this);
+            tileArea = tileSize * tileSize;
         }
 
         void Start()
