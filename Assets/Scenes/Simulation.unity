@@ -16696,7 +16696,7 @@ MonoBehaviour:
     m_Flags: 0
   origin:
     originPosition: {x: 0, y: 0, z: 0}
-    originRotation: {x: 0, y: 0}
+    originRotation: {x: 45, y: 0}
     originDistance: 5
   mainCamera: {fileID: 330585546}
 --- !u!1 &610297627
