@@ -180,6 +180,10 @@ namespace GridSystem
                     _tiles[x, y] = new Tile(x, y, this);
                 }
             }
+            var xOffset = width *  tileSize / 2;
+            var zOffset = height * tileSize / 2;
+            
+            transform.position = new Vector3(-xOffset, 0, -zOffset);
         }
 
         /// <summary>
