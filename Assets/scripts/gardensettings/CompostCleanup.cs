@@ -1,4 +1,4 @@
-﻿namespace calculation
+﻿namespace gardensettings
 {
     public enum CompostCleanup
     {
