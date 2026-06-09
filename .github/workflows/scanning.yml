@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
         
       - name: CodeQL init
         uses: github/codeql-action/init@v4
@@ -53,7 +55,6 @@ jobs:
 
       - name: Secret scanning (Gitleaks)
         uses: gitleaks/gitleaks-action@v2
-        with:
-          args: detect --source . --no-git --report-format json --report-path gitleaks.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
