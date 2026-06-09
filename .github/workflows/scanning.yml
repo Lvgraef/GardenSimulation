@@ -48,7 +48,10 @@ jobs:
       - name: Prepare Unity Manifest for SCA
         run: |
           if [ -f Packages/manifest.json ]; then
-            cp Packages/manifest.json package.json
+            jq '. + {name: "unity-project", version: "1.0.0"}' Packages/manifest.json > package.json
+            echo "generated package.json"
+          else
+            echo "Could not find manifest"
           fi
 
       - name: Generate SBOM
