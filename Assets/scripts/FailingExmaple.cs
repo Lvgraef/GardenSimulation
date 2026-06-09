@@ -19,6 +19,12 @@ namespace DefaultNamespace
             var hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes("test"));
             
             Debug.Log("Bad Hash: " + hash);
+            
+            DES desAlgorithm = DES.Create();
+
+            desAlgorithm.Mode = CipherMode.ECB;
+
+            Debug.Log("Slechte crypto setup geinitialiseerd.");
         }
     }
 }
