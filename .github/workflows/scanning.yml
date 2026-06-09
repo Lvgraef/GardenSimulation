@@ -1,0 +1,35 @@
+﻿name: Security scanning
+
+on:
+  pull_request:
+    branches: ["main", "dev"]
+    
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: CodeQL init
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+          build-mode: none
+          queries: security-extended
+          
+      - name: SAST (CodeQL)
+        uses: github/codeql-action/analyze@v3
+        
+      - name: Install Syft
+        run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh
+        
+      - name: Generate SBOM
+        run: syft dir:. -o cyclonedx-json > sbom.json
+        
+      - name: Install Grype
+        run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh
+        
+      - name: Run SCA (Grype)
+        run: grype sbom:sbom.json --fail-on high
