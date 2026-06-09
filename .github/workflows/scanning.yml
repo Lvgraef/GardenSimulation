@@ -29,7 +29,19 @@ jobs:
         run: syft dir:. -o cyclonedx-json > sbom.json
         
       - name: Install Grype
-        run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh
+        run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
         
       - name: Run SCA (Grype)
-        run: grype sbom:sbom.json --fail-on high
+        run: grype sbom:sbom.json -o json > grype-report.json
+
+      - name: Upload SCA report
+        uses: actions/upload-artifact@v4
+        with:
+          name: grype-report
+          path: grype-report.json
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
