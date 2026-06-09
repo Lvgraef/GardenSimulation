@@ -45,3 +45,8 @@ jobs:
         with:
           name: sbom
           path: sbom.json
+
+      - name: Secret scanning (Gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          args: detect --source . --no-git --report-format json --report-path gitleaks.json
