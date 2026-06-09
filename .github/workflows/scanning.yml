@@ -47,12 +47,44 @@ jobs:
 
       - name: Prepare Unity Manifest for SCA
         run: |
-          if [ -f Packages/manifest.json ]; then
-            jq '. + {name: "unity-project", version: "1.0.0"}' Packages/manifest.json > package.json
-            echo "generated package.json"
-          else
-            echo "Could not find manifest"
-          fi
+          python << 'EOF'
+          import json
+          import os
+          
+          # Zoek automatisch naar de Packages/manifest.json, zelfs als deze in een submap staat
+          manifest_path = None
+          for root, dirs, files in os.walk('.'):
+              if 'manifest.json' in files and 'Packages' in root:
+                  manifest_path = os.path.join(root, 'manifest.json')
+                  break
+          
+          if manifest_path:
+              print(f"Unity manifest gevonden op: {manifest_path}")
+              with open(manifest_path, 'r') as f:
+                  data = json.load(f)
+          
+              dependencies = data.get('dependencies', {})
+              xml_lines = ['<?xml version="1.0" encoding="utf-8"?>', '<packages>']
+          
+              for pkg_id, pkg_ver in dependencies.items():
+                  # Soms is de versie een git-URL (zoals bij XCharts), we filteren de tag eruit
+                  version = pkg_ver
+                  if "#" in pkg_ver:
+                      version = pkg_ver.split("#")[-1].lstrip("v")
+                  elif "git" in pkg_ver or "http" in pkg_ver:
+                      version = "0.0.0" # Fallback voor pure Git URL's
+          
+                  xml_lines.append(f'  <package id="{pkg_id}" version="{version}" targetFramework="net471" />')
+          
+              xml_lines.append('</packages>')
+              output_path = os.path.join(os.path.dirname(manifest_path), 'packages.config')
+          
+              with open(output_path, 'w') as f:
+                  f.write('\n'.join(xml_lines))
+              print(f"Succesvol een packages.config gegenereerd voor Syft op: {output_path}!")
+          else:
+              print("FOUT: Kon Packages/manifest.json nergens vinden in de repository!")
+          EOF
 
       - name: Generate SBOM
         run: syft dir:. -o cyclonedx-json > sbom.json
