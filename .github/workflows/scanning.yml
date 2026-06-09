@@ -4,11 +4,10 @@ permissions:
   contents: read
   security-events: write
 
-
 on:
   pull_request:
     branches: ["main", "dev"]
-    
+
 jobs:
   security:
     runs-on: ubuntu-latest
@@ -18,27 +17,29 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-        
-      - name: CodeQL init
-        uses: github/codeql-action/init@v4
+
+      - name: Run Semgrep
+        uses: semgrep/semgrep-action@v1
         with:
-          languages: csharp
-          build-mode: none
-          queries: security-extended
-          
-      - name: SAST (CodeQL)
-        uses: github/codeql-action/analyze@v4
-        
+          config: p/csharp p/security-audit p/owasp-top-10
+          generateSarif: "1"
+
+      - name: Upload Semgrep results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: semgrep.sarif
+
       - name: Install Syft
         run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
-        
+
       - name: Generate SBOM
         run: syft dir:. -o cyclonedx-json > sbom.json
-        
+
       - name: Install Grype
         run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
-        
-      - name: Run SCA (Grype)
+
+      - name: Run SCA
         run: grype sbom:sbom.json -o json > grype-report.json
 
       - name: Upload SCA report
@@ -53,8 +54,7 @@ jobs:
           name: sbom
           path: sbom.json
 
-      - name: Secret scanning (Gitleaks)
+      - name: Secret scanning
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
