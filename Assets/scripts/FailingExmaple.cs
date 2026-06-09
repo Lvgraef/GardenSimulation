@@ -5,7 +5,7 @@ namespace DefaultNamespace
 {
     public class FailingExmaple
     {
-        private string apiKey = "FAKE-SECRET-12345";
+        private string apiKey = "ghp_vN7bK9mX2pQ5rT8wW1zY4cC7vB0nMx1qZa2s";
 
         void Start()
         {
