@@ -1,4 +1,6 @@
-﻿namespace calculation
+﻿using gardensettings;
+
+namespace calculation
 {
     public class CalculationData
     {
