@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using GardenSimulation.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine.Networking;
@@ -9,16 +10,8 @@ namespace GardenSimulation.Services.Api
 {
     public class APIClient
     {
-        public (double, double)[] PandCoordinates;
-        public (double, double)[] ParcelCoordinates;
-        public IEnumerator GetCoordinatesByAddress(string address)
+        public IEnumerator GetCoordinatesByAddress(string address, Action<Response> onSuccess)
         {
-            //steps: 
-            //1: Get the centriode_rd coordinates from locationserver endpoint.
-            //2: With given centriode_rd the script calculates the bbox.
-            //3: Get the pand coordinates from pand url.
-            //4: Get the parcel coordinates from parcel url.
-            //5: Store the coordinates in the public fields, the method cant return them since IEnumerator doesnt allow other returns.
             string locationServerUrl = $"https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q={address}";
             UnityWebRequest request = UnityWebRequest.Get(locationServerUrl);
             yield return request.SendWebRequest();
@@ -26,7 +19,12 @@ namespace GardenSimulation.Services.Api
             {
                 var locationServerResponse = request.downloadHandler.text;
                 JObject json = JObject.Parse(locationServerResponse);
-                string centriodeRd = json["response"]["docs"][0]["centroide_rd"].ToString();
+                string? centriodeRd = json["response"]?["docs"]?[0]?["centroide_rd"]?.ToString();
+                if (string.IsNullOrWhiteSpace(centriodeRd))
+                {
+                    onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = "centriodeRd was null.", Success = false});
+                    yield break;
+                }
                 int meters = 2;
                 int indexOpenBracket = centriodeRd.IndexOf('(') + 1;
                 int indexSpace = centriodeRd.IndexOf(' ');
@@ -43,61 +41,77 @@ namespace GardenSimulation.Services.Api
                 $"&bbox-crs=http://www.opengis.net/def/crs/EPSG/0/28992" +
                 $"&crs=http://www.opengis.net/def/crs/EPSG/0/28992" +
                 $"&f=json";
-                request = UnityWebRequest.Get(pandUrl);
-                yield return request.SendWebRequest();
-                if (request.result == UnityWebRequest.Result.Success)
-                {
-                    string kadasterResponse = request.downloadHandler.text;
-                    json = JObject.Parse(kadasterResponse);
-                    JArray coordinates = (JArray)json["features"][0]["geometry"]["coordinates"][0];
-                    PandCoordinates = new (double, double)[coordinates.Count];
-                    for (int i = 0; i < coordinates.Count; i++)
-                    {
-                        JArray coordinate = (JArray)coordinates[i];
-                        PandCoordinates[i] = 
-                        (
-                            (double)coordinate[0],
-                            (double)coordinate[1]
-                        );
-                    }
-                }
-                else
-                {
-                    Debug.Log($"API Error: {request.error}");
-                }
                 string parcelUrl = $"https://api.pdok.nl/kadaster/brk-kadastrale-percelen/ogc/v1/collections/cadastralparcel/items" +
                 $"?bbox={bbox[0]},{bbox[1]},{bbox[2]},{bbox[3]}" +
                 $"&bbox-crs=http://www.opengis.net/def/crs/EPSG/0/28992" +
                 $"&crs=http://www.opengis.net/def/crs/EPSG/0/28992" +
                 $"&f=json";
-                request = UnityWebRequest.Get(parcelUrl);
-                yield return request.SendWebRequest();
-                if (request.result == UnityWebRequest.Result.Success)
+                CoordinateResponse pandCoordinateResponse = null;
+                CoordinateResponse parcelCoordinateResponse = null;
+                yield return GetVerticesCoordinates(pandUrl, coordinatesResponse =>
                 {
-                    string kadasterResponse = request.downloadHandler.text;
-                    json = JObject.Parse(kadasterResponse);
-                    JArray coordinates = (JArray)json["features"][0]["geometry"]["coordinates"][0];
-                    ParcelCoordinates = new (double, double)[coordinates.Count];
-                    for (int i = 0; i < coordinates.Count; i++)
-                    {
-                        JArray coordinate = (JArray)coordinates[i];
-                        ParcelCoordinates[i] = 
-                        (
-                            (double)coordinate[0],
-                            (double)coordinate[1]
-                        );
-                    }
-                }
-                else
+                    pandCoordinateResponse = coordinatesResponse;
+                });
+                yield return GetVerticesCoordinates(parcelUrl, coordinatesResponse =>
                 {
-                    Debug.Log($"API Error: {request.error}");
+                    parcelCoordinateResponse = coordinatesResponse;
+                });
+                if (!pandCoordinateResponse.Success)
+                {
+                    onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = pandCoordinateResponse.Message, Success = false});
+                    yield break;
                 }
+                else if (!parcelCoordinateResponse.Success)
+                {
+                    onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = parcelCoordinateResponse.Message, Success = false});
+                    yield break;
+                }
+                onSuccess(new Response{ParcelCoordinates = parcelCoordinateResponse.Coordinates, PandCoordinates = pandCoordinateResponse.Coordinates, Message = "", Success = true});
             }
             else
             {
-                Debug.Log($"API Error: {request.error}");
+                onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = $"API Error: {request.error}", Success = false});
+            }
+        }
+    
+        public IEnumerator GetVerticesCoordinates(string url, Action<CoordinateResponse> onSuccess)
+        {
+            UnityWebRequest request = UnityWebRequest.Get(url);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.downloadHandler.text;
+                JObject json = JObject.Parse(response);
+                JArray? coordinates =
+                    json["features"]?[0]?["geometry"]?["coordinates"]?[0] as JArray;
+                if (coordinates == null)
+                {
+                    onSuccess(new CoordinateResponse{Success = false, Message = "coordinates were null", Coordinates = null});
+                    yield break;
+                }
+                (double, double)[] _coordinates = new (double, double)[coordinates.Count];
+                for (int i = 0; i < coordinates.Count; i++)
+                {
+                    JArray coordinate = (JArray)coordinates[i];
+                    if (coordinate == null || coordinate.Count < 2)
+                    {
+                        onSuccess(new CoordinateResponse{Success = false, Message = "Some coordinates were missing.", Coordinates = null});
+                        yield break;
+                    }
+                    _coordinates[i] = 
+                    (
+                        (double)coordinate[0],
+                        (double)coordinate[1]
+                    );
+                }
+                onSuccess(new CoordinateResponse{Success = true, Message = "", Coordinates = _coordinates});
+            }
+            else
+            {
+                onSuccess(new CoordinateResponse{Success = false, Message = $"API Error: {request.error}", Coordinates = null});
             }
         }
     }
 }
+
 
