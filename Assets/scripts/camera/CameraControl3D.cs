@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using System.Linq;
 
 namespace camera
 {
@@ -56,10 +57,23 @@ namespace camera
             }
 
             // rotation
-            var rotation = rotate.ReadValue<Vector2>() * Time.deltaTime;
+           
+            bool isTouchRotating = Touchscreen.current != null && Touchscreen.current.touches.Count(t => t.press.isPressed) >= 2;
+            bool isMouseRotating = Mouse.current != null && Mouse.current.middleButton.isPressed;
+            bool isArrowRotating = Keyboard.current != null &&
+            (Keyboard.current.upArrowKey.isPressed ||
+             Keyboard.current.downArrowKey.isPressed ||
+             Keyboard.current.leftArrowKey.isPressed ||
+             Keyboard.current.rightArrowKey.isPressed);
 
-            transform.Rotate(0, rotation.x, 0, Space.World);
-            transform.Rotate(rotation.y, 0, 0, Space.Self);
+            if (isTouchRotating || isMouseRotating || isArrowRotating) {
+                var rotation = rotate.ReadValue<Vector2>() * Time.deltaTime;
+                transform.Rotate(0, rotation.x, 0, Space.World);
+                transform.Rotate(rotation.y, 0, 0, Space.Self);
+            }
+
+
+            
 
             if (!EventSystem.current.IsPointerOverGameObject())
             {
