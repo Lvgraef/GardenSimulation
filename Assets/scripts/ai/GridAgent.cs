@@ -2,6 +2,7 @@
 using gardensettings;
 using GridSystem;
 using Unity.MLAgents;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
 using Material = GridSystem.Material;
 
@@ -13,6 +14,11 @@ namespace ai
         [SerializeField] private GardenSettings gardenSettings;
         [SerializeField] private Material[] randomizedMaterials;
         [SerializeField] private Material buildingMaterial;
+        
+        // private readonly Dictionary<string, int> gardenMaterialDict =
+        // {
+        //     
+        // }
         
         private int _preFilled;
 
@@ -103,6 +109,17 @@ namespace ai
             PreFillMaterials();
             PickAreas();
             RandomizeSettings();
+        }
+
+        public override void CollectObservations(VectorSensor sensor)
+        {
+            for (int i = 0; i < MaxWidth; i++)
+            {
+                for (int j = 0; j < MaxHeight; j++)
+                {
+                    
+                }
+            }
         }
     }
 }
