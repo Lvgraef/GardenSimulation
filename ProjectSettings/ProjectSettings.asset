@@ -847,7 +847,7 @@ PlayerSettings:
     QNX: dUI_TextMeshPro
     Standalone: dUI_TextMeshPro
     VisionOS: dUI_TextMeshPro
-    WebGL: dUI_TextMeshPro
+    WebGL: dUI_TextMeshPro;SENTIS_ANALYTICS_ENABLED;APP_UI_EDITOR_ONLY
     Windows Store Apps: dUI_TextMeshPro
     XboxOne: dUI_TextMeshPro
     iPhone: dUI_TextMeshPro

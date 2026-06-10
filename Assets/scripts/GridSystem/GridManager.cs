@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using camera;
+using JetBrains.Annotations;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,10 +11,10 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
-        private Tile[,] _tiles;
+        [ItemCanBeNull] private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
-        
+
         [SerializeField] private int width;
         [SerializeField] private int height;
 
@@ -24,12 +26,17 @@ namespace GridSystem
         public float tileArea;
 
         public event Action GridChangeEvent;
-        
-        public void ForEachTile(Action<Tile> action)
+
+        public void ForEachTile(Action<Tile, int, int> action)
         {
-            foreach (var tile in _tiles)
+            for (var i = 0; i < _tiles.GetLength(0); i++)
             {
-                action(tile);
+                for (var j = 0; j < _tiles.GetLength(1); j++)
+                {
+                    var tile = _tiles[i, j];
+                    if (tile?.GetMaterial().category == Material.Category.Building) continue;
+                    action(tile, i, j);
+                }
             }
         }
 
@@ -43,7 +50,7 @@ namespace GridSystem
 
         private void ShootRay()
         {
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+            if (cameraManager is null || menu is null || EventSystem.current.IsPointerOverGameObject()) return;
 
             var selectedMaterial = menu.SelectedMaterial;
             Vector2 mousePosition = Mouse.current.position.ReadValue();
@@ -54,6 +61,9 @@ namespace GridSystem
             var intersectPosition = ray.direction * distance + ray.origin;
             var gridPos = WorldToGrid(intersectPosition);
             var mat = GetMaterial(gridPos.x, gridPos.y);
+
+            if (mat is not null && mat.category == Material.Category.Building) return;
+
             if (menu.Eraser)
             {
                 RemoveMaterial((gridPos.x, gridPos.y));
@@ -62,8 +72,8 @@ namespace GridSystem
             }
 
             if (selectedMaterial is null || (mat is not null &&
-                                             mat.name[..selectedMaterial.name.Length] ==
-                                             selectedMaterial.name)) return;
+                                             mat.materialName[..selectedMaterial.materialName.Length] ==
+                                             selectedMaterial.materialName)) return;
 
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
@@ -71,12 +81,13 @@ namespace GridSystem
 
         public void RemoveTile(int x, int y)
         {
-            _tiles[x, y].ClearMaterial();
+            if (_tiles[x, y]?.GetMaterial().category == Material.Category.Building) return;
+            _tiles[x, y]?.ClearMaterial();
         }
 
         private bool OutOfBounds(int x, int y)
         {
-            return x > width-1 || y > height-1 || x < 0 || y < 0;
+            return x > width - 1 || y > height - 1 || x < 0 || y < 0;
         }
 
         private (int x, int y) WorldToGrid(Vector3 worldPos)
@@ -91,8 +102,7 @@ namespace GridSystem
         /// Places the material on the grid
         /// </summary>
         /// <param name="material"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="vector"></param>
         public void PlaceMaterial(Material material, Vector3 vector)
         {
             (int x, int y) = WorldToGrid(vector);
@@ -101,15 +111,13 @@ namespace GridSystem
                 return;
             }
 
-            _tiles[x, y].SetMaterial(material);
+            if (_tiles[x, y]?.GetMaterial().category == Material.Category.Building) return;
+            _tiles[x, y]?.SetMaterial(material);
         }
-        
+
         /// <summary>
         /// Places the material on the grid
         /// </summary>
-        /// <param name="material"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
         public void PlaceMaterial(Material material, (int x, int y) tile)
         {
             if (OutOfBounds(tile.x, tile.y))
@@ -117,9 +125,10 @@ namespace GridSystem
                 return;
             }
 
-            _tiles[tile.x, tile.y].SetMaterial(material);
+            if (_tiles[tile.x, tile.y]?.GetMaterial().category == Material.Category.Building) return;
+            _tiles[tile.x, tile.y]?.SetMaterial(material);
         }
-        
+
         /// <summary>
         /// Removes the material from the grid
         /// </summary>
@@ -132,9 +141,10 @@ namespace GridSystem
                 return;
             }
 
-            _tiles[x, y].ClearMaterial();
+            if (_tiles[x, y]?.GetMaterial().category == Material.Category.Building) return;
+            _tiles[x, y]?.ClearMaterial();
         }
-        
+
         /// <summary>
         /// Removes the material from the grid
         /// </summary>
@@ -146,7 +156,8 @@ namespace GridSystem
                 return;
             }
 
-            _tiles[tile.x, tile.y].ClearMaterial();
+            if (_tiles[tile.x, tile.y]?.GetMaterial().category == Material.Category.Building) return;
+            _tiles[tile.x, tile.y]?.ClearMaterial();
         }
 
         /// <summary>
@@ -178,9 +189,10 @@ namespace GridSystem
                     _tiles[x, y] = new Tile(x, y, this);
                 }
             }
-            var xOffset = width *  tileSize / 2;
+
+            var xOffset = width * tileSize / 2;
             var zOffset = height * tileSize / 2;
-            
+
             transform.position = new Vector3(-xOffset, 0, -zOffset);
         }
 
@@ -238,6 +250,29 @@ namespace GridSystem
             _lineMaterial = new UnityEngine.Material(shader);
             _tiles = new Tile[width, height];
             GenerateGrid();
+        }
+
+        public void Reset()
+        {
+            foreach (var tile in _tiles)
+            {
+                if (tile?.GetMaterial().category == Material.Category.Building) continue;
+                tile?.ClearMaterial();
+            }
+        }
+
+        public Dictionary<string, int> GetMaterialList()
+        {
+            Dictionary<string, int> materialList = new();
+            ForEachTile((tile, x, y) =>
+            {
+                if (tile is not null)
+                {
+                    materialList[tile.GetMaterial().name] = materialList.GetValueOrDefault(tile.GetMaterial().name) + 1;
+                }
+            });
+
+            return materialList;
         }
     }
 }

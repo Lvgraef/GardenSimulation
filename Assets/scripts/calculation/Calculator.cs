@@ -26,12 +26,12 @@ namespace calculation
                 grassArea = 0,
                 shrubArea = 0,
                 treeArea = 0;
-
-            _gridManager.ForEachTile(coords =>
+            
+            _gridManager.ForEachTile((tile, _, _) =>
             {
-                if (coords.GetMaterial() is null) return;
+                if (tile.GetMaterial() is null) return;
                 
-                switch (coords.GetMaterial().category)
+                switch (tile.GetMaterial().category)
                 {
                     case Material.Category.NonPermeable:
                         nonPermeableArea += _gridManager.tileArea;

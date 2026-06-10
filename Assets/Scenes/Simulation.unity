@@ -1493,7 +1493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridSystem.GridBuilder
   width: 20
-  height: 30
+  height: 20
   cameraManager: {fileID: 1440299375}
   menu: {fileID: 2106689585}
   tileSize: 0.5

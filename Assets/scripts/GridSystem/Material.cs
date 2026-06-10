@@ -16,8 +16,11 @@ namespace GridSystem
             Flowers,
             Grass,
             Shrubs,
-            Tree
+            Tree,
+            Building
         }
+
+        public string materialName;
         
         private GameObject _material;
         

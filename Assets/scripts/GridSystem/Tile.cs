@@ -10,13 +10,13 @@ namespace GridSystem
     {
         private Material _material;
         private readonly GridManager _manager;
-        private readonly int _x;
-        private readonly int _z;
+        public readonly int X;
+        public readonly int Z;
 
         public Tile(int x, int z, GridManager manager)
         {
-            _x = x;
-            _z = z;
+            X = x;
+            Z = z;
             _manager = manager;
         }
 
@@ -24,7 +24,7 @@ namespace GridSystem
         {
             ClearMaterial();
             _material = Object.Instantiate(material,
-                _manager.transform.position + new Vector3(_x * _manager.tileSize + material.offset.x, material.offset.y, _z * _manager.tileSize + material.offset.z),
+                _manager.transform.position + new Vector3(X * _manager.tileSize + material.offset.x, material.offset.y, Z * _manager.tileSize + material.offset.z),
                 new Quaternion());
         }
 
