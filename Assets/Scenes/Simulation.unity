@@ -16570,6 +16570,30 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Zoom
       m_Flags: 0
+    - m_Name: One Modifier
+      m_Id: 8293d436-1139-43bc-82dc-d30cb6b2b12f
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 45a07e16-b300-42de-91fa-66d002fb4bdd
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: c8320867-5851-4c6d-9a1d-3ac68ec044ed
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 8
     m_Flags: 0
   pan:
     m_Name: Pan
@@ -16638,6 +16662,30 @@ MonoBehaviour:
     - m_Name: binding
       m_Id: 235a0279-a3ea-4ccc-9d0d-0a0dead39c6a
       m_Path: <Mouse>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: One Modifier
+      m_Id: 04c64a3b-cfc4-4af6-9439-60a38f4318bc
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 1c3a390e-fa08-4b48-883e-30434106b252
+      m_Path: <Touchscreen>/primaryTouch/press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: 558b18ad-0471-4fc2-af6c-167cb9ac7703
+      m_Path: <Touchscreen>/delta
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -46002,6 +46050,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_ChartInited: 1
   m_AngleAxes: []
   m_Backgrounds:
@@ -46106,6 +46157,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     m_SubLabelStyle:
       m_Show: 1
       m_Position: 0
@@ -46161,6 +46215,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     m_ItemGap: 0
     m_Location:
       m_Align: 2
@@ -46275,6 +46332,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 3
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     m_ContentLabelStyles:
     - m_Show: 1
       m_Position: 0
@@ -46330,6 +46390,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 3
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     - m_Show: 1
       m_Position: 0
       m_AutoOffset: 0
@@ -46384,6 +46447,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 3
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     - m_Show: 1
       m_Position: 0
       m_AutoOffset: 0
@@ -46438,6 +46504,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 5
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_VisualMaps: []
   m_XAxes:
   - m_Show: 1
@@ -46559,6 +46628,9 @@ MonoBehaviour:
           m_FontStyle: 0
           m_LineSpacing: 1
           m_Alignment: 4
+          m_TMPFont: {fileID: 0}
+          m_TMPFontStyle: 0
+          m_TMPSpriteAsset: {fileID: 0}
     m_AxisTick:
       m_Show: 1
       m_LineStyle:
@@ -46641,6 +46713,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 1
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
       m_Interval: 0
       m_Inside: 0
       m_ShowAsPositiveNumber: 0
@@ -46785,6 +46860,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_YAxes:
   - m_Show: 1
     m_Type: 0
@@ -46901,6 +46979,9 @@ MonoBehaviour:
           m_FontStyle: 0
           m_LineSpacing: 1
           m_Alignment: 4
+          m_TMPFont: {fileID: 0}
+          m_TMPFontStyle: 0
+          m_TMPSpriteAsset: {fileID: 0}
     m_AxisTick:
       m_Show: 1
       m_LineStyle:
@@ -46983,6 +47064,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
       m_Interval: 0
       m_Inside: 0
       m_ShowAsPositiveNumber: 1
@@ -47127,6 +47211,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_SingleAxes: []
   m_Parallels: []
   m_ParallelAxes: []
@@ -50341,6 +50428,8 @@ MonoBehaviour:
   origin:
     originPosition: {x: 0, y: 10, z: 0}
     originSize: 5
+  panSpeedTouch: 0.5
+  zoomSpeedTouch: 0.1
   pan:
     m_Name: Pan
     m_Type: 0
@@ -56809,6 +56898,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_ChartInited: 1
   m_AngleAxes: []
   m_Backgrounds:
@@ -56913,6 +57005,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     m_SubLabelStyle:
       m_Show: 1
       m_Position: 0
@@ -56968,6 +57063,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     m_ItemGap: 0
     m_Location:
       m_Align: 2
@@ -57082,6 +57180,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 3
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     m_ContentLabelStyles:
     - m_Show: 1
       m_Position: 0
@@ -57137,6 +57238,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 3
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     - m_Show: 1
       m_Position: 0
       m_AutoOffset: 0
@@ -57191,6 +57295,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 3
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
     - m_Show: 1
       m_Position: 0
       m_AutoOffset: 0
@@ -57245,6 +57352,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 5
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_VisualMaps: []
   m_XAxes:
   - m_Show: 1
@@ -57366,6 +57476,9 @@ MonoBehaviour:
           m_FontStyle: 0
           m_LineSpacing: 1
           m_Alignment: 4
+          m_TMPFont: {fileID: 0}
+          m_TMPFontStyle: 0
+          m_TMPSpriteAsset: {fileID: 0}
     m_AxisTick:
       m_Show: 1
       m_LineStyle:
@@ -57448,6 +57561,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 1
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
       m_Interval: 0
       m_Inside: 0
       m_ShowAsPositiveNumber: 0
@@ -57592,6 +57708,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_YAxes:
   - m_Show: 1
     m_Type: 0
@@ -57708,6 +57827,9 @@ MonoBehaviour:
           m_FontStyle: 0
           m_LineSpacing: 1
           m_Alignment: 4
+          m_TMPFont: {fileID: 0}
+          m_TMPFontStyle: 0
+          m_TMPSpriteAsset: {fileID: 0}
     m_AxisTick:
       m_Show: 1
       m_LineStyle:
@@ -57790,6 +57912,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
       m_Interval: 0
       m_Inside: 0
       m_ShowAsPositiveNumber: 1
@@ -57934,6 +58059,9 @@ MonoBehaviour:
         m_FontStyle: 0
         m_LineSpacing: 1
         m_Alignment: 4
+        m_TMPFont: {fileID: 0}
+        m_TMPFontStyle: 0
+        m_TMPSpriteAsset: {fileID: 0}
   m_SingleAxes: []
   m_Parallels: []
   m_ParallelAxes: []

@@ -37,14 +37,66 @@ namespace GridSystem
 
         private void Update()
         {
-            
-            if (Mouse.current.leftButton.isPressed || Touchscreen.current.primaryTouch.press.isPressed)
+            if (Touchscreen.current != null) {
+                int totalTouches = 0;
+
+                foreach (var touch in Touchscreen.current.touches)
+                {
+                    if (touch.press.isPressed)
+                    {
+                        totalTouches++;
+                    }
+                }
+
+                if (totalTouches == 1)
+                {
+                    ShootRay();
+                }
+            }
+            if (Mouse.current.leftButton.isPressed)
             {
                 ShootRay();
             }
         }
 
         private void ShootRay()
+        {
+            if (Touchscreen.current != null) { touchRay(); }
+
+
+            if (Mouse.current != null) { mouseRay(); }
+
+
+        }
+
+        private void touchRay()
+        {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
+            var selectedMaterial = menu.SelectedMaterial;
+            Vector2 fingerPosition = Touchscreen.current.position.ReadValue();
+            Plane gridPlane = new Plane(Vector3.up, transform.position);
+            Ray ray = cameraManager.GetCurrentCamera()
+                .ScreenPointToRay(new Vector3(fingerPosition.x, fingerPosition.y, 0));
+            gridPlane.Raycast(ray, out float distance);
+            var intersectPosition = ray.direction * distance + ray.origin;
+            var gridPos = WorldToGrid(intersectPosition);
+            var mat = GetMaterial(gridPos.x, gridPos.y);
+            if (menu.Eraser)
+            {
+                RemoveMaterial((gridPos.x, gridPos.y));
+                GridChangeEvent?.Invoke();
+                return;
+            }
+
+            if (selectedMaterial is null || (mat is not null &&
+                                             mat.name[..selectedMaterial.name.Length] ==
+                                             selectedMaterial.name)) return;
+
+            PlaceMaterial(selectedMaterial, gridPos);
+            GridChangeEvent?.Invoke();
+        }
+        private void mouseRay()
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -71,6 +123,7 @@ namespace GridSystem
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
         }
+
 
         public void RemoveTile(int x, int y)
         {
