@@ -274,5 +274,10 @@ namespace GridSystem
 
             return materialList;
         }
+
+        public string GetMaterialName(int x, int y)
+        {
+            return OutOfBounds(x, y) ? "Building" : GetMaterial(x, y).materialName;
+        }
     }
 }

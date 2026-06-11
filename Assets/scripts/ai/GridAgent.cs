@@ -15,11 +15,6 @@ namespace ai
         [SerializeField] private Material[] randomizedMaterials;
         [SerializeField] private Material buildingMaterial;
         
-        // private readonly Dictionary<string, int> gardenMaterialDict =
-        // {
-        //     
-        // }
-        
         private int _preFilled;
 
         private const int MaxWidth = 20;
@@ -63,7 +58,8 @@ namespace ai
         private void PickAreas()
         {
             float bias = 3f;
-            int size = 0;
+            
+            var size = 0;
             
             grid.ForEachTile((tile, x, y) =>
             {
@@ -117,9 +113,37 @@ namespace ai
             {
                 for (int j = 0; j < MaxHeight; j++)
                 {
-                    
+                    switch (grid.GetMaterialName(i, j))
+                    {
+                        case "Building":
+                            sensor.AddObservation(0);
+                            break;
+                        case "Bush":
+                            sensor.AddObservation(1);
+                            break;
+                        case "Flower":
+                            sensor.AddObservation(2);
+                            break;
+                        case "Grass":
+                            sensor.AddObservation(3);
+                            break;
+                        case "Tree":
+                            sensor.AddObservation(4);
+                            break;
+                        case "Water":
+                            sensor.AddObservation(5);
+                            break;
+                    }
                 }
             }
+            
+            sensor.AddObservation(gardenSettings.Birds);
+            sensor.AddObservation(gardenSettings.FlyingInsects);
+            sensor.AddObservation(gardenSettings.Spiders);
+            sensor.AddObservation(gardenSettings.OtherAnimals);
+            sensor.AddObservation((float) gardenSettings.CompostCleanup);
+            sensor.AddObservation((float) gardenSettings.Fertilizer);
+            sensor.AddObservation((float) gardenSettings.PlantDiversity);
         }
     }
 }
