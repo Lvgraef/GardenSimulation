@@ -11,7 +11,7 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
-        [ItemCanBeNull] private Tile[,] _tiles;
+        private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
 
@@ -34,7 +34,7 @@ namespace GridSystem
                 for (var j = 0; j < _tiles.GetLength(1); j++)
                 {
                     var tile = _tiles[i, j];
-                    if (tile?.GetMaterial().category == Material.Category.Building) continue;
+                    if (tile.GetMaterial()?.category == Material.Category.Building) continue;
                     action(tile, i, j);
                 }
             }
@@ -81,7 +81,7 @@ namespace GridSystem
 
         public void RemoveTile(int x, int y)
         {
-            if (_tiles[x, y]?.GetMaterial().category == Material.Category.Building) return;
+            if (_tiles[x, y].GetMaterial()?.category == Material.Category.Building) return;
             _tiles[x, y]?.ClearMaterial();
         }
 
@@ -111,7 +111,7 @@ namespace GridSystem
                 return;
             }
 
-            if (_tiles[x, y]?.GetMaterial().category == Material.Category.Building) return;
+            if (_tiles[x, y].GetMaterial()?.category == Material.Category.Building) return;
             _tiles[x, y]?.SetMaterial(material);
         }
 
@@ -125,7 +125,7 @@ namespace GridSystem
                 return;
             }
 
-            if (_tiles[tile.x, tile.y]?.GetMaterial().category == Material.Category.Building) return;
+            if (_tiles[tile.x, tile.y].GetMaterial()?.category == Material.Category.Building) return;
             _tiles[tile.x, tile.y]?.SetMaterial(material);
         }
 
@@ -141,7 +141,7 @@ namespace GridSystem
                 return;
             }
 
-            if (_tiles[x, y]?.GetMaterial().category == Material.Category.Building) return;
+            if (_tiles[x, y].GetMaterial()?.category == Material.Category.Building) return;
             _tiles[x, y]?.ClearMaterial();
         }
 
@@ -156,7 +156,7 @@ namespace GridSystem
                 return;
             }
 
-            if (_tiles[tile.x, tile.y]?.GetMaterial().category == Material.Category.Building) return;
+            if (_tiles[tile.x, tile.y].GetMaterial()?.category == Material.Category.Building) return;
             _tiles[tile.x, tile.y]?.ClearMaterial();
         }
 
@@ -256,19 +256,27 @@ namespace GridSystem
         {
             foreach (var tile in _tiles)
             {
-                if (tile?.GetMaterial().category == Material.Category.Building) continue;
-                tile?.ClearMaterial();
+                tile.ClearMaterial();
+            }
+        }
+        
+        public void Clear()
+        {
+            foreach (var tile in _tiles)
+            {
+                if (tile.GetMaterial()?.category == Material.Category.Building) continue;
+                tile.ClearMaterial();
             }
         }
 
         public Dictionary<string, int> GetMaterialList()
         {
             Dictionary<string, int> materialList = new();
-            ForEachTile((tile, x, y) =>
+            ForEachTile((tile, _, _) =>
             {
-                if (tile is not null)
+                if (tile.GetMaterial() is not null)
                 {
-                    materialList[tile.GetMaterial().name] = materialList.GetValueOrDefault(tile.GetMaterial().name) + 1;
+                    materialList[tile.GetMaterial()!.materialName] = materialList.GetValueOrDefault(tile.GetMaterial()!.materialName) + 1;
                 }
             });
 

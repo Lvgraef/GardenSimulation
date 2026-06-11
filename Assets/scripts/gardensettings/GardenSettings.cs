@@ -17,7 +17,7 @@ namespace gardensettings
         
         [SerializeField] private TMP_Dropdown fertilizerDropdown;
         [SerializeField] private TMP_Dropdown compostCleanupDropdown;
-        [SerializeField] private TMP_Dropdown plantDiversityropdown;
+        [SerializeField] private TMP_Dropdown plantDiversityDropdown;
         [SerializeField] private TMP_Dropdown flyingInsectsDropdown;
         [SerializeField] private TMP_Dropdown birdsDropdown;
         [SerializeField] private TMP_Dropdown spidersDropdown;
@@ -27,7 +27,7 @@ namespace gardensettings
         {
             Fertilizer = (Fertilizer) fertilizerDropdown.value;
             CompostCleanup = (CompostCleanup) compostCleanupDropdown.value;
-            PlantDiversity = (PlantDiversity)  plantDiversityropdown.value;
+            PlantDiversity = (PlantDiversity)  plantDiversityDropdown.value;
             FlyingInsects = flyingInsectsDropdown.value > 0;
             Birds = birdsDropdown.value > 0;
             Spiders = spidersDropdown.value > 0;

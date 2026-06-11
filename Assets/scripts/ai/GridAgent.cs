@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using calculation;
 using gardensettings;
 using GridSystem;
@@ -7,6 +8,7 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 using Material = GridSystem.Material;
+using Random = UnityEngine.Random;
 
 namespace ai
 {
@@ -24,50 +26,64 @@ namespace ai
         private const int MaxWidth = 20;
         private const int MaxHeight = 20;
 
-        Dictionary<string, int> materialAreaCounts = new();
+        private Dictionary<string, int> _materialAreaCounts = new();
 
-        private void PreFillGridRandomly(Material material, int count)
+        private void PreFillGridRandomly(Material[] material, Func<int, int> countFunction)
         {
             List<(int, int)> emptyTiles = new();
 
             grid.ForEachTile((tile, x, y) =>
             {
-                if (tile is null)
+                if (tile.GetMaterial() is null)
                 {
                     emptyTiles.Add((x, y));
                 }
             });
+            
+            List<Material> pickableMaterials = new();
 
-            for (int i = 0; i < count; i++)
+            foreach (var mat in material)
             {
-                int index = Random.Range(0, emptyTiles.Count);
-                grid.PlaceMaterial(material, emptyTiles[index]);
+                pickableMaterials.Add(mat);
+            }
+
+            foreach (var _ in material)
+            {
+                var pickedIndex = Random.Range(0, pickableMaterials.Count);
+                var pickedMaterial = pickableMaterials[pickedIndex];
+                var count = countFunction(emptyTiles.Count);
+                int location = Random.Range(0, emptyTiles.Count);
+
+                for (int i = 0; i < count; i++)
+                {
+                    grid.PlaceMaterial(pickedMaterial, emptyTiles[location]);
+                    emptyTiles.RemoveAt(location);
+                }
+
+                pickableMaterials.RemoveAt(pickedIndex);
             }
         }
 
         private void PreFillBuildings()
         {
-            PreFillGridRandomly(buildingMaterial, Random.Range(0, 50));
+            PreFillGridRandomly(new[] { buildingMaterial }, _ => Random.Range(0, 50));
         }
 
         private void PreFillMaterials()
         {
-            int materialIndex = Random.Range(0, randomizedMaterials.Length);
-            float bias = 3f;
-            var gridSize = MaxHeight * MaxWidth;
-            _preFilled = Mathf.FloorToInt(Mathf.Pow(Random.value, bias) * gridSize);
-            PreFillGridRandomly(randomizedMaterials[materialIndex], _preFilled);
+            float bias = 5f;
+            PreFillGridRandomly(randomizedMaterials, empty =>
+                Mathf.FloorToInt(Mathf.Pow(Random.value, bias) * empty));
         }
 
         private void PickAreas()
         {
             float bias = 3f;
-
             var size = 0;
 
-            grid.ForEachTile((tile, x, y) =>
+            grid.ForEachTile((tile, _, _) =>
             {
-                if (tile is null)
+                if (tile.GetMaterial() is null)
                 {
                     size++;
                 }
@@ -85,7 +101,7 @@ namespace ai
                 int materialIndex = Random.Range(0, pickableMaterials.Count);
                 int count = Mathf.FloorToInt(Mathf.Pow(Random.value, bias) * size);
                 size -= count;
-                materialAreaCounts.Add(pickableMaterials[materialIndex].materialName, count);
+                _materialAreaCounts.Add(pickableMaterials[materialIndex].materialName, count);
                 pickableMaterials.RemoveAt(materialIndex);
             }
         }
@@ -141,6 +157,11 @@ namespace ai
                 }
             }
 
+            foreach (var materialAreaCount in _materialAreaCounts)
+            {
+                sensor.AddObservation(materialAreaCount.Value);
+            }
+
             sensor.AddObservation(gardenSettings.Birds);
             sensor.AddObservation(gardenSettings.FlyingInsects);
             sensor.AddObservation(gardenSettings.Spiders);
@@ -157,12 +178,14 @@ namespace ai
                 for (int j = 0; j < MaxHeight; j++)
                 {
                     int index = i * MaxWidth + j;
-                    grid.PlaceMaterial(randomizedMaterials[actions.DiscreteActions[index]], (i, j));
+                    var placementAction = actions.DiscreteActions[index];
+                    if (placementAction == 0) continue;
+                    grid.PlaceMaterial(randomizedMaterials[placementAction + 1], (i, j));
                 }
             }
 
             var calculationResult = _calculator.Calculate().CalculationResult;
-            
+
             AddReward(calculationResult.AnimalScore + calculationResult.PlantScore + calculationResult.SoilScore +
                       calculationResult.WaterScore);
         }

@@ -29,33 +29,34 @@ namespace calculation
             
             _gridManager.ForEachTile((tile, _, _) =>
             {
-                if (tile.GetMaterial() is null) return;
-                
-                switch (tile.GetMaterial().category)
+                if (tile.GetMaterial() is not null)
                 {
-                    case Material.Category.NonPermeable:
-                        nonPermeableArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.SemiPermeable:
-                        semiPermeableArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Bare:
-                        bareArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Flowers:
-                        flowerArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Grass:
-                        grassArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Shrubs:
-                        shrubArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Tree:
-                        treeArea += _gridManager.tileArea;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    switch (tile.GetMaterial()?.category)
+                    {
+                        case Material.Category.NonPermeable:
+                            nonPermeableArea += _gridManager.tileArea;
+                            break;
+                        case Material.Category.SemiPermeable:
+                            semiPermeableArea += _gridManager.tileArea;
+                            break;
+                        case Material.Category.Bare:
+                            bareArea += _gridManager.tileArea;
+                            break;
+                        case Material.Category.Flowers:
+                            flowerArea += _gridManager.tileArea;
+                            break;
+                        case Material.Category.Grass:
+                            grassArea += _gridManager.tileArea;
+                            break;
+                        case Material.Category.Shrubs:
+                            shrubArea += _gridManager.tileArea;
+                            break;
+                        case Material.Category.Tree:
+                            treeArea += _gridManager.tileArea;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
             });
             

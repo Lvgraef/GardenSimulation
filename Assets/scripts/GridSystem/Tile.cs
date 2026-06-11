@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -35,6 +36,7 @@ namespace GridSystem
             _material = null;
         }
 
+        [CanBeNull]
         public Material GetMaterial()
         {
             return this._material;
