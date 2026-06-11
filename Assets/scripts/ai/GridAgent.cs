@@ -173,6 +173,8 @@ namespace ai
 
         public override void OnActionReceived(ActionBuffers actions)
         {
+            Dictionary<int, int> placements = new();
+            
             for (int i = 0; i < MaxWidth; i++)
             {
                 for (int j = 0; j < MaxHeight; j++)
@@ -184,6 +186,8 @@ namespace ai
                 }
             }
 
+            
+            
             var calculationResult = _calculator.Calculate().CalculationResult;
 
             AddReward(calculationResult.AnimalScore + calculationResult.PlantScore + calculationResult.SoilScore +
