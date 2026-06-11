@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using calculation;
 using gardensettings;
 using GridSystem;
 using Unity.MLAgents;
@@ -15,6 +16,8 @@ namespace ai
         [SerializeField] private GardenSettings gardenSettings;
         [SerializeField] private Material[] randomizedMaterials;
         [SerializeField] private Material buildingMaterial;
+
+        private Calculator _calculator;
 
         private int _preFilled;
 
@@ -157,6 +160,16 @@ namespace ai
                     grid.PlaceMaterial(randomizedMaterials[actions.DiscreteActions[index]], (i, j));
                 }
             }
+
+            var calculationResult = _calculator.Calculate().CalculationResult;
+            
+            AddReward(calculationResult.AnimalScore + calculationResult.PlantScore + calculationResult.SoilScore +
+                      calculationResult.WaterScore);
+        }
+
+        protected override void Awake()
+        {
+            _calculator = new Calculator(BasicCalculationModel.Instance, grid, gardenSettings);
         }
     }
 }
