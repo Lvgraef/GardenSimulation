@@ -57,8 +57,18 @@ namespace camera
             }
 
             // rotation
-           
-            bool isTouchRotating = Touchscreen.current != null && Touchscreen.current.touches.Count(t => t.press.isPressed) >= 2;
+
+            bool isTouchRotating = false;
+            if (Touchscreen.current != null) {
+                int count = 0;
+                foreach (var r in Touchscreen.current.touches) {
+                    if (r.press.IsPressed()) {
+                        count++;
+                    }
+                }
+                isTouchRotating = count == 2;
+            }
+           // bool isTouchRotating = Touchscreen.current != null && Touchscreen.current.touches.Count(t => t.press.isPressed) == 2;
             bool isMouseRotating = Mouse.current != null && Mouse.current.middleButton.isPressed;
             bool isArrowRotating = Keyboard.current != null &&
             (Keyboard.current.upArrowKey.isPressed ||
@@ -100,17 +110,40 @@ namespace camera
             }
 
             // pan
-            var panAmount = pan.ReadValue<Vector2>() * Time.deltaTime;
+            bool isTouchPanning = false;
+            if (Touchscreen.current != null)
+            {
+                int count = 0;
+                foreach (var p in Touchscreen.current.touches)
+                {
+                    if (p.press.IsPressed())
+                    {
+                        count++;
+                    }
+                }
+                isTouchPanning = count == 3;
+            }
+            bool isArrowPanning = Keyboard.current != null &&
+                            (Keyboard.current.upArrowKey.isPressed ||
+                             Keyboard.current.leftArrowKey.isPressed ||
+                             Keyboard.current.rightArrowKey.isPressed ||
+                             Keyboard.current.downArrowKey.isPressed);
 
-            var forward = transform.forward;
-            forward.y = 0;
-            forward.Normalize();
+            if (isTouchPanning || isArrowPanning) {
+                var panAmount = pan.ReadValue<Vector2>() * Time.deltaTime;
 
-            var right = transform.right;
-            right.y = 0;
-            right.Normalize();
+                var forward = transform.forward;
+                forward.y = 0;
+                forward.Normalize();
 
-            transform.Translate(right * panAmount.x + forward * panAmount.y, Space.World);
+                var right = transform.right;
+                right.y = 0;
+                right.Normalize();
+
+                transform.Translate(right * panAmount.x + forward * panAmount.y, Space.World);
+            }
+
+            
         }
 
         void ResetTransform()
