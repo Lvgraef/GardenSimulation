@@ -22,11 +22,21 @@ namespace ai
         private Calculator _calculator;
 
         private int _preFilled;
+        private int _empty;
 
         private const int MaxWidth = 20;
         private const int MaxHeight = 20;
 
-        private Dictionary<string, int> _materialAreaCounts = new();
+        private Dictionary<string, int> _stringToIntID = new()
+        {
+            { "Empty", 0 },
+            { "Bush", 1 },
+            { "Flowers", 2 },
+            { "Grass", 3 },
+            { "Tree", 4 },
+            { "Water", 5 }
+        };
+        private Dictionary<int, int> _materialAreaCounts = new();
 
         private void PreFillGridRandomly(Material[] material, Func<int, int> countFunction)
         {
@@ -101,7 +111,7 @@ namespace ai
                 int materialIndex = Random.Range(0, pickableMaterials.Count);
                 int count = Mathf.FloorToInt(Mathf.Pow(Random.value, bias) * size);
                 size -= count;
-                _materialAreaCounts.Add(pickableMaterials[materialIndex].materialName, count);
+                _materialAreaCounts.Add(_stringToIntID[pickableMaterials[materialIndex].materialName], count);
                 pickableMaterials.RemoveAt(materialIndex);
             }
         }
@@ -125,6 +135,18 @@ namespace ai
             PreFillMaterials();
             PickAreas();
             RandomizeSettings();
+            
+            List<(int, int)> emptyTiles = new();
+
+            grid.ForEachTile((tile, x, y) =>
+            {
+                if (tile.GetMaterial() is null)
+                {
+                    emptyTiles.Add((x, y));
+                }
+            });
+
+            _empty = emptyTiles.Count;
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -183,10 +205,25 @@ namespace ai
                     var placementAction = actions.DiscreteActions[index];
                     if (placementAction == 0) continue;
                     grid.PlaceMaterial(randomizedMaterials[placementAction + 1], (i, j));
+                    placements[placementAction] = placements.GetValueOrDefault(placementAction, 0) + 1;
+
                 }
             }
 
+            foreach (var keyValuePair in placements)
+            {
+                if (_materialAreaCounts[keyValuePair.Key] == keyValuePair.Value)
+                {
+                    AddReward(0.5f);
+                }
+                else
+                {
+                    AddReward(-0.5f);
+                }
+                break;
+            }
             
+            AddReward(Math.Abs(placements.Count - _empty) * -0.01f);
             
             var calculationResult = _calculator.Calculate().CalculationResult;
 
