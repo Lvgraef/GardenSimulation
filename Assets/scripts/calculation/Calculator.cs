@@ -31,27 +31,27 @@ namespace calculation
             {
                 if (tile.GetMaterial() is not null)
                 {
-                    switch (tile.GetMaterial()?.category)
+                    switch (tile.GetMaterial()?.Category)
                     {
-                        case Material.Category.NonPermeable:
+                        case MaterialCategory.NonPermeable:
                             nonPermeableArea += _gridManager.tileArea;
                             break;
-                        case Material.Category.SemiPermeable:
+                        case MaterialCategory.SemiPermeable:
                             semiPermeableArea += _gridManager.tileArea;
                             break;
-                        case Material.Category.Bare:
+                        case MaterialCategory.Bare:
                             bareArea += _gridManager.tileArea;
                             break;
-                        case Material.Category.Flowers:
+                        case MaterialCategory.Flowers:
                             flowerArea += _gridManager.tileArea;
                             break;
-                        case Material.Category.Grass:
+                        case MaterialCategory.Grass:
                             grassArea += _gridManager.tileArea;
                             break;
-                        case Material.Category.Shrubs:
+                        case MaterialCategory.Shrubs:
                             shrubArea += _gridManager.tileArea;
                             break;
-                        case Material.Category.Tree:
+                        case MaterialCategory.Tree:
                             treeArea += _gridManager.tileArea;
                             break;
                         default:

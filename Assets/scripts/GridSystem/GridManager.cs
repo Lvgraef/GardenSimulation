@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using camera;
-using JetBrains.Annotations;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,6 +10,8 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
+        [SerializeField] private bool training;
+        
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
@@ -34,7 +35,7 @@ namespace GridSystem
                 for (var j = 0; j < _tiles.GetLength(1); j++)
                 {
                     var tile = _tiles[i, j];
-                    if (tile.GetMaterial()?.category == Material.Category.Building) continue;
+                    if (tile.GetMaterial()?.Category == MaterialCategory.Building) continue;
                     action(tile, i, j);
                 }
             }
@@ -62,7 +63,7 @@ namespace GridSystem
             var gridPos = WorldToGrid(intersectPosition);
             var mat = GetMaterial(gridPos.x, gridPos.y);
 
-            if (mat is not null && mat.category == Material.Category.Building) return;
+            if (mat is not null && mat.Category == MaterialCategory.Building) return;
 
             if (menu.Eraser)
             {
@@ -72,8 +73,8 @@ namespace GridSystem
             }
 
             if (selectedMaterial is null || (mat is not null &&
-                                             mat.materialName[..selectedMaterial.materialName.Length] ==
-                                             selectedMaterial.materialName)) return;
+                                             mat.MaterialName[..selectedMaterial.MaterialName.Length] ==
+                                             selectedMaterial.MaterialName)) return;
 
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
@@ -81,7 +82,7 @@ namespace GridSystem
 
         public void RemoveTile(int x, int y)
         {
-            if (_tiles[x, y].GetMaterial()?.category == Material.Category.Building) return;
+            if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[x, y]?.ClearMaterial();
         }
 
@@ -103,7 +104,7 @@ namespace GridSystem
         /// </summary>
         /// <param name="material"></param>
         /// <param name="vector"></param>
-        public void PlaceMaterial(Material material, Vector3 vector)
+        public void PlaceMaterial(IMaterial material, Vector3 vector)
         {
             (int x, int y) = WorldToGrid(vector);
             if (OutOfBounds(x, y))
@@ -111,21 +112,21 @@ namespace GridSystem
                 return;
             }
 
-            if (_tiles[x, y].GetMaterial()?.category == Material.Category.Building) return;
+            if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[x, y]?.SetMaterial(material);
         }
 
         /// <summary>
         /// Places the material on the grid
         /// </summary>
-        public void PlaceMaterial(Material material, (int x, int y) tile)
+        public void PlaceMaterial(IMaterial material, (int x, int y) tile)
         {
             if (OutOfBounds(tile.x, tile.y))
             {
                 return;
             }
 
-            if (_tiles[tile.x, tile.y].GetMaterial()?.category == Material.Category.Building) return;
+            if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[tile.x, tile.y]?.SetMaterial(material);
         }
 
@@ -141,7 +142,7 @@ namespace GridSystem
                 return;
             }
 
-            if (_tiles[x, y].GetMaterial()?.category == Material.Category.Building) return;
+            if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[x, y]?.ClearMaterial();
         }
 
@@ -156,7 +157,7 @@ namespace GridSystem
                 return;
             }
 
-            if (_tiles[tile.x, tile.y].GetMaterial()?.category == Material.Category.Building) return;
+            if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[tile.x, tile.y]?.ClearMaterial();
         }
 
@@ -166,7 +167,7 @@ namespace GridSystem
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Material GetMaterial(int x, int y)
+        public IMaterial GetMaterial(int x, int y)
         {
             if (OutOfBounds(x, y) || _tiles[x, y] is null)
             {
@@ -264,7 +265,7 @@ namespace GridSystem
         {
             foreach (var tile in _tiles)
             {
-                if (tile.GetMaterial()?.category == Material.Category.Building) continue;
+                if (tile.GetMaterial()?.Category == MaterialCategory.Building) continue;
                 tile.ClearMaterial();
             }
         }
@@ -276,7 +277,7 @@ namespace GridSystem
             {
                 if (tile.GetMaterial() is not null)
                 {
-                    materialList[tile.GetMaterial()!.materialName] = materialList.GetValueOrDefault(tile.GetMaterial()!.materialName) + 1;
+                    materialList[tile.GetMaterial()!.MaterialName] = materialList.GetValueOrDefault(tile.GetMaterial()!.MaterialName) + 1;
                 }
             });
 
@@ -285,7 +286,7 @@ namespace GridSystem
 
         public string GetMaterialName(int x, int y)
         {
-            return OutOfBounds(x, y) ? "Building" : GetMaterial(x, y).materialName;
+            return OutOfBounds(x, y) ? "Building" : GetMaterial(x, y)?.MaterialName;
         }
     }
 }

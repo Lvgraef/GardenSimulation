@@ -1,0 +1,68 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1781278866",
+        "python_version": "3.10.12 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 19:01:18) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\lvgra\\miniconda3\\envs\\mlagents\\Scripts\\mlagents-learn Assets/Config/ai_config.yaml --run-id=first-test --force",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cu121",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1781279015"
+    },
+    "total": 149.0491501999786,
+    "count": 1,
+    "self": 0.006355899968184531,
+    "children": {
+        "run_training.setup": {
+            "total": 0.1277338000072632,
+            "count": 1,
+            "self": 0.1277338000072632
+        },
+        "TrainerController.start_learning": {
+            "total": 148.91506050000316,
+            "count": 1,
+            "self": 0.00016579998191446066,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 14.850994000007631,
+                    "count": 1,
+                    "self": 14.850994000007631
+                },
+                "TrainerController.advance": {
+                    "total": 121.5604941000056,
+                    "count": 1,
+                    "self": 1.9400002202019095e-05,
+                    "children": {
+                        "env_step": {
+                            "total": 121.5604747000034,
+                            "count": 1,
+                            "self": 121.56046750000678,
+                            "children": {
+                                "SubprocessEnvManager._take_step": {
+                                    "total": 7.199996616691351e-06,
+                                    "count": 1,
+                                    "self": 7.199996616691351e-06
+                                }
+                            }
+                        }
+                    }
+                },
+                "TrainerController._save_models": {
+                    "total": 12.50340660000802,
+                    "count": 1,
+                    "self": 3.6699988413602114e-05,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 12.503369900019607,
+                            "count": 1,
+                            "self": 12.503369900019607
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
