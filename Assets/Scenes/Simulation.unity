@@ -291,7 +291,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1688033490}
         m_TargetAssemblyTypeName: Data.GardenManager, Assembly-CSharp
-        m_MethodName: SaveGarden
+        m_MethodName: SaveGardenData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -40384,7 +40384,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1688033490}
         m_TargetAssemblyTypeName: Data.GardenManager, Assembly-CSharp
-        m_MethodName: GetGarden
+        m_MethodName: GetGardenData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -46018,6 +46018,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Data.GardenManager
   gridManager: {fileID: 71911239}
+  menu: {fileID: 2106689585}
+  gardenSettings: {fileID: 1408936358}
 --- !u!1 &1691859076
 GameObject:
   m_ObjectHideFlags: 0

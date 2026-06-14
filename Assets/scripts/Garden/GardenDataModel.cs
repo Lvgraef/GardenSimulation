@@ -1,28 +1,38 @@
 using gardensettings;
 using GridSystem;
+using Newtonsoft.Json;
 
 namespace Data
 {
     public class GardenDataModel
     {
-        public string GardenName { get;  }
-        public (int Width, int Height) GridSize { get;  }
-        public Material.Category[,]  Materials { get; }
-        
-        public GardenSettingsDataModel GardenSettingsDataModel { get; }
+        public string GardenName { get; }
+        public (int Width, int Height) GridSize { get; }
+        public int[,] Materials { get; }
+        public GardenSettingsDataModel GardenSettings { get; }
 
-        public void StoreMaterials(Material.Category materials, (int x, int y) tile)
-        {
-            Materials[tile.x, tile.y] = materials;
-        }
-        
-        public GardenDataModel(string gardenName, (int Width, int Height) gridSize, GardenSettingsDataModel gardenSettingsDataModel)
+        [JsonConstructor]
+        public GardenDataModel(string gardenName, (int Width, int Height) gridSize,
+            int[,] materials,
+            GardenSettingsDataModel gardenSettings)
         {
             GardenName = gardenName;
             GridSize = gridSize;
-            Materials =  new Material.Category[gridSize.Width, gridSize.Height];
-            GardenSettingsDataModel = gardenSettingsDataModel;
+            Materials = materials;
+            GardenSettings = gardenSettings;
         }
+        
+        public GardenDataModel(string gardenName, (int Width, int Height) gridSize,
+            GardenSettingsDataModel gardenSettings)
+        {
+            GardenName = gardenName;
+            GridSize = gridSize;
+            Materials = new int[gridSize.Width, gridSize.Height];
+            GardenSettings = gardenSettings;
+        }
+
+        public void StoreMaterials(int material, (int x, int y) tile)
+            => Materials[tile.x, tile.y] = material;
     }
 
     public class GardenSettingsDataModel
@@ -36,6 +46,7 @@ namespace Data
         public bool Spiders { get; }
         public bool OtherAnimals { get; }
 
+        [JsonConstructor]
         public GardenSettingsDataModel(
             Fertilizer fertilizer,
             CompostCleanup compostCleanup,

@@ -175,12 +175,25 @@ namespace GridSystem
             return _tiles[x, y].GetMaterial();
         }
         
+        private void ClearAllTiles()
+        {
+            var allTiles = GetAllTiles();
+            
+            for (int x = 0; x < allTiles.GetLength(0); x++)
+            {
+                for (int y = 0; y < allTiles.GetLength(1); y++)
+                {
+                    RemoveTile(x, y);
+                }
+            }
+        }
         
         //Public method for generating grid on read
-        public void CreateGrid(int _width, int _height)
+        public void CreateGrid(int Width, int Height)
         {
-            if(_width <= 0 || _height <= 0) return;
-            _tiles =   new Tile[_width, _height];
+            if(Width <= 0 || Height <= 0) return;
+            ClearAllTiles();
+            _tiles =  new Tile[Width, Height];
             GenerateGrid();
         }
 

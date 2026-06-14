@@ -16,11 +16,11 @@ namespace Data
         [SerializeField] private MaterialMenu menu;
         [SerializeField] private GardenSettings gardenSettings;
         
-     
+        private string gardenName =  "Garden";
 
         private Dictionary<Material.Category, Material> GardenMaterials;
         
-        public void Start()
+        public void Awake()
         {
             GardenMaterials  = new Dictionary<Material.Category, Material>();
             foreach (var material in menu.Materials)
@@ -31,7 +31,7 @@ namespace Data
         
         
 
-        public void SaveGarden()
+        public void SaveGardenData()
         {
             // All tiles
             Tile [,] allTiles = gridManager.GetAllTiles();
@@ -47,7 +47,7 @@ namespace Data
 
             // Have to link the name to whatever we are planning to get the name from
             GardenDataModel dataModel = new GardenDataModel(
-                "Garden",
+                gardenName,
                 gridManager.GetSize(),
                 gardenSettingsDataModel
             );
@@ -58,7 +58,17 @@ namespace Data
                 {
                     Material material = allTiles[x, y].GetMaterial();
                     
-                    dataModel.StoreMaterials(material.category, (x, y));
+                    if (material == null)
+                    {
+                               
+                        dataModel.StoreMaterials(-1, (x, y));
+                    }
+                    else
+                    {
+                               
+                        dataModel.StoreMaterials((int)material.category, (x, y));
+                    }
+             
                 }
             }
 
@@ -68,25 +78,45 @@ namespace Data
             }
         }
         
-        public void GetGarden()
+        public void GetGardenData()
         {
             // Have to link the name to whatever we are planning to get the name from
-            var GardenData = DataManager.GetGardenData("Garden");
-            
-            gridManager.CreateGrid(GardenData.GridSize.Width, GardenData.GridSize.Height);
-            
-            for (int x = 0; x < GardenData.Materials.GetLength(0); x++)
+            var gardenData = DataManager.GetGardenData(gardenName);
+
+            if (gardenData == null)
             {
-                for (int y = 0; y < GardenData.Materials.GetLength(1); y++)
+                Debug.LogError("Failed to find garden!");
+                return;
+            }
+
+            
+            Debug.Log(gardenData);
+            
+       
+
+            if (gardenData.Materials == null)
+            {
+                Debug.LogError("Failed to find garden materials!");
+                return;
+            }
+            
+
+            gridManager.CreateGrid(gardenData.GridSize.Width, gardenData.GridSize.Height);
+            
+            for (int x = 0; x < gardenData.Materials.GetLength(0); x++)
+            {
+                for (int y = 0; y < gardenData.Materials.GetLength(1); y++)
                 {
-                    Material.Category tile = GardenData.Materials[x, y];
-                    Material material = GardenMaterials[tile];
+                    int tile = gardenData.Materials[x, y];
+                    if(tile == -1) continue;
+                    Material material = GardenMaterials[(Material.Category)tile];
                     var gridPos = (x, y);
                     gridManager.PlaceMaterial(material, gridPos);
                 }
             }
-
         }
+
+
         
     }
 }

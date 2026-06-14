@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Data;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace Data
 {
@@ -12,10 +13,17 @@ namespace Data
             string path = Application.persistentDataPath + $"/{gardenData.GardenName}.json";
             try
             {
-                string json = JsonUtility.ToJson(gardenData);
-            
-                File.WriteAllText(path, json);
-                return true;
+                
+                using (var sw = new StreamWriter(path))
+                {
+
+                    var data = JsonConvert.SerializeObject(gardenData, Newtonsoft.Json.Formatting.Indented);
+                    sw.Write(data);
+                    sw.Flush();
+                    sw.Close();
+
+                    return true;
+                }
             }
             catch (Exception e)
             {
@@ -34,9 +42,12 @@ namespace Data
 
             try
             {
-                string json = File.ReadAllText(path);
-                GardenDataModel gardenData = JsonUtility.FromJson<GardenDataModel>(json);
-                return gardenData;
+                using (var reader = new StreamReader(path))
+                {
+                    string file = reader.ReadToEnd();
+                    reader.Close();
+                    return JsonConvert.DeserializeObject<GardenDataModel>(file);
+                }
             }
             catch (Exception e)
             {
