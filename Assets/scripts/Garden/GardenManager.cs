@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using gardensettings;
 using GridSystem;
 using TMPro;
 using UI;
@@ -13,7 +14,7 @@ namespace Data
        
         [SerializeField] private GridManager gridManager;
         [SerializeField] private MaterialMenu menu;
-        
+        [SerializeField] private GardenSettings gardenSettings;
         
      
 
@@ -34,20 +35,42 @@ namespace Data
         {
             // All tiles
             Tile [,] allTiles = gridManager.GetAllTiles();
-            GardenDataModel dataModel = new GardenDataModel("", gridManager.GetSize());
+            GardenSettingsDataModel gardenSettingsDataModel = new GardenSettingsDataModel(
+                gardenSettings.Fertilizer,
+                gardenSettings.CompostCleanup,
+                gardenSettings.PlantDiversity,
+                gardenSettings.FlyingInsects,
+                gardenSettings.Birds,
+                gardenSettings.Spiders,
+                gardenSettings.OtherAnimals
+            );
+
+            // Have to link the name to whatever we are planning to get the name from
+            GardenDataModel dataModel = new GardenDataModel(
+                "Garden",
+                gridManager.GetSize(),
+                gardenSettingsDataModel
+            );
   
             for (int x = 0; x < allTiles.GetLength(0); x++)
             {
                 for (int y = 0; y < allTiles.GetLength(1); y++)
                 {
-                    dataModel.StoreMaterials();
+                    Material material = allTiles[x, y].GetMaterial();
+                    
+                    dataModel.StoreMaterials(material.category, (x, y));
                 }
+            }
+
+            if (!DataManager.SaveGardenData(dataModel))
+            {
+                Debug.LogError("Failed to save garden!");
             }
         }
         
         public void GetGarden()
         {
-            // get garden data
+            // Have to link the name to whatever we are planning to get the name from
             var GardenData = DataManager.GetGardenData("Garden");
             
             gridManager.CreateGrid(GardenData.GridSize.Width, GardenData.GridSize.Height);
