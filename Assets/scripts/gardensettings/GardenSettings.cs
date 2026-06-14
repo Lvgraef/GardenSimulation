@@ -1,4 +1,5 @@
 ﻿using calculation;
+using Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,28 @@ namespace gardensettings
             Birds = birdsDropdown.value > 0;
             Spiders = spidersDropdown.value > 0;
             OtherAnimals = otherAnimalsDropdown.value > 0;
+        }
+        
+        public void LoadFrom(GardenSettingsDataModel data)
+        {
+            fertilizerDropdown.value     = (int)data.Fertilizer;
+            compostCleanupDropdown.value = (int)data.CompostCleanup;
+            plantDiversityropdown.value  = (int)data.PlantDiversity;
+            flyingInsectsDropdown.value  = data.FlyingInsects ? 1 : 0;
+            birdsDropdown.value          = data.Birds ? 1 : 0;
+            spidersDropdown.value        = data.Spiders ? 1 : 0;
+            otherAnimalsDropdown.value   = data.OtherAnimals ? 1 : 0;
+
+            // make the visible labels match 
+            fertilizerDropdown.RefreshShownValue();
+            compostCleanupDropdown.RefreshShownValue();
+            plantDiversityropdown.RefreshShownValue();
+            flyingInsectsDropdown.RefreshShownValue();
+            birdsDropdown.RefreshShownValue();
+            spidersDropdown.RefreshShownValue();
+            otherAnimalsDropdown.RefreshShownValue();
+
+            Updated();
         }
     }
 }

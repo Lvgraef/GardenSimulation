@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Data
 {
-    public class DataManager : MonoBehaviour
+    public class Datainterface : MonoBehaviour
     {
         public static bool SaveGardenData(GardenDataModel gardenData)
         {

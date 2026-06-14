@@ -9,7 +9,7 @@ using Material = GridSystem.Material;
 
 namespace Data
 {
-    public class GardenManager : MonoBehaviour
+    public class GardenDataManager : MonoBehaviour
     {
        
         [SerializeField] private GridManager gridManager;
@@ -30,7 +30,7 @@ namespace Data
         }
         
         
-
+        //TODO: ADD PROMPT WHEN TRYING TO SAVE
         public void SaveGardenData()
         {
             // All tiles
@@ -72,16 +72,17 @@ namespace Data
                 }
             }
 
-            if (!DataManager.SaveGardenData(dataModel))
+            if (!Datainterface.SaveGardenData(dataModel))
             {
                 Debug.LogError("Failed to save garden!");
             }
         }
         
+        //TODO: ADD PROMPT WHEN TRYING TO READ
         public void GetGardenData()
         {
             // Have to link the name to whatever we are planning to get the name from
-            var gardenData = DataManager.GetGardenData(gardenName);
+            var gardenData = Datainterface.GetGardenData(gardenName);
 
             if (gardenData == null)
             {
@@ -102,6 +103,7 @@ namespace Data
             
 
             gridManager.CreateGrid(gardenData.GridSize.Width, gardenData.GridSize.Height);
+            gardenSettings.LoadFrom(gardenData.GardenSettings);
             
             for (int x = 0; x < gardenData.Materials.GetLength(0); x++)
             {
