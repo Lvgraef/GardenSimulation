@@ -41,6 +41,16 @@ namespace GridSystem
             }
         }
 
+        public Tile[,] GetAllTiles()
+        {
+            return _tiles;
+        }
+
+        public (int width, int height) GetSize()
+        {
+            return (width, height);
+        }
+
         private void ShootRay()
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
@@ -164,13 +174,22 @@ namespace GridSystem
 
             return _tiles[x, y].GetMaterial();
         }
-
+        
+        
+        //Public method for generating grid on read
+        public void CreateGrid(int _width, int _height)
+        {
+            if(_width <= 0 || _height <= 0) return;
+            _tiles =   new Tile[_width, _height];
+            GenerateGrid();
+        }
 
         /// <summary>
         /// Generates the grid
         /// </summary>
         private void GenerateGrid()
         {
+           
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -236,7 +255,7 @@ namespace GridSystem
         {
             Shader shader = Shader.Find("Hidden/Internal-Colored");
             _lineMaterial = new UnityEngine.Material(shader);
-            _tiles = new Tile[width, height];
+            _tiles =   new Tile[width, height];
             GenerateGrid();
         }
     }
