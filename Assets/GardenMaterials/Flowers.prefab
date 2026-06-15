@@ -125,7 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2659d0ca91574a87ad9d33c67f568db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridSystem.Material
-  materialName: Flowers
-  category: 3
   sprite: {fileID: 21300000, guid: 1390b153c4918ed4dbd48590125f267a, type: 3}
   offset: {x: 0.25, y: 0.05, z: 0.25}
+  materialName: Flowers
+  category: 3
+  _id: 1

@@ -7,6 +7,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using Material = GridSystem.Material;
 using Random = UnityEngine.Random;
 
 namespace ai
@@ -18,64 +19,66 @@ namespace ai
         private IMaterial[] _randomizedMaterials;
         private IMaterial _buildingMaterial;
 
+        [SerializeField] private Material[] randomizedMaterialsObject;
+        [SerializeField] private Material buildingMaterialObject;
+
         private Calculator _calculator;
 
         private int _preFilled;
         private int _empty;
 
-        private const int MaxWidth = 20;
-        private const int MaxHeight = 20;
+        [SerializeField]
+        private int maxWidth = 10;
+        [SerializeField]
+        private int maxHeight = 10;
 
-        private Dictionary<string, int> _stringToIntID = new()
-        {
-            { "Bush", 0 },
-            { "Flowers", 1 },
-            { "Grass", 2 },
-            { "Tree", 3 },
-            { "Water", 4 }
-        };
+        private float _previousCalculationResult;
 
-        private Dictionary<int, int> _materialAreaCounts = new();
+        private int _gridIndex;
+
+        private List<int> _materialAreaCounts = new(5);
+        private List<(int, int)> _emptyTiles = new();
+        private List<IMaterial> _pickableMaterials = new();
 
         private void PreFillGridRandomly(IMaterial[] material, Func<int, int> countFunction)
         {
-            List<(int, int)> emptyTiles = new();
+            _emptyTiles.Clear();
+            _pickableMaterials.Clear();
 
             grid.ForEachTile((tile, x, y) =>
             {
-                if (tile is null)
+                if (tile.GetMaterial() is null)
                 {
-                    emptyTiles.Add((x, y));
+                    _emptyTiles.Add((x, y));
                 }
             });
 
-            List<IMaterial> pickableMaterials = new();
 
             foreach (var mat in material)
             {
-                pickableMaterials.Add(mat);
+                _pickableMaterials.Add(mat);
             }
 
             foreach (var _ in material)
             {
-                var pickedIndex = Random.Range(0, pickableMaterials.Count);
-                var pickedMaterial = pickableMaterials[pickedIndex];
-                var count = countFunction(emptyTiles.Count);
+                var pickedIndex = Random.Range(0, _pickableMaterials.Count);
+                var pickedMaterial = _pickableMaterials[pickedIndex];
+                var count = countFunction(_emptyTiles.Count);
 
                 for (int i = 0; i < count; i++)
                 {
-                    int location = Random.Range(0, emptyTiles.Count);
-                    grid.PlaceMaterial(pickedMaterial, emptyTiles[location]);
-                    emptyTiles.RemoveAt(location);
+                    int location = Random.Range(0, _emptyTiles.Count);
+                    grid.PlaceMaterial(pickedMaterial, _emptyTiles[location]);
+                    _emptyTiles.RemoveAt(location);
                 }
 
-                pickableMaterials.RemoveAt(pickedIndex);
+                _pickableMaterials.RemoveAt(pickedIndex);
             }
         }
 
         private void PreFillBuildings()
         {
-            PreFillGridRandomly(new[] { _buildingMaterial }, _ => Random.Range(0, 50));
+            PreFillGridRandomly(new[] { _buildingMaterial }, _ => Random.Range(0, (maxWidth * maxHeight) / 8));
         }
 
         private void PreFillMaterials()
@@ -86,32 +89,44 @@ namespace ai
         private void PickAreas()
         {
             _materialAreaCounts.Clear();
+            for (int i = 0; i < _randomizedMaterials.Length; i++)
+            {
+                _materialAreaCounts.Add(0);
+            }
+
+            _pickableMaterials.Clear();
 
             float bias = 3f;
             var size = 0;
 
             grid.ForEachTile((tile, _, _) =>
             {
-                if (tile is null)
+                if (tile.GetMaterial() is null)
                 {
                     size++;
                 }
             });
 
-            List<IMaterial> pickableMaterials = new();
-
             foreach (var mat in _randomizedMaterials)
             {
-                pickableMaterials.Add(mat);
+                _pickableMaterials.Add(mat);
             }
 
             for (int i = 0; i < _randomizedMaterials.Length; i++)
             {
-                int materialIndex = Random.Range(0, pickableMaterials.Count);
+                int materialIndex = Random.Range(0, _pickableMaterials.Count);
+
+                if (Random.Range(0, 10) == 0)
+                {
+                    _materialAreaCounts[materialIndex] = int.MinValue;
+                    _pickableMaterials.RemoveAt(materialIndex);
+                    continue;
+                }
+
                 int count = Mathf.FloorToInt(Mathf.Pow(Random.value, bias) * size);
                 size -= count;
-                _materialAreaCounts.Add(_stringToIntID[pickableMaterials[materialIndex].MaterialName], count);
-                pickableMaterials.RemoveAt(materialIndex);
+                _materialAreaCounts[_pickableMaterials[materialIndex].ID] = count;
+                _pickableMaterials.RemoveAt(materialIndex);
             }
         }
 
@@ -129,63 +144,41 @@ namespace ai
 
         public override void OnEpisodeBegin()
         {
+            _gridIndex = 0;
+            _previousCalculationResult = 0;
+            _materialAreaCounts.Clear();
             grid.Reset();
             PreFillBuildings();
             PreFillMaterials();
             PickAreas();
             RandomizeSettings();
 
-            List<(int, int)> emptyTiles = new();
+            _emptyTiles.Clear();
 
             grid.ForEachTile((tile, x, y) =>
             {
-                if (tile is null)
+                if (tile.GetMaterial() is null)
                 {
-                    emptyTiles.Add((x, y));
+                    _emptyTiles.Add((x, y));
                 }
             });
 
-            _empty = emptyTiles.Count;
+            _empty = _emptyTiles.Count;
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            for (int i = 0; i < MaxWidth; i++)
+            for (int i = 0; i < maxWidth; i++)
             {
-                for (int j = 0; j < MaxHeight; j++)
+                for (int j = 0; j < maxHeight; j++)
                 {
-                    switch (grid.GetMaterialName(i, j))
-                    {
-                        case "Building":
-                            sensor.AddObservation(1);
-                            break;
-                        case "Bush":
-                            sensor.AddObservation(2);
-                            break;
-                        case "Flowers":
-                            sensor.AddObservation(3);
-                            break;
-                        case "Grass":
-                            sensor.AddObservation(4);
-                            break;
-                        case "Tree":
-                            sensor.AddObservation(5);
-                            break;
-                        case "Water":
-                            sensor.AddObservation(6);
-                            break;
-                        case null:
-                            sensor.AddObservation(0);
-                            break;
-                        default:
-                            throw new ArgumentException("Unknown material name: " + grid.GetMaterialName(i, j));
-                    }
+                    sensor.AddObservation(grid.GetMaterial(i, j)?.ID ?? -1);
                 }
             }
 
             foreach (var materialAreaCount in _materialAreaCounts)
             {
-                sensor.AddObservation(materialAreaCount.Value);
+                sensor.AddObservation(materialAreaCount);
             }
 
             sensor.AddObservation(gardenSettings.Birds);
@@ -199,46 +192,54 @@ namespace ai
 
         public override void Heuristic(in ActionBuffers actionsOut)
         {
-            base.Heuristic(in actionsOut);
         }
 
         public override void OnActionReceived(ActionBuffers actions)
         {
-            Dictionary<int, int> placements = new();
+            int? currentMaterial = grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
 
-            for (int i = 0; i < MaxWidth; i++)
+            while (_gridIndex < maxWidth * maxHeight && currentMaterial == -1)
             {
-                for (int j = 0; j < MaxHeight; j++)
-                {
-                    int index = i * MaxWidth + j;
-                    var placementAction = actions.DiscreteActions[index];
-                    if (placementAction == 0) continue;
-                    grid.PlaceMaterial(_randomizedMaterials[placementAction - 1], (i, j));
-                    placements[placementAction - 1] = placements.GetValueOrDefault(placementAction - 1, 0) + 1;
-                }
+                _gridIndex++;
+                currentMaterial = grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
             }
 
-            foreach (var keyValuePair in placements)
-            {
-                // todo maybe look at these rewards if they are efficient or if it should guide it more towards the 0 point.
-                if (_materialAreaCounts[keyValuePair.Key] == keyValuePair.Value)
-                {
-                    AddReward(0.5f);
-                }
-                else
-                {
-                    AddReward(-0.5f);
-                }
+            var placementAction = actions.DiscreteActions[0];
 
-                break;
+            if (currentMaterial is null)
+            {
+                grid.PlaceMaterial(_randomizedMaterials[placementAction], _gridIndex, maxWidth, maxHeight);
+                _empty--;
+            }
+            
+            if (_materialAreaCounts[placementAction] != int.MinValue)
+            {
+                _materialAreaCounts[placementAction] -= 1;
             }
 
-            AddReward(Math.Abs(placements.Count - _empty) * -0.01f);
-
+            _gridIndex++;
+            
             var calculationResult = _calculator.Calculate().CalculationResult;
+            var result = (calculationResult.AnimalScore + calculationResult.PlantScore + calculationResult.SoilScore +
+                          calculationResult.WaterScore) / 100;
+            AddReward(result - _previousCalculationResult);
+            _previousCalculationResult = result;
+            
+            if (_empty > 0) return;
 
-            AddReward(calculationResult.AnimalScore + calculationResult.PlantScore + calculationResult.SoilScore +
-                      calculationResult.WaterScore);
+            foreach (var value in _materialAreaCounts)
+            {
+                if (value == int.MinValue) continue;
+
+                AddReward(Math.Abs(value) * -0.0255f);
+
+                if (value == 0)
+                {
+                    AddReward(1f);
+                }
+            }
+
+            EndEpisode();
         }
 
         protected override void Awake()
@@ -247,14 +248,23 @@ namespace ai
 
             _randomizedMaterials = new IMaterial[]
             {
-                new VirtualMaterial("Bush", MaterialCategory.Shrubs),
-                new VirtualMaterial("Flowers", MaterialCategory.Flowers),
-                new VirtualMaterial("Grass", MaterialCategory.Grass),
-                new VirtualMaterial("Tree", MaterialCategory.Tree),
-                new VirtualMaterial("Water", MaterialCategory.NonPermeable),
+                new VirtualMaterial("Bush", MaterialCategory.Shrubs, 0),
+                new VirtualMaterial("Flowers", MaterialCategory.Flowers, 1),
+                new VirtualMaterial("Grass", MaterialCategory.Grass, 2),
+                new VirtualMaterial("Tree", MaterialCategory.Tree, 3),
+                new VirtualMaterial("Water", MaterialCategory.NonPermeable, 4),
             };
+            
+            _buildingMaterial = new VirtualMaterial("Building", MaterialCategory.Building, -1);
 
-            _buildingMaterial = new VirtualMaterial("Building", MaterialCategory.Building);
+            // _randomizedMaterials = new IMaterial[randomizedMaterialsObject.Length];
+            //
+            // for (var index = 0; index < randomizedMaterialsObject.Length; index++)
+            // {
+            //     _randomizedMaterials[index] = randomizedMaterialsObject[index];
+            // }
+            //
+            // _buildingMaterial = buildingMaterialObject;
         }
     }
 }

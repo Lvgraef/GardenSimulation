@@ -43,6 +43,7 @@ namespace GridSystem
 
         private void Update()
         {
+            if (training) return;
             if (Mouse.current.leftButton.isPressed)
             {
                 ShootRay();
@@ -99,6 +100,16 @@ namespace GridSystem
             return (x, y);
         }
 
+        public void PlaceMaterial(IMaterial material, int index, int maxWidth, int maxHeight)
+        {
+            int x = index % maxWidth;
+            int y = index / maxHeight;
+
+            if (OutOfBounds(x, y)) return;
+            
+            _tiles[x, y].SetMaterial(material);
+        }
+        
         /// <summary>
         /// Places the material on the grid
         /// </summary>
@@ -113,7 +124,7 @@ namespace GridSystem
             }
 
             if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
-            _tiles[x, y]?.SetMaterial(material);
+            _tiles[x, y].SetMaterial(material);
         }
 
         /// <summary>
@@ -127,7 +138,7 @@ namespace GridSystem
             }
 
             if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
-            _tiles[tile.x, tile.y]?.SetMaterial(material);
+            _tiles[tile.x, tile.y].SetMaterial(material);
         }
 
         /// <summary>
@@ -202,6 +213,7 @@ namespace GridSystem
         /// </summary>
         private void OnRenderObject()
         {
+            if (training) return;
             if (!_lineMaterial) return;
 
             GL.PushMatrix();
@@ -287,6 +299,32 @@ namespace GridSystem
         public string GetMaterialName(int x, int y)
         {
             return OutOfBounds(x, y) ? "Building" : GetMaterial(x, y)?.MaterialName;
+        }
+        
+        public string GetMaterialName(int index, int w, int h)
+        {
+            var x = index % w;
+            var y =index / h;
+
+            if (OutOfBounds(x, y))
+            {
+                return "Building";
+            }
+            
+            return _tiles[x, y].GetMaterial()?.MaterialName;
+        }
+
+        public int? GetMaterialId(int index, int maxWidth, int maxHeight)
+        {
+            var x = index % maxWidth;
+            var y =index / maxHeight;
+
+            if (OutOfBounds(x, y))
+            {
+                return -1;
+            }
+            
+            return _tiles[x, y].GetMaterial()?.ID;
         }
     }
 }

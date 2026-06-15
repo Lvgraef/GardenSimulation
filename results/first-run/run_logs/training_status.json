@@ -2,22 +2,31 @@
     "garden": {
         "checkpoints": [
             {
-                "steps": 256,
-                "file_path": "results\\first-run\\garden\\garden-256.onnx",
-                "reward": null,
-                "creation_time": 1781291874.9817514,
+                "steps": 499991,
+                "file_path": "results\\first-run\\garden\\garden-499991.onnx",
+                "reward": 0.0039410771538458565,
+                "creation_time": 1781450402.901992,
                 "auxillary_file_paths": [
-                    "results\\first-run\\garden\\garden-256.pt"
+                    "results\\first-run\\garden\\garden-499991.pt"
+                ]
+            },
+            {
+                "steps": 727321,
+                "file_path": "results\\first-run\\garden\\garden-727321.onnx",
+                "reward": 0.0018493200083093994,
+                "creation_time": 1781451178.4569905,
+                "auxillary_file_paths": [
+                    "results\\first-run\\garden\\garden-727321.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 256,
+            "steps": 727321,
             "file_path": "results\\first-run\\garden.onnx",
-            "reward": null,
-            "creation_time": 1781291874.9817514,
+            "reward": 0.0018493200083093994,
+            "creation_time": 1781451178.4569905,
             "auxillary_file_paths": [
-                "results\\first-run\\garden\\garden-256.pt"
+                "results\\first-run\\garden\\garden-727321.pt"
             ]
         }
     },

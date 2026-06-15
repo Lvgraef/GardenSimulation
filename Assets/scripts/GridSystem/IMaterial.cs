@@ -4,6 +4,7 @@
     {
         public string MaterialName { get; set; }
         public MaterialCategory Category { get; set; }
+        public int ID { get; set; }
 
         public IMaterial Assign(Tile tile, GridManager manager);
 
