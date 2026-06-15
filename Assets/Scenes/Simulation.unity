@@ -16645,6 +16645,30 @@ MonoBehaviour:
       m_Action: Pan
       m_Flags: 8
     - m_Name: One Modifier
+      m_Id: 97e6b217-6dc6-45c4-8ba2-24fb2500042b
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: ScaleVector2(x=2,y=2)
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 425aad3d-1e0f-4f12-99bb-f5adb0a3853f
+      m_Path: <Mouse>/middleButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: 235a0279-a3ea-4ccc-9d0d-0a0dead39c6a
+      m_Path: <Mouse>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: One Modifier
       m_Id: 04c64a3b-cfc4-4af6-9439-60a38f4318bc
       m_Path: OneModifier
       m_Interactions: 
