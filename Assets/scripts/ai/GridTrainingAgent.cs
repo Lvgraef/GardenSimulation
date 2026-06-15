@@ -196,6 +196,12 @@ namespace ai
 
         public override void OnActionReceived(ActionBuffers actions)
         {
+            if (_gridIndex >= maxWidth * maxHeight)
+            {
+                EndEpisode();
+                return;
+            }
+            
             int? currentMaterial = grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
 
             while (_gridIndex < maxWidth * maxHeight && currentMaterial == -1)
@@ -210,13 +216,13 @@ namespace ai
             {
                 grid.PlaceMaterial(_randomizedMaterials[placementAction], _gridIndex, maxWidth, maxHeight);
                 _empty--;
+                
+                if (_materialAreaCounts[placementAction] != int.MinValue)
+                {
+                    _materialAreaCounts[placementAction] -= 1;
+                }
             }
             
-            if (_materialAreaCounts[placementAction] != int.MinValue)
-            {
-                _materialAreaCounts[placementAction] -= 1;
-            }
-
             _gridIndex++;
             
             var calculationResult = _calculator.Calculate().CalculationResult;
@@ -231,7 +237,7 @@ namespace ai
             {
                 if (value == int.MinValue) continue;
 
-                AddReward(Math.Abs(value) * -0.0255f);
+                AddReward(Math.Abs(value) * (25f / (maxHeight * maxWidth)) * -0.05f);
 
                 if (value == 0)
                 {
