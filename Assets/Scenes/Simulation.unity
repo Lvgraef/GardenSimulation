@@ -16433,7 +16433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c657b5bc2386e41a7f46ec0e963f4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
-  panSpeedTouch: 0.5
   rotate:
     m_Name: Rotate
     m_Type: 0
@@ -50430,6 +50429,7 @@ MonoBehaviour:
     originPosition: {x: 0, y: 10, z: 0}
     originSize: 5
   panSpeedTouch: 0.5
+  zoomSpeedTouch: 0.1
   pan:
     m_Name: Pan
     m_Type: 0

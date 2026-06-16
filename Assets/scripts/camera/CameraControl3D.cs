@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
-using System.Linq;
 
 namespace camera
 {
@@ -22,8 +21,8 @@ namespace camera
             public float originDistance;
         }
         private float rotationSpeedMouse = 0.001f;
-        private float rotationSpeedTouch = 1.5f;
-        [SerializeField] private float panSpeedTouch = 0.1f;
+        private float rotationSpeedTouch = 0.1f;
+        private float panSpeedTouch = 0.1f;
         [SerializeField] private InputAction rotate;
         [SerializeField] private InputAction zoom;
         [SerializeField] private InputAction pan;

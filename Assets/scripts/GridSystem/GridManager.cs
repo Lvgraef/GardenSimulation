@@ -37,8 +37,23 @@ namespace GridSystem
 
         private void Update()
         {
-            
-            if (Mouse.current.leftButton.isPressed || Touchscreen.current.primaryTouch.press.isPressed)
+            if (Touchscreen.current != null) {
+                int totalTouches = 0;
+
+                foreach (var touch in Touchscreen.current.touches)
+                {
+                    if (touch.press.isPressed)
+                    {
+                        totalTouches++;
+                    }
+                }
+
+                if (totalTouches == 1)
+                {
+                    ShootRay();
+                }
+            }
+            if (Mouse.current.leftButton.isPressed)
             {
                 ShootRay();
             }

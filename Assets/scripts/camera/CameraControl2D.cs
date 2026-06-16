@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace camera
 {
@@ -16,23 +18,26 @@ namespace camera
             public Vector3 originPosition;
             public float originSize = 5;
         }
-
+        private Vector2 CurrentPosition;
         [SerializeField] private Camera cameraComponent;
 
         [SerializeField] private Origin origin;
 
         [SerializeField] private float panSpeedTouch = 0.5f;
+        [SerializeField] private float zoomSpeedTouch = 0.05f;
         [SerializeField] private InputAction pan;
         [SerializeField] private InputAction zoom;
         [SerializeField] private InputAction reset;
         
+
+
         private const float MinZoom = 2;
         private const float MaxZoom = 50;
 
         private void Start()
         {
             ResetTransform();
-
+            EnhancedTouchSupport.Enable();
             pan.Enable();
             zoom.Enable();
             reset.Enable();
@@ -45,13 +50,34 @@ namespace camera
             {
                 ResetTransform();
             }
+
+
+            if (EventSystem.current.IsPointerOverGameObject()) { return; }
+
+            var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
+            var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+
+            if (activeTouches.Count == 2)
+            {
+                var touch0 = activeTouches[0];
+                var touch1 = activeTouches[1];
+
+                float zoomDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
+                float previousZoomDistance = Vector2.Distance(
+                    touch0.screenPosition - touch0.delta,
+                    touch1.screenPosition - touch1.delta
+                );
+                float zoom = previousZoomDistance - zoomDistance;
+                zoomAmount += zoom * zoomSpeedTouch;
+            }
+
+           
             
             // Zoom
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
-                cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
-            }
+            cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
+            
+
+
 
             // Pan
             bool isTouchPanning = false;
@@ -86,6 +112,7 @@ namespace camera
                 var panAmount = pan.ReadValue<Vector2>();
                 transform.Translate(panAmount.x * panSpeedTouch, 0, panAmount.y * panSpeedTouch, Space.World);
             }
+            
         }
 
         private void ResetTransform()
