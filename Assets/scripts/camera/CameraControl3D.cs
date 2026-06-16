@@ -34,7 +34,7 @@ namespace camera
         [SerializeField] private Transform mainCamera;
 
         private const float MinZoom = 2;
-        private const float MaxZoom = 50;
+        private const float MaxZoom = 10;
 
         void Start()
         {
@@ -176,7 +176,7 @@ namespace camera
                 right.y = 0;
                 right.Normalize();
 
-                transform.Translate(right * panAmount.x * panSpeedTouch + forward * panAmount.y * panSpeedTouch, Space.World);
+                transform.Translate(right * panAmount.x * panSpeedTouch + forward * -panAmount.y * panSpeedTouch, Space.World);
             }
 
             

@@ -22,17 +22,15 @@ namespace camera
         [SerializeField] private Camera cameraComponent;
 
         [SerializeField] private Origin origin;
-
-        [SerializeField] private float panSpeedTouch = 0.5f;
-        [SerializeField] private float zoomSpeedTouch = 0.05f;
         [SerializeField] private InputAction pan;
         [SerializeField] private InputAction zoom;
         [SerializeField] private InputAction reset;
-        
+        private float panSpeedTouch = 0.5f;
+        private float zoomSpeedTouch = 0.05f;
 
 
-        private const float MinZoom = 2;
-        private const float MaxZoom = 50;
+        private const float MinZoom = 1;
+        private const float MaxZoom = 15;
 
         private void Start()
         {
