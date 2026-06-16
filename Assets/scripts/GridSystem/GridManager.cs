@@ -10,14 +10,16 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
+        public const int SubGridSize = 5;
+        
         [SerializeField] private bool training;
         
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
 
-        [SerializeField] private int width;
-        [SerializeField] private int height;
+        public int width;
+        public int height;
 
         [SerializeField] private CameraManager cameraManager;
         [SerializeField] private MaterialMenu menu;
@@ -27,6 +29,14 @@ namespace GridSystem
         public float tileArea;
 
         public event Action GridChangeEvent;
+
+        public SubGrid[,] SubGrids;
+
+        public void InvokeGridChangeEvent()
+        {
+            GridChangeEvent?.Invoke();
+        }
+        
 
         public void ForEachTile(Action<Tile, int, int> action)
         {
@@ -252,6 +262,29 @@ namespace GridSystem
             GL.PopMatrix();
         }
 
+        private void CreateSubGrids()
+        {
+            SubGrids = new SubGrid[Mathf.CeilToInt((float) width / SubGridSize),Mathf.CeilToInt((float) width / SubGridSize)];
+            
+            for (int i = 0; i < width; i += 5)
+            {
+                for (int j = 0; j < height; j += 5)
+                {
+                    Tile[,] subGridTiles = new Tile[5, 5];
+                        
+                    for (int k = 0; k < SubGridSize; k++)
+                    {
+                        for (int l = 0; l < SubGridSize; l++)
+                        {
+                            subGridTiles[k, l] = _tiles[i + k, j + l];
+                        }
+                    }
+                    
+                    SubGrids[i / 5, j / 5] = new SubGrid(subGridTiles, SubGridSize, SubGridSize);
+                }
+            }
+        }
+        
         private void Awake()
         {
             tileArea = tileSize * tileSize;
@@ -263,6 +296,7 @@ namespace GridSystem
             _lineMaterial = new UnityEngine.Material(shader);
             _tiles = new Tile[width, height];
             GenerateGrid();
+            CreateSubGrids();
         }
 
         public void Reset()
