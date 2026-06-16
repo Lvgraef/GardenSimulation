@@ -1,17 +1,17 @@
-using System;
 using System.Collections.Generic;
 using gardensettings;
 using GridSystem;
-using TMPro;
 using UI;
 using UnityEngine;
 using Material = GridSystem.Material;
 
-namespace Data
+namespace GardenDataManagement
 {
     public class GardenDataManager : MonoBehaviour
     {
-       
+        [SerializeField] private GardenLoadMenu gardenLoadMenu;
+        
+        
         [SerializeField] private GridManager gridManager;
         [SerializeField] private MaterialMenu menu;
         [SerializeField] private GardenSettings gardenSettings;
@@ -20,15 +20,28 @@ namespace Data
 
         private Dictionary<Material.Category, Material> GardenMaterials;
         
-        public void Awake()
+        private void Awake()
         {
-            GardenMaterials  = new Dictionary<Material.Category, Material>();
+            GardenMaterials = new Dictionary<Material.Category, Material>();
             foreach (var material in menu.Materials)
             {
                 GardenMaterials.Add(material.category, material);
             }
+
+            gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
         }
         
+        private void OnDestroy()
+        {
+            if (gardenLoadMenu != null)
+                gardenLoadMenu.onGardenSelected.RemoveListener(HandleGardenSelected);
+        }
+        
+        private void HandleGardenSelected(string selectedName)
+        {
+            gardenName = selectedName;
+            GetGardenData();
+        }
         
         //TODO: ADD PROMPT WHEN TRYING TO SAVE
         public void SaveGardenData()
@@ -77,9 +90,15 @@ namespace Data
                 Debug.LogError("Failed to save garden!");
             }
         }
+
+        public void OpenGardenLoadMenu()
+        {
+            gardenLoadMenu.gameObject.SetActive(true);
+        }
         
         //TODO: ADD PROMPT WHEN TRYING TO READ
-        public void GetGardenData()
+        // Need to refresh chartbar
+        private void GetGardenData()
         {
             // Have to link the name to whatever we are planning to get the name from
             var gardenData = Datainterface.GetGardenData(gardenName);

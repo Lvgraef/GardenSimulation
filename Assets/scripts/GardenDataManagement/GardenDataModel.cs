@@ -1,8 +1,7 @@
 using gardensettings;
-using GridSystem;
 using Newtonsoft.Json;
 
-namespace Data
+namespace GardenDataManagement
 {
     public class GardenDataModel
     {
