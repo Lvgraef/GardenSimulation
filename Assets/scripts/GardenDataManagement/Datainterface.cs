@@ -24,6 +24,11 @@ namespace GardenDataManagement
         {
             return Path.Combine(GetGardenFolder(), $"{gardenName}.json");
         }
+        
+        public static bool GardenExists(string gardenName)
+        {
+            return File.Exists(GetGardenPath(gardenName));
+        }
             
             
         public static bool SaveGardenData(GardenDataModel gardenData)

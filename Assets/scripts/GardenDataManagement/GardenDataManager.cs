@@ -3,6 +3,7 @@ using gardensettings;
 using GridSystem;
 using UI;
 using UnityEngine;
+using Utils;
 using Material = GridSystem.Material;
 
 namespace GardenDataManagement
@@ -10,43 +11,19 @@ namespace GardenDataManagement
     public class GardenDataManager : MonoBehaviour
     {
         [SerializeField] private GardenLoadMenu gardenLoadMenu;
-        
+        [SerializeField] private ConfirmationPopup confirmationPopup;
+        [SerializeField] private NamePromptPopup namePromptPopup;
         
         [SerializeField] private GridManager gridManager;
         [SerializeField] private MaterialMenu menu;
         [SerializeField] private GardenSettings gardenSettings;
         
-        private string gardenName =  "Garden";
+        private string gardenName;
 
         private Dictionary<Material.Category, Material> GardenMaterials;
         
-        private void Awake()
+        private GardenDataModel BuildGardenData()
         {
-            GardenMaterials = new Dictionary<Material.Category, Material>();
-            foreach (var material in menu.Materials)
-            {
-                GardenMaterials.Add(material.category, material);
-            }
-
-            gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
-        }
-        
-        private void OnDestroy()
-        {
-            if (gardenLoadMenu != null)
-                gardenLoadMenu.onGardenSelected.RemoveListener(HandleGardenSelected);
-        }
-        
-        private void HandleGardenSelected(string selectedName)
-        {
-            gardenName = selectedName;
-            GetGardenData();
-        }
-        
-        //TODO: ADD PROMPT WHEN TRYING TO SAVE
-        public void SaveGardenData()
-        {
-            // All tiles
             Tile [,] allTiles = gridManager.GetAllTiles();
             GardenSettingsDataModel gardenSettingsDataModel = new GardenSettingsDataModel(
                 gardenSettings.Fertilizer,
@@ -84,11 +61,70 @@ namespace GardenDataManagement
              
                 }
             }
+            return dataModel;
+        }
+        
+        private void Awake()
+        {
+            GardenMaterials = new Dictionary<Material.Category, Material>();
+            foreach (var material in menu.Materials)
+            {
+                GardenMaterials.Add(material.category, material);
+            }
 
-            if (!Datainterface.SaveGardenData(dataModel))
+            gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
+        }
+        
+        private void OnDestroy()
+        {
+            if (gardenLoadMenu != null)
+                gardenLoadMenu.onGardenSelected.RemoveListener(HandleGardenSelected);
+        }
+        
+        private void HandleGardenSelected(string selectedName)
+        {
+            gardenName = selectedName;
+            GetGardenData();
+        }
+
+        private void PerformSave()
+        {
+            var gardenData = BuildGardenData();
+            if (!Datainterface.SaveGardenData(gardenData))
             {
                 Debug.LogError("Failed to save garden!");
             }
+        }
+        
+        public void SaveGardenData()
+        {
+            if (string.IsNullOrEmpty(gardenName))
+            {
+              
+                namePromptPopup.Show(
+                    onConfirm: chosenName =>
+                    {
+                        gardenName = chosenName;
+                        PerformSave();
+                    },
+                    onCancel: () => Debug.Log("Save cancelled")
+                );
+                return;
+            }
+            var gardenData = BuildGardenData(); 
+            
+            if (Datainterface.GardenExists(gardenData.GardenName))
+            {
+                confirmationPopup.Show(
+                    "Weet u het zeker dat u deze tuin indeling wilt overschrijven?",
+                    onConfirm: PerformSave,
+                    onCancel: () => Debug.Log("Save cancelled")
+                );
+
+                return;
+            }
+
+            PerformSave();
         }
 
         public void OpenGardenLoadMenu()
@@ -108,11 +144,6 @@ namespace GardenDataManagement
                 Debug.LogError("Failed to find garden!");
                 return;
             }
-
-            
-            Debug.Log(gardenData);
-            
-       
 
             if (gardenData.Materials == null)
             {
