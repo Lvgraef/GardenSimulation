@@ -25,7 +25,10 @@ namespace report
         [SerializeField] private BarChart sustainabilityReportChart;
         [SerializeField] private BarChart miniReportChart;
 
+
         [SerializeField] private GameObject miniReport;
+
+        
         [SerializeField] private GameObject report;
         
         private Calculator _calculator;
@@ -69,6 +72,7 @@ namespace report
         {
             miniReport.SetActive(!miniReport.activeSelf);
         }
+
 
         public void SetReportState(bool state)
         {

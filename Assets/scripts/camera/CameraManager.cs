@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace camera
 {
@@ -20,9 +21,11 @@ namespace camera
         [SerializeField]
         private Camera cameraComponent2D;
 
-        [SerializeField] private TMP_Text buttonText;
-
         [SerializeField] private InputAction switchButton;
+        
+        [SerializeField] private Image buttonImage;
+        [SerializeField] private Sprite icon3D;
+        [SerializeField] private Sprite icon2D;
 
         private void Start()
         {
@@ -45,7 +48,15 @@ namespace camera
             Is2D = !Is2D;
             camera2D.SetActive(Is2D);
             camera3D.SetActive(!Is2D);
-            buttonText.text = Is2D ? "3D" : "2D";
+
+            
+            buttonImage.sprite = Is2D ? icon3D : icon2D;
+            // buttonText.text = Is2D ? "3D" : "2D";
+        }
+
+        public Camera GetCurrentCamera()
+        {
+            return Is2D ? cameraComponent2D : cameraComponent3D;
         }
 
         public Camera GetCurrentCamera()

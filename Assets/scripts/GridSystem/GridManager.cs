@@ -37,6 +37,7 @@ namespace GridSystem
 
         private void Update()
         {
+
             if (Touchscreen.current != null) {
                 int totalTouches = 0;
 
@@ -53,6 +54,7 @@ namespace GridSystem
                     ShootRay();
                 }
             }
+
             if (Mouse.current.leftButton.isPressed)
             {
                 ShootRay();
@@ -61,6 +63,7 @@ namespace GridSystem
 
         private void ShootRay()
         {
+
             if (Touchscreen.current != null) { touchRay(); }
 
 
@@ -98,6 +101,7 @@ namespace GridSystem
         }
         private void mouseRay()
         {
+
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
             var selectedMaterial = menu.SelectedMaterial;
@@ -123,7 +127,6 @@ namespace GridSystem
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
         }
-
 
         public void RemoveTile(int x, int y)
         {

@@ -150,7 +150,6 @@ namespace camera
                              Keyboard.current.sKey.isPressed);
             bool isMiddleMousePanning = Mouse.current != null && Mouse.current.middleButton.isPressed;
 
-
             if (isArrowPanning || isMiddleMousePanning) {
                 var panAmount = pan.ReadValue<Vector2>() * Time.deltaTime;
 
@@ -178,8 +177,6 @@ namespace camera
 
                 transform.Translate(right * panAmount.x * panSpeedTouch + forward * -panAmount.y * panSpeedTouch, Space.World);
             }
-
-            
         }
 
         void ResetTransform()

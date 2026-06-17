@@ -71,11 +71,12 @@ namespace camera
 
            
             
-            // Zoom
-            cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
-            
-
-
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
+                cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
+            }
+              
 
             // Pan
             bool isTouchPanning = false;
