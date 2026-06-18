@@ -51,6 +51,7 @@ namespace UI
 
             xInput.interactable = false;
             yInput.interactable = false;
+            SelectedSubGrid = null;
         }
 
         public void OnUpdate()

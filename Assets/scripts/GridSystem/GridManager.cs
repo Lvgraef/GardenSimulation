@@ -355,7 +355,7 @@ namespace GridSystem
 
             if (OutOfBounds(x, y))
             {
-                return -1;
+                return null;
             }
             
             return _tiles[x, y].GetMaterial()?.ID;

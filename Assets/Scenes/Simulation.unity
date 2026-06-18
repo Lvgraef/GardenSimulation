@@ -1689,11 +1689,11 @@ MonoBehaviour:
   gridManager: {fileID: 71911239}
   gardenSettings: {fileID: 1408936358}
   randomizedMaterialsObject:
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
   - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -1710,7 +1710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
-    VectorObservationSize: 37
+    VectorObservationSize: 172
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -1719,7 +1719,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: ec2f7cf936c54f549a7eed6b8ac60655, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 219d6528e80f7ad46b4d2db2a3c8f21d, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: garden

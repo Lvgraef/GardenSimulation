@@ -17,7 +17,7 @@ namespace calculation
             _gardenSettings = gardenSettings;
         }
 
-        public ReportData Calculate()
+        public ReportData Calculate(bool raw)
         {
             float nonPermeableArea = 0,
                 semiPermeableArea = 0,
@@ -65,7 +65,7 @@ namespace calculation
                 _gardenSettings.FlyingInsects, _gardenSettings.Birds, _gardenSettings.Spiders, _gardenSettings.OtherAnimals,
                 _gardenSettings.PlantDiversity);
 
-            CalculationResult result = _calculationModel.Calculate(data);
+            CalculationResult result = _calculationModel.Calculate(data, raw);
             
             return new ReportData(result, nonPermeableArea, semiPermeableArea, bareArea, flowerArea, grassArea, shrubArea, treeArea);
         }
