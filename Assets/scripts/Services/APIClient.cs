@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using ClipperLib;
 using GardenSimulation.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,20 +13,48 @@ namespace GardenSimulation.Services.Api
     {
         public IEnumerator GetCoordinatesByAddress(string address, Action<Response> onSuccess)
         {
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                 onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = "Address cant be null", Success = false});
+                yield break;
+            }
             string locationServerUrl = $"https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q={address}";
             UnityWebRequest request = UnityWebRequest.Get(locationServerUrl);
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
                 var locationServerResponse = request.downloadHandler.text;
+                Debug.Log(locationServerResponse);
                 JObject json = JObject.Parse(locationServerResponse);
-                string? centriodeRd = json["response"]?["docs"]?[0]?["centroide_rd"]?.ToString();
+                string? centriodeRd = null;
+                string? connectedParcel = null;
+               JArray docs = (JArray)json["response"]["docs"];
+
+                foreach (JToken doc in docs)
+                {
+                    string? naam = doc["weergavenaam"]?.ToString();
+
+                    if (naam == address)
+                    {
+                        centriodeRd = doc["centroide_rd"]?.ToString();
+                        connectedParcel = doc["gekoppeld_perceel"][0].ToString();
+                        break;
+                    }
+                }
+                string[] parts = connectedParcel.Split('-');  
+                string parcelNumber = parts[2];   
+                string parcelSection = parts[1];
                 if (string.IsNullOrWhiteSpace(centriodeRd))
                 {
                     onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = "centriodeRd was null.", Success = false});
                     yield break;
                 }
-                int meters = 2;
+                if (string.IsNullOrWhiteSpace(connectedParcel))
+                {
+                    onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = "gekoppeldPerceel was null.", Success = false});
+                    yield break;
+                }
+                int meters = 3;
                 int indexOpenBracket = centriodeRd.IndexOf('(') + 1;
                 int indexSpace = centriodeRd.IndexOf(' ');
                 int indexClosedBracket = centriodeRd.IndexOf(')');
@@ -46,70 +75,132 @@ namespace GardenSimulation.Services.Api
                 $"&bbox-crs=http://www.opengis.net/def/crs/EPSG/0/28992" +
                 $"&crs=http://www.opengis.net/def/crs/EPSG/0/28992" +
                 $"&f=json";
-                CoordinateResponse pandCoordinateResponse = null;
-                CoordinateResponse parcelCoordinateResponse = null;
-                yield return GetVerticesCoordinates(pandUrl, coordinatesResponse =>
+                request = UnityWebRequest.Get(parcelUrl);
+                yield return request.SendWebRequest();
+                if (request.result == UnityWebRequest.Result.Success)
                 {
-                    pandCoordinateResponse = coordinatesResponse;
-                });
-                yield return GetVerticesCoordinates(parcelUrl, coordinatesResponse =>
-                {
-                    parcelCoordinateResponse = coordinatesResponse;
-                });
-                if (!pandCoordinateResponse.Success)
-                {
-                    onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = pandCoordinateResponse.Message, Success = false});
-                    yield break;
+                    string response = request.downloadHandler.text;
+                    json = JObject.Parse(response);
+                    var features = json["features"] as JArray;
+                    JArray? parcelCoordinates = null;
+                    Debug.Log(parcelSection + parcelNumber);
+                    foreach (var feature in features)
+                    {
+                        string refId = feature["properties"]?["national_cadastral_reference"]?.ToString();
+                        Debug.Log(refId);
+                        if (refId.Contains(parcelSection + parcelNumber))
+                        {
+                            parcelCoordinates = feature["geometry"]?["coordinates"]?[0] as JArray;
+                            break;
+                        }
+                    }
+                    if (parcelCoordinates == null)
+                    {
+                        onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = "No match found with connected parcel", Success = false});
+                        yield break;
+                    }
+                    request = UnityWebRequest.Get(pandUrl);
+                    yield return request.SendWebRequest();
+                    if (request.result == UnityWebRequest.Result.Success)
+                    {
+                        response = request.downloadHandler.text;
+                        json = JObject.Parse(response);
+                        features = json["features"] as JArray;
+                        JArray? pandCoordinates = null;
+                        List<Vector2> parcelPoly = ConvertToPolygon(parcelCoordinates);
+                        double biggestOverlap = 0;
+                        foreach (var feature in features)
+                        {
+                            var coords = feature["geometry"]?["coordinates"]?[0] as JArray;
+                            if (coords == null) continue;
+
+                            List<Vector2> pandPoly = ConvertToPolygon(coords);
+
+                            double overlap = ComputePolygonIntersectionArea(parcelPoly, pandPoly);
+
+                            if (overlap > biggestOverlap)
+                            {
+                                biggestOverlap = overlap;
+                                pandCoordinates = coords;
+                            }
+                        }
+                        if (pandCoordinates == null)
+                        {
+                            onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = "pandCoordinates were null.", Success = false});
+                            yield break;
+                        }
+                        onSuccess(new Response{ParcelCoordinates = ConvertToCoordinateArray(parcelCoordinates), PandCoordinates = ConvertToCoordinateArray(pandCoordinates), Message = "", Success = true});
+                        yield break;
+                    }
+                    else
+                    {
+                        onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = $"API Error: {request.error}", Success = false});
+                    }
                 }
-                else if (!parcelCoordinateResponse.Success)
+                else
                 {
-                    onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = parcelCoordinateResponse.Message, Success = false});
-                    yield break;
+                    onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = $"API Error: {request.error}", Success = false});
                 }
-                onSuccess(new Response{ParcelCoordinates = parcelCoordinateResponse.Coordinates, PandCoordinates = pandCoordinateResponse.Coordinates, Message = "", Success = true});
             }
             else
             {
                 onSuccess(new Response{ParcelCoordinates = null, PandCoordinates = null, Message = $"API Error: {request.error}", Success = false});
             }
         }
-    
-        public IEnumerator GetVerticesCoordinates(string url, Action<CoordinateResponse> onSuccess)
+        private (double, double)[] ConvertToCoordinateArray(JArray coordinates)
         {
-            UnityWebRequest request = UnityWebRequest.Get(url);
-            yield return request.SendWebRequest();
-            if (request.result == UnityWebRequest.Result.Success)
+            (double, double)[] _coordinates = new (double, double)[coordinates.Count];
+            for (int i = 0; i < coordinates.Count; i++)
             {
-                string response = request.downloadHandler.text;
-                JObject json = JObject.Parse(response);
-                JArray? coordinates =
-                    json["features"]?[0]?["geometry"]?["coordinates"]?[0] as JArray;
-                if (coordinates == null)
-                {
-                    onSuccess(new CoordinateResponse{Success = false, Message = "coordinates were null", Coordinates = null});
-                    yield break;
-                }
-                (double, double)[] _coordinates = new (double, double)[coordinates.Count];
-                for (int i = 0; i < coordinates.Count; i++)
-                {
-                    JArray coordinate = (JArray)coordinates[i];
-                    if (coordinate == null || coordinate.Count < 2)
-                    {
-                        onSuccess(new CoordinateResponse{Success = false, Message = "Some coordinates were missing.", Coordinates = null});
-                        yield break;
-                    }
-                    _coordinates[i] = 
-                    (
-                        (double)coordinate[0],
-                        (double)coordinate[1]
-                    );
-                }
-                onSuccess(new CoordinateResponse{Success = true, Message = "", Coordinates = _coordinates});
+                JArray coordinate = (JArray)coordinates[i];
+                _coordinates[i] = 
+                (
+                    (double)coordinate[0],
+                    (double)coordinate[1]
+                );
             }
-            else
+            return _coordinates;
+        }
+        private List<Vector2> ConvertToPolygon(JArray coords)
+        {
+            List<Vector2> poly = new List<Vector2>();
+            foreach (var c in coords)
             {
-                onSuccess(new CoordinateResponse{Success = false, Message = $"API Error: {request.error}", Coordinates = null});
+                double x = (double)c[0];
+                double y = (double)c[1];
+                poly.Add(new Vector2((float)x, (float)y));
             }
+            return poly;
+        }
+        private List<IntPoint> ToClipper(List<Vector2> poly)
+        {
+            const double scale = 1000.0; // enough precision for RD coords
+            List<IntPoint> result = new List<IntPoint>();
+
+            foreach (var p in poly)
+                result.Add(new IntPoint(p.x * scale, p.y * scale));
+
+            return result;
+        }
+        private double ComputePolygonIntersectionArea(List<Vector2> a, List<Vector2> b)
+        {
+            const double scale = 1000.0;
+
+            List<IntPoint> subj = ToClipper(a);
+            List<IntPoint> clip = ToClipper(b);
+
+            Clipper c = new Clipper();
+            c.AddPath(subj, PolyType.ptSubject, true);
+            c.AddPath(clip, PolyType.ptClip, true);
+
+            List<List<IntPoint>> solution = new List<List<IntPoint>>();
+            c.Execute(ClipType.ctIntersection, solution, PolyFillType.pftNonZero, PolyFillType.pftNonZero);
+
+            double area = 0;
+            foreach (var poly in solution)
+                area += Clipper.Area(poly);
+
+            return Math.Abs(area) / (scale * scale);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace GridSystem
     {
         public enum Category
         {
+            Building,
             NonPermeable,
             SemiPermeable,
             Bare,
@@ -25,6 +26,6 @@ namespace GridSystem
         
         public Sprite sprite;
 
-        public Vector3 offset = new(0.25f, 0.05f, 0.25f);
+        public Vector3 offset = new(0.5f, 0.05f, 0.5f);
     }
 }

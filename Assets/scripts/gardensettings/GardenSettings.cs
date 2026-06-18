@@ -7,6 +7,7 @@ namespace gardensettings
 {
     public class GardenSettings : MonoBehaviour
     {
+        public string Address { get; set; }
         public Fertilizer Fertilizer { get; private set; }
         public CompostCleanup CompostCleanup { get; private set; }
         public PlantDiversity PlantDiversity { get; private set; }
@@ -14,7 +15,7 @@ namespace gardensettings
         public bool Birds { get; private set; }
         public bool Spiders { get; private set; }
         public bool OtherAnimals { get; private set; }
-        
+        [SerializeField] private TMP_InputField addressInput;
         [SerializeField] private TMP_Dropdown fertilizerDropdown;
         [SerializeField] private TMP_Dropdown compostCleanupDropdown;
         [SerializeField] private TMP_Dropdown plantDiversityropdown;
@@ -25,6 +26,7 @@ namespace gardensettings
 
         public void Updated()
         {
+            Address = addressInput.text;
             Fertilizer = (Fertilizer) fertilizerDropdown.value;
             CompostCleanup = (CompostCleanup) compostCleanupDropdown.value;
             PlantDiversity = (PlantDiversity)  plantDiversityropdown.value;
