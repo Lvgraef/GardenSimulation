@@ -12,6 +12,7 @@ namespace UI
         public (int, int)? SelectedSubGrid { get; private set; }
         public int BushArea { get; private set; } = int.MinValue;
         public int WaterArea { get; private set; } = int.MinValue;
+        public int TileArea { get; private set; } = int.MinValue;
         public int TreeArea { get; private set; } = int.MinValue;
         public int GrassArea { get; private set; } = int.MinValue;
         public int FlowerArea { get; private set; } = int.MinValue;
@@ -26,6 +27,7 @@ namespace UI
         [SerializeField] private TMP_InputField treesInput;
         [SerializeField] private TMP_InputField grassInput;
         [SerializeField] private TMP_InputField flowerInput;
+        [SerializeField] private TMP_InputField tilesInput;
 
 
         public int GetSteps()
@@ -61,6 +63,7 @@ namespace UI
             TreeArea = int.MinValue;
             GrassArea = int.MinValue;
             FlowerArea = int.MinValue;
+            TileArea = int.MinValue;
 
             bool changed = false;
             
@@ -104,6 +107,11 @@ namespace UI
             if (int.TryParse(flowerInput.text, out var flower))
             {
                 FlowerArea = flower;
+            }
+            
+            if (int.TryParse(tilesInput.text, out var tile))
+            {
+                TileArea = tile;
             }
         }
     }

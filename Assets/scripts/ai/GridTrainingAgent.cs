@@ -35,7 +35,7 @@ namespace ai
 
         private int _gridIndex;
 
-        private List<int> _materialAreaCounts = new(5);
+        private List<int> _materialAreaCounts = new(6);
         private List<(int, int)> _emptyTiles = new();
         private List<IMaterial> _pickableMaterials = new();
 
@@ -187,7 +187,7 @@ namespace ai
                 for (int j = 0; j < maxHeight; j++)
                 {
                     int id = grid.GetMaterial(i, j)?.ID ?? -1;
-                    sensor.AddOneHotObservation(id + 1, 6);
+                    sensor.AddOneHotObservation(id + 1, _randomizedMaterials.Length + 1);
                 }
             }
 
@@ -316,10 +316,11 @@ namespace ai
             _randomizedMaterials = new IMaterial[]
             {
                 new VirtualMaterial("Water", MaterialCategory.NonPermeable, 0),
-                new VirtualMaterial("Flowers", MaterialCategory.Flowers, 1),
-                new VirtualMaterial("Grass", MaterialCategory.Grass, 2),
-                new VirtualMaterial("Tree", MaterialCategory.Tree, 3),
-                new VirtualMaterial("Bush", MaterialCategory.Shrubs, 4),
+                new VirtualMaterial("Tile", MaterialCategory.NonPermeable, 1),
+                new VirtualMaterial("Flowers", MaterialCategory.Flowers, 2),
+                new VirtualMaterial("Grass", MaterialCategory.Grass, 3),
+                new VirtualMaterial("Tree", MaterialCategory.Tree, 4),
+                new VirtualMaterial("Bush", MaterialCategory.Shrubs, 5),
             };
 
             _buildingMaterial = new VirtualMaterial("Building", MaterialCategory.Building, -1);
