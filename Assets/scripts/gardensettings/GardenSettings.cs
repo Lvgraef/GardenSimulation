@@ -39,7 +39,7 @@ namespace gardensettings
         {
             fertilizerDropdown.value     = (int)data.Fertilizer;
             compostCleanupDropdown.value = (int)data.CompostCleanup;
-            plantDiversityropdown.value  = (int)data.PlantDiversity;
+            plantDiversityDropdown.value  = (int)data.PlantDiversity;
             flyingInsectsDropdown.value  = data.FlyingInsects ? 1 : 0;
             birdsDropdown.value          = data.Birds ? 1 : 0;
             spidersDropdown.value        = data.Spiders ? 1 : 0;
@@ -48,7 +48,7 @@ namespace gardensettings
             // make the visible labels match 
             fertilizerDropdown.RefreshShownValue();
             compostCleanupDropdown.RefreshShownValue();
-            plantDiversityropdown.RefreshShownValue();
+            plantDiversityDropdown.RefreshShownValue();
             flyingInsectsDropdown.RefreshShownValue();
             birdsDropdown.RefreshShownValue();
             spidersDropdown.RefreshShownValue();
