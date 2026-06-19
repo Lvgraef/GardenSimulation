@@ -7,13 +7,13 @@ namespace calculation
     public static class BasicCalculationConstants
     {
         // Pijler 1 - Water in de bodem
-        public const float NonPermeableWaterCoefficient = 0f; // Volledige volharding
-        public const float SemiPermeableWaterCoefficient = 2f; // Doorlatend verhard of grind
-        public const float BareWaterCoefficient = 3f; // niet verhard en zonder beplanting
-        public const float FlowerWaterCoefficient = 3.5f; // bloemen of moestuin of bodembedekker
-        public const float GrassWaterCoefficient = 5f; // gras
-        public const float ShrubWaterCoefficient = 10f; // Struiken, heg, haag of kleine bomen
-        public const float TreeWaterCoefficient = 15f; // Grote boom
+        public const float NonPermeableCoefficient = 0f; // Volledige volharding
+        public const float SemiPermeableCoefficient = 2f; // Doorlatend verhard of grind
+        public const float BareCoefficient = 3f; // niet verhard en zonder beplanting
+        public const float FlowerCoefficient = 3.5f; // bloemen of moestuin of bodembedekker
+        public const float GrassCoefficient = 5f; // gras
+        public const float ShrubCoefficient = 10f; // Struiken, heg, haag of kleine bomen
+        public const float TreeCoefficient = 15f; // Grote boom
         
         // Pijler 2 - Gezonde bodem
         public static float GetFertilizationCoefficient(Fertilizer fertilizer, CompostCleanup compostCleanup)

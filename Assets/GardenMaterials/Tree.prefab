@@ -126,5 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridSystem.Material
   category: 6
+  _id: 4
   sprite: {fileID: 21300000, guid: e463772d5ec791a45a4e0b197972d931, type: 3}
   offset: {x: 0.5, y: 0.05, z: 0.5}
+  materialName: Tree

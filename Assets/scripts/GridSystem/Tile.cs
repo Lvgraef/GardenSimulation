@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -8,36 +9,35 @@ namespace GridSystem
     /// </summary>
     public class Tile
     {
-        private Material _material;
+        private IMaterial _material;
         private readonly GridManager _manager;
-        private readonly int _x;
-        private readonly int _z;
+        public readonly int X;
+        public readonly int Z;
 
         public Tile(int x, int z, GridManager manager)
         {
-            _x = x;
-            _z = z;
+            X = x;
+            Z = z;
             _manager = manager;
         }
 
-        public void SetMaterial(Material material)
+        public void SetMaterial(IMaterial material)
         {
             ClearMaterial();
-            _material = Object.Instantiate(material,
-                _manager.transform.position + new Vector3(_x * _manager.tileSize + material.offset.x, material.offset.y, _z * _manager.tileSize + material.offset.z),
-                new Quaternion());
+            _material = material.Assign(this, _manager);
         }
 
         public void ClearMaterial()
         {
             if (_material is null) return;
-            Object.Destroy(_material.gameObject);
+            _material.Clear();
             _material = null;
         }
 
-        public Material GetMaterial()
+        [CanBeNull]
+        public IMaterial GetMaterial()
         {
-            return this._material;
+            return _material;
         }
     }
 }
