@@ -10,7 +10,7 @@ namespace GridSystem
     {
         public enum Category
         {
-            NonPermeable,
+            NonPermeable = 0,
             SemiPermeable,
             Bare,
             Flowers,
