@@ -23,9 +23,19 @@ namespace GridSystem
         public void SetMaterial(Material material)
         {
             ClearMaterial();
-            _material = Object.Instantiate(material,
+            if (material.category != 0)
+            {
+                _material = Object.Instantiate(material,
+                _manager.transform.position + new Vector3(_x * _manager.tileSize + material.offset.x, material.offset.y, _z * _manager.tileSize + material.offset.z),
+                Quaternion.Euler(-90f, 0f, 0f));
+            }
+            else
+            {
+                _material = Object.Instantiate(material,
                 _manager.transform.position + new Vector3(_x * _manager.tileSize + material.offset.x, material.offset.y, _z * _manager.tileSize + material.offset.z),
                 new Quaternion());
+            }
+            
         }
 
         public void ClearMaterial()
