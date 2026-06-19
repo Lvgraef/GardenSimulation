@@ -60,6 +60,16 @@ namespace GridSystem
             }
         }
 
+        public Tile[,] GetAllTiles()
+        {
+            return _tiles;
+        }
+
+        public (int width, int height) GetSize()
+        {
+            return (width, height);
+        }
+
         private void ShootRay()
         {
             if (cameraManager is null || menu is null || EventSystem.current.IsPointerOverGameObject()) return;
@@ -197,13 +207,35 @@ namespace GridSystem
 
             return _tiles[x, y].GetMaterial();
         }
-
+        
+        private void ClearAllTiles()
+        {
+            var allTiles = GetAllTiles();
+            
+            for (int x = 0; x < allTiles.GetLength(0); x++)
+            {
+                for (int y = 0; y < allTiles.GetLength(1); y++)
+                {
+                    RemoveTile(x, y);
+                }
+            }
+        }
+        
+        //Public method for generating grid on read
+        public void CreateGrid(int Width, int Height)
+        {
+            if(Width <= 0 || Height <= 0) return;
+            ClearAllTiles();
+            _tiles =  new Tile[Width, Height];
+            GenerateGrid();
+        }
 
         /// <summary>
         /// Generates the grid
         /// </summary>
         private void GenerateGrid()
         {
+           
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -294,7 +326,7 @@ namespace GridSystem
         {
             Shader shader = Shader.Find("Hidden/Internal-Colored");
             _lineMaterial = new UnityEngine.Material(shader);
-            _tiles = new Tile[width, height];
+            _tiles =   new Tile[width, height];
             GenerateGrid();
             CreateSubGrids();
         }
