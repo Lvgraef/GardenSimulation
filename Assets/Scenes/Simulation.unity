@@ -1574,7 +1574,6 @@ MonoBehaviour:
   menu: {fileID: 2106689585}
   tileSize: 0.5
   tileArea: 0
-  material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &80562294
 GameObject:
   m_ObjectHideFlags: 0
@@ -21113,63 +21112,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749866646}
   m_CullTransparentMesh: 1
---- !u!1001 &749065367
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805926838608074575, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7002659129679064049, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
-      propertyPath: m_Name
-      value: Grass
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b3eaf1c484374a444a125689baf44c03, type: 3}
 --- !u!1 &751011789
 GameObject:
   m_ObjectHideFlags: 0
@@ -47571,7 +47513,7 @@ MonoBehaviour:
         m_Enable: 1
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 0
       m_LineStyle:
@@ -47922,7 +47864,7 @@ MonoBehaviour:
         m_Enable: 0
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 1
       m_LineStyle:
@@ -51272,8 +51214,6 @@ MonoBehaviour:
   origin:
     originPosition: {x: 0, y: 10, z: 0}
     originSize: 5
-  panSpeedTouch: 0.5
-  zoomSpeedTouch: 0.1
   pan:
     m_Name: Pan
     m_Type: 0
@@ -57166,7 +57106,7 @@ MonoBehaviour:
   Materials:
   - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 6801589998110283899, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
   - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   ButtonContainer: {fileID: 1026326289}
@@ -58270,7 +58210,7 @@ MonoBehaviour:
         m_Enable: 1
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 0
       m_LineStyle:
@@ -58621,7 +58561,7 @@ MonoBehaviour:
         m_Enable: 0
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 1
       m_LineStyle:
@@ -59845,7 +59785,6 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 71911238}
-  - {fileID: 1440299374}
-  - {fileID: 749065367}
   - {fileID: 257780464}
   - {fileID: 751011792}
+  - {fileID: 1440299374}
