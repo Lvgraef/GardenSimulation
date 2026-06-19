@@ -20,7 +20,7 @@ namespace GardenDataManagement
         
         private string gardenName;
 
-        private Dictionary<Material.Category, Material> GardenMaterials;
+        private Dictionary<int, Material> GardenMaterials;
         
         private GardenDataModel BuildGardenData()
         {
@@ -46,7 +46,7 @@ namespace GardenDataManagement
             {
                 for (int y = 0; y < allTiles.GetLength(1); y++)
                 {
-                    Material material = allTiles[x, y].GetMaterial();
+                    IMaterial material = allTiles[x, y].GetMaterial();
                     
                     if (material == null)
                     {
@@ -56,7 +56,7 @@ namespace GardenDataManagement
                     else
                     {
                                
-                        dataModel.StoreMaterials((int)material.category, (x, y));
+                        dataModel.StoreMaterials(material.ID, (x, y));
                     }
              
                 }
@@ -66,10 +66,10 @@ namespace GardenDataManagement
         
         private void Awake()
         {
-            GardenMaterials = new Dictionary<Material.Category, Material>();
+            GardenMaterials = new Dictionary<int, Material>();
             foreach (var material in menu.Materials)
             {
-                GardenMaterials.Add(material.category, material);
+                GardenMaterials.Add(material.ID, material);
             }
 
             gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
@@ -161,7 +161,7 @@ namespace GardenDataManagement
                 {
                     int tile = gardenData.Materials[x, y];
                     if(tile == -1) continue;
-                    Material material = GardenMaterials[(Material.Category)tile];
+                    Material material = GardenMaterials[tile];
                     var gridPos = (x, y);
                     gridManager.PlaceMaterial(material, gridPos);
                 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using camera;
 using UI;
 using UnityEngine;
@@ -9,12 +10,16 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
+        public const int SubGridSize = 5;
+        
+        [SerializeField] private bool training;
+        
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
-        
-        [SerializeField] private int width;
-        [SerializeField] private int height;
+
+        public int width;
+        public int height;
 
         [SerializeField] private CameraManager cameraManager;
         [SerializeField] private MaterialMenu menu;
@@ -24,17 +29,31 @@ namespace GridSystem
         public float tileArea;
 
         public event Action GridChangeEvent;
-        
-        public void ForEachTile(Action<Tile> action)
+
+        public SubGrid[,] SubGrids;
+
+        public void InvokeGridChangeEvent()
         {
-            foreach (var tile in _tiles)
+            GridChangeEvent?.Invoke();
+        }
+        
+
+        public void ForEachTile(Action<Tile, int, int> action)
+        {
+            for (var i = 0; i < _tiles.GetLength(0); i++)
             {
-                action(tile);
+                for (var j = 0; j < _tiles.GetLength(1); j++)
+                {
+                    var tile = _tiles[i, j];
+                    if (tile.GetMaterial()?.Category == MaterialCategory.Building) continue;
+                    action(tile, i, j);
+                }
             }
         }
 
         private void Update()
         {
+            if (training) return;
             if (Mouse.current.leftButton.isPressed)
             {
                 ShootRay();
@@ -53,7 +72,7 @@ namespace GridSystem
 
         private void ShootRay()
         {
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+            if (cameraManager is null || menu is null || EventSystem.current.IsPointerOverGameObject()) return;
 
             var selectedMaterial = menu.SelectedMaterial;
             Vector2 mousePosition = Mouse.current.position.ReadValue();
@@ -64,6 +83,9 @@ namespace GridSystem
             var intersectPosition = ray.direction * distance + ray.origin;
             var gridPos = WorldToGrid(intersectPosition);
             var mat = GetMaterial(gridPos.x, gridPos.y);
+
+            if (mat is not null && mat.Category == MaterialCategory.Building) return;
+
             if (menu.Eraser)
             {
                 RemoveMaterial((gridPos.x, gridPos.y));
@@ -72,8 +94,8 @@ namespace GridSystem
             }
 
             if (selectedMaterial is null || (mat is not null &&
-                                             mat.name[..selectedMaterial.name.Length] ==
-                                             selectedMaterial.name)) return;
+                                             mat.MaterialName[..selectedMaterial.MaterialName.Length] ==
+                                             selectedMaterial.MaterialName)) return;
 
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
@@ -81,12 +103,13 @@ namespace GridSystem
 
         public void RemoveTile(int x, int y)
         {
-            _tiles[x, y].ClearMaterial();
+            if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
+            _tiles[x, y]?.ClearMaterial();
         }
 
         private bool OutOfBounds(int x, int y)
         {
-            return x > width-1 || y > height-1 || x < 0 || y < 0;
+            return x > width - 1 || y > height - 1 || x < 0 || y < 0;
         }
 
         private (int x, int y) WorldToGrid(Vector3 worldPos)
@@ -97,20 +120,13 @@ namespace GridSystem
             return (x, y);
         }
 
-        /// <summary>
-        /// Places the material on the grid
-        /// </summary>
-        /// <param name="material"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void PlaceMaterial(Material material, Vector3 vector)
+        public void PlaceMaterial(IMaterial material, int index, int maxWidth, int maxHeight)
         {
-            (int x, int y) = WorldToGrid(vector);
-            if (OutOfBounds(x, y))
-            {
-                return;
-            }
+            int x = index % maxWidth;
+            int y = index / maxHeight;
 
+            if (OutOfBounds(x, y)) return;
+            
             _tiles[x, y].SetMaterial(material);
         }
         
@@ -118,18 +134,33 @@ namespace GridSystem
         /// Places the material on the grid
         /// </summary>
         /// <param name="material"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void PlaceMaterial(Material material, (int x, int y) tile)
+        /// <param name="vector"></param>
+        public void PlaceMaterial(IMaterial material, Vector3 vector)
+        {
+            (int x, int y) = WorldToGrid(vector);
+            if (OutOfBounds(x, y))
+            {
+                return;
+            }
+
+            if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
+            _tiles[x, y].SetMaterial(material);
+        }
+
+        /// <summary>
+        /// Places the material on the grid
+        /// </summary>
+        public void PlaceMaterial(IMaterial material, (int x, int y) tile)
         {
             if (OutOfBounds(tile.x, tile.y))
             {
                 return;
             }
 
+            if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[tile.x, tile.y].SetMaterial(material);
         }
-        
+
         /// <summary>
         /// Removes the material from the grid
         /// </summary>
@@ -142,9 +173,10 @@ namespace GridSystem
                 return;
             }
 
-            _tiles[x, y].ClearMaterial();
+            if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
+            _tiles[x, y]?.ClearMaterial();
         }
-        
+
         /// <summary>
         /// Removes the material from the grid
         /// </summary>
@@ -156,7 +188,8 @@ namespace GridSystem
                 return;
             }
 
-            _tiles[tile.x, tile.y].ClearMaterial();
+            if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
+            _tiles[tile.x, tile.y]?.ClearMaterial();
         }
 
         /// <summary>
@@ -165,7 +198,7 @@ namespace GridSystem
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Material GetMaterial(int x, int y)
+        public IMaterial GetMaterial(int x, int y)
         {
             if (OutOfBounds(x, y) || _tiles[x, y] is null)
             {
@@ -210,9 +243,10 @@ namespace GridSystem
                     _tiles[x, y] = new Tile(x, y, this);
                 }
             }
-            var xOffset = width *  tileSize / 2;
+
+            var xOffset = width * tileSize / 2;
             var zOffset = height * tileSize / 2;
-            
+
             transform.position = new Vector3(-xOffset, 0, -zOffset);
         }
 
@@ -221,6 +255,7 @@ namespace GridSystem
         /// </summary>
         private void OnRenderObject()
         {
+            if (training) return;
             if (!_lineMaterial) return;
 
             GL.PushMatrix();
@@ -259,6 +294,29 @@ namespace GridSystem
             GL.PopMatrix();
         }
 
+        private void CreateSubGrids()
+        {
+            SubGrids = new SubGrid[Mathf.CeilToInt((float) width / SubGridSize),Mathf.CeilToInt((float) width / SubGridSize)];
+            
+            for (int i = 0; i < width; i += 5)
+            {
+                for (int j = 0; j < height; j += 5)
+                {
+                    Tile[,] subGridTiles = new Tile[5, 5];
+                        
+                    for (int k = 0; k < SubGridSize; k++)
+                    {
+                        for (int l = 0; l < SubGridSize; l++)
+                        {
+                            subGridTiles[k, l] = _tiles[i + k, j + l];
+                        }
+                    }
+                    
+                    SubGrids[i / 5, j / 5] = new SubGrid(subGridTiles, SubGridSize, SubGridSize);
+                }
+            }
+        }
+        
         private void Awake()
         {
             tileArea = tileSize * tileSize;
@@ -270,6 +328,69 @@ namespace GridSystem
             _lineMaterial = new UnityEngine.Material(shader);
             _tiles =   new Tile[width, height];
             GenerateGrid();
+            CreateSubGrids();
+        }
+
+        public void Reset()
+        {
+            foreach (var tile in _tiles)
+            {
+                tile.ClearMaterial();
+            }
+        }
+        
+        public void Clear()
+        {
+            foreach (var tile in _tiles)
+            {
+                if (tile.GetMaterial()?.Category == MaterialCategory.Building) continue;
+                tile.ClearMaterial();
+            }
+        }
+
+        public Dictionary<string, int> GetMaterialList()
+        {
+            Dictionary<string, int> materialList = new();
+            ForEachTile((tile, _, _) =>
+            {
+                if (tile.GetMaterial() is not null)
+                {
+                    materialList[tile.GetMaterial()!.MaterialName] = materialList.GetValueOrDefault(tile.GetMaterial()!.MaterialName) + 1;
+                }
+            });
+
+            return materialList;
+        }
+
+        public string GetMaterialName(int x, int y)
+        {
+            return OutOfBounds(x, y) ? "Building" : GetMaterial(x, y)?.MaterialName;
+        }
+        
+        public string GetMaterialName(int index, int w, int h)
+        {
+            var x = index % w;
+            var y =index / h;
+
+            if (OutOfBounds(x, y))
+            {
+                return "Building";
+            }
+            
+            return _tiles[x, y].GetMaterial()?.MaterialName;
+        }
+
+        public int? GetMaterialId(int index, int maxWidth, int maxHeight)
+        {
+            var x = index % maxWidth;
+            var y =index / maxHeight;
+
+            if (OutOfBounds(x, y))
+            {
+                return null;
+            }
+            
+            return _tiles[x, y].GetMaterial()?.ID;
         }
     }
 }

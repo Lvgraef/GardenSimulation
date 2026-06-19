@@ -2,6 +2,6 @@
 {
     public interface ICalculationModel
     {
-        public CalculationResult Calculate(CalculationData data);
+        public CalculationResult Calculate(CalculationData data, bool raw);
     }
 }

@@ -17,7 +17,7 @@ namespace calculation
             _gardenSettings = gardenSettings;
         }
 
-        public ReportData Calculate()
+        public ReportData Calculate(bool raw)
         {
             float nonPermeableArea = 0,
                 semiPermeableArea = 0,
@@ -26,36 +26,37 @@ namespace calculation
                 grassArea = 0,
                 shrubArea = 0,
                 treeArea = 0;
-
-            _gridManager.ForEachTile(coords =>
+            
+            _gridManager.ForEachTile((tile, _, _) =>
             {
-                if (coords.GetMaterial() is null) return;
-                
-                switch (coords.GetMaterial().category)
+                if (tile.GetMaterial() is not null)
                 {
-                    case Material.Category.NonPermeable:
-                        nonPermeableArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.SemiPermeable:
-                        semiPermeableArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Bare:
-                        bareArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Flowers:
-                        flowerArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Grass:
-                        grassArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Shrubs:
-                        shrubArea += _gridManager.tileArea;
-                        break;
-                    case Material.Category.Tree:
-                        treeArea += _gridManager.tileArea;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    switch (tile.GetMaterial()?.Category)
+                    {
+                        case MaterialCategory.NonPermeable:
+                            nonPermeableArea += _gridManager.tileArea;
+                            break;
+                        case MaterialCategory.SemiPermeable:
+                            semiPermeableArea += _gridManager.tileArea;
+                            break;
+                        case MaterialCategory.Bare:
+                            bareArea += _gridManager.tileArea;
+                            break;
+                        case MaterialCategory.Flowers:
+                            flowerArea += _gridManager.tileArea;
+                            break;
+                        case MaterialCategory.Grass:
+                            grassArea += _gridManager.tileArea;
+                            break;
+                        case MaterialCategory.Shrubs:
+                            shrubArea += _gridManager.tileArea;
+                            break;
+                        case MaterialCategory.Tree:
+                            treeArea += _gridManager.tileArea;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
             });
             
@@ -64,7 +65,7 @@ namespace calculation
                 _gardenSettings.FlyingInsects, _gardenSettings.Birds, _gardenSettings.Spiders, _gardenSettings.OtherAnimals,
                 _gardenSettings.PlantDiversity);
 
-            CalculationResult result = _calculationModel.Calculate(data);
+            CalculationResult result = _calculationModel.Calculate(data, raw);
             
             return new ReportData(result, nonPermeableArea, semiPermeableArea, bareArea, flowerArea, grassArea, shrubArea, treeArea);
         }
