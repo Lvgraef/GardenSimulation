@@ -10,6 +10,9 @@ namespace GardenDataManagement
 {
     public class GardenDataManager : MonoBehaviour
     {
+        private const int EmptyTile = -2;
+        private const int BuildingTile = -1;
+        
         [SerializeField] private GardenLoadMenu gardenLoadMenu;
         [SerializeField] private ConfirmationPopup confirmationPopup;
         [SerializeField] private NamePromptPopup namePromptPopup;
@@ -25,6 +28,12 @@ namespace GardenDataManagement
         private GardenDataModel BuildGardenData()
         {
             Tile [,] allTiles = gridManager.GetAllTiles();
+
+            if (allTiles == null)
+            {
+                Debug.Log("No tiles found!");
+                return null;
+            }
             GardenSettingsDataModel gardenSettingsDataModel = new GardenSettingsDataModel(
                 gardenSettings.Fertilizer,
                 gardenSettings.CompostCleanup,
@@ -46,19 +55,28 @@ namespace GardenDataManagement
             {
                 for (int y = 0; y < allTiles.GetLength(1); y++)
                 {
-                    IMaterial material = allTiles[x, y].GetMaterial();
-                    
+                    Tile tile = allTiles[x, y];
+                    if (tile == null)
+                    {
+                        dataModel.StoreMaterials(EmptyTile, (x, y));
+                        continue;
+                    }
+
+                    IMaterial material = tile.GetMaterial();
+
                     if (material == null)
                     {
-                               
-                        dataModel.StoreMaterials(-1, (x, y));
+                        dataModel.StoreMaterials(EmptyTile, (x, y));
+                        continue;
                     }
-                    else
+
+                    if (material.Category == MaterialCategory.Building)
                     {
-                               
-                        dataModel.StoreMaterials(material.ID, (x, y));
+                        dataModel.StoreMaterials(BuildingTile, (x, y));
+                        continue;
                     }
-             
+
+                    dataModel.StoreMaterials(material.ID, (x, y));
                 }
             }
             return dataModel;
@@ -93,6 +111,10 @@ namespace GardenDataManagement
             if (!Datainterface.SaveGardenData(gardenData))
             {
                 Debug.LogError("Failed to save garden!");
+            }
+            else
+            {
+                Debug.Log("Garden data saved!");
             }
         }
         
@@ -132,8 +154,7 @@ namespace GardenDataManagement
             gardenLoadMenu.gameObject.SetActive(true);
         }
         
-        //TODO: ADD PROMPT WHEN TRYING TO READ
-        // Need to refresh chartbar
+        // Need to refresh chartbar i think
         private void GetGardenData()
         {
             // Have to link the name to whatever we are planning to get the name from
@@ -150,20 +171,27 @@ namespace GardenDataManagement
                 Debug.LogError("Failed to find garden materials!");
                 return;
             }
-            
 
-            gridManager.CreateGrid(gardenData.GridSize.Width, gardenData.GridSize.Height);
+         
+            gridManager.ImportGridData(gardenData.GridSize.Width, gardenData.GridSize.Height);
             gardenSettings.LoadFrom(gardenData.GardenSettings);
             
             for (int x = 0; x < gardenData.Materials.GetLength(0); x++)
             {
                 for (int y = 0; y < gardenData.Materials.GetLength(1); y++)
                 {
-                    int tile = gardenData.Materials[x, y];
-                    if(tile == -1) continue;
-                    Material material = _gardenMaterials[tile];
-                    var gridPos = (x, y);
-                    gridManager.PlaceMaterial(material, gridPos);
+                    int id = gardenData.Materials[x, y];
+
+                    if (id == EmptyTile) continue;
+
+                    if (id == BuildingTile)
+                    {
+                        gridManager.PlaceMaterial(gridManager.BuildingMaterial, (x, y));
+                        continue;
+                    }
+
+                    if (!_gardenMaterials.TryGetValue(id, out var material)) continue;
+                    gridManager.PlaceMaterial(material, (x, y));
                 }
             }
         }
