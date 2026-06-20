@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using calculation;
 using gardensettings;
 using GridSystem;
@@ -42,7 +41,7 @@ namespace report
 
         private void OnGridChange()
         {
-            ReportData data = _calculator.Calculate();
+            ReportData data = _calculator.Calculate(false);
 
             nonPermeableAreaText.text = "Volledige volharding: " + data.nonPermeableArea.ToString(CultureInfo.CurrentCulture);
             semiPermeableAreaText.text = "Doorlatend verhard of grind: " + data.semiPermeableArea.ToString(CultureInfo.CurrentCulture);
@@ -52,13 +51,11 @@ namespace report
             shrubAreaText.text = "Struiken, heg, haag of kleine bomen: " + data.shrubArea.ToString(CultureInfo.CurrentCulture);
             treeAreaText.text = "Grote boom: " + data.treeArea.ToString(CultureInfo.CurrentCulture);
             
-            //sustainabilityReportChart.ClearData();
             sustainabilityReportChart.UpdateData(0, 0, data.CalculationResult.WaterScore);
             sustainabilityReportChart.UpdateData(0, 1, data.CalculationResult.SoilScore);
             sustainabilityReportChart.UpdateData(0, 2, data.CalculationResult.AnimalScore);
             sustainabilityReportChart.UpdateData(0, 3, data.CalculationResult.PlantScore);
             
-            //miniReportChart.ClearData();
             miniReportChart.UpdateData(0, 0, data.CalculationResult.WaterScore);
             miniReportChart.UpdateData(0, 1, data.CalculationResult.SoilScore);
             miniReportChart.UpdateData(0, 2, data.CalculationResult.AnimalScore);

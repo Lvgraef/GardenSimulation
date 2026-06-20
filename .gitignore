@@ -112,3 +112,5 @@ InitTestScene*.unity*
 *.apk
 *.aab
 *.unitypackage
+
+/results/
