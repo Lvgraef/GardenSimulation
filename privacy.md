@@ -15,4 +15,5 @@ The address data is only used to get the cadaster information from the API.
 
 # Data storage
 
+the address data is not stored anywhere, not locally and not online
 user created gardens are saved locally
