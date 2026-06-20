@@ -1,5 +1,9 @@
 using System;
+using System.Collections;
 using camera;
+using gardensettings;
+using GardenSimulation.Model;
+using Services;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -61,7 +65,8 @@ namespace GridSystem
         private void Update()
         {
             if (training) return;
-            if (Touchscreen.current != null) {
+            if (Touchscreen.current != null)
+            {
                 int totalTouches = 0;
 
                 foreach (var touch in Touchscreen.current.touches)
@@ -77,6 +82,7 @@ namespace GridSystem
                     ShootRay();
                 }
             }
+
             if (Mouse.current.leftButton.isPressed)
             {
                 ShootRay();
@@ -95,34 +101,18 @@ namespace GridSystem
 
         private void ShootRay()
         {
-            if (cameraManager is null || menu is null || EventSystem.current.IsPointerOverGameObject()) return;
-
-            var selectedMaterial = menu.SelectedMaterial;
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            Plane gridPlane = new Plane(Vector3.up, transform.position);
-            Ray ray = cameraManager.GetCurrentCamera()
-                .ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
-            gridPlane.Raycast(ray, out float distance);
-            var intersectPosition = ray.direction * distance + ray.origin;
-            var gridPos = WorldToGrid(intersectPosition);
-            var mat = GetMaterial(gridPos.x, gridPos.y);
-
-            if (mat is not null && mat.Category == MaterialCategory.Building) return;
-
-            if (menu.Eraser)
+            if (Touchscreen.current != null)
             {
-                RemoveMaterial((gridPos.x, gridPos.y));
-                GridChangeEvent?.Invoke();
-                return;
+                TouchRay();
             }
 
-            if (selectedMaterial is null || (mat is not null && mat.ID == selectedMaterial.ID)) return;
-
-            PlaceMaterial(selectedMaterial, gridPos);
-            GridChangeEvent?.Invoke();
+            if (Mouse.current != null)
+            {
+                MouseRay();
+            }
         }
-        
-        private void touchRay()
+
+        private void TouchRay()
         {
             if (cameraManager is null || menu is null || EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -135,9 +125,9 @@ namespace GridSystem
             var intersectPosition = ray.direction * distance + ray.origin;
             var gridPos = WorldToGrid(intersectPosition);
             var mat = GetMaterial(gridPos.x, gridPos.y);
-            
+
             if (mat is not null && mat.Category == MaterialCategory.Building) return;
-            
+
             if (menu.Eraser)
             {
                 RemoveMaterial((gridPos.x, gridPos.y));
@@ -151,8 +141,8 @@ namespace GridSystem
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
         }
-        
-        private void mouseRay()
+
+        private void MouseRay()
         {
             if (cameraManager is null || menu is null || EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -165,7 +155,7 @@ namespace GridSystem
             var intersectPosition = ray.direction * distance + ray.origin;
             var gridPos = WorldToGrid(intersectPosition);
             var mat = GetMaterial(gridPos.x, gridPos.y);
-            
+
             if (mat is not null && mat.Category == MaterialCategory.Building) return;
 
             if (menu.Eraser)
@@ -288,6 +278,7 @@ namespace GridSystem
             {
                 Reset();
             }
+
             address = gardenSettings.Address;
             if (address is null) yield break;
             int index = address.IndexOf(',');
@@ -440,13 +431,15 @@ namespace GridSystem
                 {
                     negativeX = width - (i + SubGridSize);
                 }
+
                 for (int j = 0; j < height; j += SubGridSize)
                 {
                     int negativeY = 0;
                     if (height - j < SubGridSize)
                     {
-                        negativeY =  height - (j + SubGridSize);
+                        negativeY = height - (j + SubGridSize);
                     }
+
                     Tile[,] subGridTiles = new Tile[SubGridSize, SubGridSize];
 
                     for (int k = 0; k < SubGridSize; k++)
@@ -499,9 +492,8 @@ namespace GridSystem
         public void UpdateAddress()
         {
             StartCoroutine(CreateGrid());
-
         }
-        
+
         void Start()
         {
             Shader shader = Shader.Find("Hidden/Internal-Colored");
