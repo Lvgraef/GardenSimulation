@@ -11,8 +11,8 @@ namespace Utils
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
 
-        private Action onConfirm;
-        private Action onCancel;
+        private Action _onConfirm;
+        private Action _onCancel;
 
         private void Awake()
         {
@@ -23,21 +23,21 @@ namespace Utils
         public void Show(string message, Action onConfirm, Action onCancel = null)
         {
             messageLabel.text = message;
-            this.onConfirm = onConfirm;
-            this.onCancel = onCancel;
+            this._onConfirm = onConfirm;
+            this._onCancel = onCancel;
             gameObject.SetActive(true);
         }
 
         private void HandleConfirm()
         {
             gameObject.SetActive(false);
-            onConfirm?.Invoke();
+            _onConfirm?.Invoke();
         }
 
         private void HandleCancel()
         {
             gameObject.SetActive(false);
-            onCancel?.Invoke();
+            _onCancel?.Invoke();
         }
     }
 }

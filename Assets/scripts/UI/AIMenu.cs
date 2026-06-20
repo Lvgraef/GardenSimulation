@@ -1,14 +1,13 @@
-﻿using System;
-using ai;
+﻿using ai;
 using GridSystem;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI
 {
     public class AIMenu : MonoBehaviour
     {
+        public GridManager gridManager;
         public (int, int)? SelectedSubGrid { get; private set; }
         public int BushArea { get; private set; } = int.MinValue;
         public int WaterArea { get; private set; } = int.MinValue;
@@ -37,8 +36,7 @@ namespace UI
                 return steps;
             }
 
-            Debug.LogError("Gave invalid input as steps!");
-            return -1;
+            return gridManager.height *  gridManager.width;
         }
 
         public void SetLocal(bool local)

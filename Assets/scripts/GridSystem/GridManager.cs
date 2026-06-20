@@ -1,6 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using camera;
+using gardensettings;
+using GardenSimulation.Model;
+using Services;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,22 +14,29 @@ namespace GridSystem
     public class GridManager : MonoBehaviour
     {
         public const int SubGridSize = 5;
-        
+
         [SerializeField] private bool training;
-        
+
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
 
         public int width;
         public int height;
+        [SerializeField] private string address;
 
         [SerializeField] private CameraManager cameraManager;
         [SerializeField] private MaterialMenu menu;
-
+        [SerializeField] private GardenSettings gardenSettings;
+        [SerializeField] private Material buildingMaterial;
+        private double _minY;
+        private double _minX;
 
         public float tileSize = 0.5f;
         public float tileArea;
+
+        private (double, double)[] _parcelCoordinates;
+        private (double, double)[] _pandCoordinates;
 
         public event Action GridChangeEvent;
 
@@ -36,7 +46,7 @@ namespace GridSystem
         {
             GridChangeEvent?.Invoke();
         }
-        
+
 
         public void ForEachTile(Action<Tile, int, int> action)
         {
@@ -93,9 +103,7 @@ namespace GridSystem
                 return;
             }
 
-            if (selectedMaterial is null || (mat is not null &&
-                                             mat.MaterialName[..selectedMaterial.MaterialName.Length] ==
-                                             selectedMaterial.MaterialName)) return;
+            if (selectedMaterial is null || (mat is not null && mat.ID == selectedMaterial.ID)) return;
 
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
@@ -112,11 +120,23 @@ namespace GridSystem
             return x > width - 1 || y > height - 1 || x < 0 || y < 0;
         }
 
+        public int? GetMaterialId(int index, int maxWidth, int maxHeight)
+        {
+            var x = index % maxWidth;
+            var y = index / maxHeight;
+
+            if (OutOfBounds(x, y))
+            {
+                return null;
+            }
+
+            return _tiles[x, y].GetMaterial()?.ID;
+        }
+
         private (int x, int y) WorldToGrid(Vector3 worldPos)
         {
             int x = Mathf.FloorToInt((worldPos - transform.position).x / tileSize);
             int y = Mathf.FloorToInt((worldPos - transform.position).z / tileSize);
-
             return (x, y);
         }
 
@@ -126,138 +146,168 @@ namespace GridSystem
             int y = index / maxHeight;
 
             if (OutOfBounds(x, y)) return;
-            
+
             _tiles[x, y].SetMaterial(material);
         }
-        
-        /// <summary>
-        /// Places the material on the grid
-        /// </summary>
-        /// <param name="material"></param>
-        /// <param name="vector"></param>
+
         public void PlaceMaterial(IMaterial material, Vector3 vector)
         {
             (int x, int y) = WorldToGrid(vector);
-            if (OutOfBounds(x, y))
-            {
-                return;
-            }
+
+            if (OutOfBounds(x, y)) return;
 
             if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[x, y].SetMaterial(material);
         }
 
-        /// <summary>
-        /// Places the material on the grid
-        /// </summary>
         public void PlaceMaterial(IMaterial material, (int x, int y) tile)
         {
-            if (OutOfBounds(tile.x, tile.y))
-            {
-                return;
-            }
+            if (OutOfBounds(tile.x, tile.y)) return;
 
             if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[tile.x, tile.y].SetMaterial(material);
         }
 
-        /// <summary>
-        /// Removes the material from the grid
-        /// </summary>
-        /// <param name="vector"></param>
         public void RemoveMaterial(Vector3 vector)
         {
             (int x, int y) = WorldToGrid(vector);
-            if (OutOfBounds(x, y))
-            {
-                return;
-            }
+            if (OutOfBounds(x, y)) return;
 
             if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[x, y]?.ClearMaterial();
         }
 
-        /// <summary>
-        /// Removes the material from the grid
-        /// </summary>
-        /// <param name="tile"></param>
         public void RemoveMaterial((int x, int y) tile)
         {
-            if (OutOfBounds(tile.x, tile.y))
-            {
-                return;
-            }
+            if (OutOfBounds(tile.x, tile.y)) return;
 
             if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[tile.x, tile.y]?.ClearMaterial();
         }
 
-        /// <summary>
-        /// Returns the Material object
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
         public IMaterial GetMaterial(int x, int y)
         {
-            if (OutOfBounds(x, y) || _tiles[x, y] is null)
-            {
-                return null;
-            }
+            if (OutOfBounds(x, y) || _tiles[x, y] is null) return null;
 
             return _tiles[x, y].GetMaterial();
         }
-        
-        private void ClearAllTiles()
+
+        public void Reset()
         {
-            var allTiles = GetAllTiles();
-            
-            for (int x = 0; x < allTiles.GetLength(0); x++)
+            foreach (var tile in _tiles)
             {
-                for (int y = 0; y < allTiles.GetLength(1); y++)
-                {
-                    RemoveTile(x, y);
-                }
+                tile.ClearMaterial();
             }
         }
-        
-        //Public method for generating grid on read
-        public void CreateGrid(int Width, int Height)
+
+        //TODO: probably doesn't work
+        public void CreateGrid(int gridWidth, int gridHeight)
         {
-            if(Width <= 0 || Height <= 0) return;
-            ClearAllTiles();
-            _tiles =  new Tile[Width, Height];
-            GenerateGrid();
+            if (gridWidth <= 0 || gridHeight <= 0) return;
+            Reset();
+            StartCoroutine(GenerateGrid());
         }
 
-        /// <summary>
-        /// Generates the grid
-        /// </summary>
-        private void GenerateGrid()
+
+        private IEnumerator GenerateGrid()
         {
-           
+            yield return new WaitUntil(() =>
+                gardenSettings is not null &&
+                !string.IsNullOrWhiteSpace(gardenSettings.Address));
+            address = gardenSettings.Address;
+            int index = address.IndexOf(',');
+            int count = 0;
+            for (int i = 0; i < address.Length; i++)
+            {
+                if (i > index && address[i] == ' ')
+                {
+                    if (count == 1)
+                    {
+                        address = address.Remove(i, 1);
+                        break;
+                    }
+
+                    count++;
+                }
+            }
+
+            APIClient api = new APIClient();
+            Response response = null;
+            yield return api.GetCoordinatesByAddress(address, response1 => { response = response1; });
+
+            if (!response.Success)
+            {
+                Debug.Log(response.Message);
+                yield break;
+            }
+
+            double originX = response.ParcelCoordinates[0].Item1;
+            double originY = response.ParcelCoordinates[0].Item2;
+
+            double maxX = double.NegativeInfinity;
+            double maxY = double.NegativeInfinity;
+            _minX = double.PositiveInfinity;
+            _minY = double.PositiveInfinity;
+
+            for (int i = 0; i < response.ParcelCoordinates.Length; i++)
+            {
+                var p = response.ParcelCoordinates[i];
+
+                p.Item1 -= originX;
+                p.Item2 -= originY;
+
+                response.ParcelCoordinates[i] = p;
+
+                maxX = Math.Max(maxX, p.Item1);
+                maxY = Math.Max(maxY, p.Item2);
+                _minX = Math.Min(_minX, p.Item1);
+                _minY = Math.Min(_minY, p.Item2);
+            }
+
+            width = Mathf.CeilToInt((float)((maxX - _minX) / tileSize)) + 1;
+            height = Mathf.CeilToInt((float)((maxY - _minY) / tileSize)) + 1;
+
+            _tiles = new Tile[width, height];
+
+            for (int i = 0; i < response.PandCoordinates.Length; i++)
+            {
+                var p = response.PandCoordinates[i];
+                p.Item1 -= originX;
+                p.Item2 -= originY;
+                response.PandCoordinates[i] = p;
+            }
+
+            _parcelCoordinates = response.ParcelCoordinates;
+            _pandCoordinates = response.PandCoordinates;
+            float xOffset = width * tileSize / 2;
+            float zOffset = height * tileSize / 2;
+            transform.position = new Vector3(-xOffset, 0, -zOffset);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     _tiles[x, y] = new Tile(x, y, this);
+
+                    Vector2 p = new Vector2(
+                        (float)(_minX + x * tileSize),
+                        (float)(_minY + y * tileSize)
+                    );
+
+                    bool insideParcel = PointInPolygon(p, _parcelCoordinates);
+                    bool insideBuilding = PointInPolygon(p, _pandCoordinates);
+                    if (!insideParcel || insideBuilding)
+                    {
+                        PlaceMaterial(buildingMaterial, (x, y));
+                    }
                 }
             }
-
-            var xOffset = width * tileSize / 2;
-            var zOffset = height * tileSize / 2;
-
-            transform.position = new Vector3(-xOffset, 0, -zOffset);
         }
 
-        /// <summary>
-        /// Draw lines in unity
-        /// </summary>
         private void OnRenderObject()
         {
             if (training) return;
             if (!_lineMaterial) return;
-
+            if (_parcelCoordinates == null || _pandCoordinates == null) return;
             GL.PushMatrix();
             _lineMaterial.SetPass(0);
 
@@ -269,128 +319,108 @@ namespace GridSystem
 
             Vector3 origin = transform.position;
 
-            for (int y = 0; y <= height; y++)
+            GL.Begin(GL.LINES);
+            GL.Color(Color.green);
+
+            for (int x = 0; x < width; x++)
             {
-                Vector3 start = origin + new Vector3(0, 0, y * tileSize);
-                Vector3 end = origin + new Vector3(width * tileSize, 0, y * tileSize);
-                GL.Begin(GL.LINES);
-                GL.Color(Color.forestGreen);
-                GL.Vertex(start);
-                GL.Vertex(end);
-                GL.End();
+                for (int y = 0; y < height; y++)
+                {
+                    if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building)
+                        continue;
+                    Vector3 bl = origin + new Vector3(
+                        x * tileSize,
+                        0,
+                        y * tileSize
+                    );
+
+                    Vector3 br = bl + new Vector3(tileSize, 0, 0);
+                    Vector3 tr = bl + new Vector3(tileSize, 0, tileSize);
+                    Vector3 tl = bl + new Vector3(0, 0, tileSize);
+
+                    GL.Vertex(bl);
+                    GL.Vertex(br);
+                    GL.Vertex(br);
+                    GL.Vertex(tr);
+                    GL.Vertex(tr);
+                    GL.Vertex(tl);
+                    GL.Vertex(tl);
+                    GL.Vertex(bl);
+                }
             }
 
-            for (int x = 0; x <= width; x++)
-            {
-                Vector3 start = origin + new Vector3(x * tileSize, 0f, 0);
-                Vector3 end = origin + new Vector3(x * tileSize, 0f, height * tileSize);
-                GL.Begin(GL.LINES);
-                GL.Color(Color.forestGreen);
-                GL.Vertex(start);
-                GL.Vertex(end);
-                GL.End();
-            }
-
+            GL.End();
             GL.PopMatrix();
         }
 
         private void CreateSubGrids()
         {
-            SubGrids = new SubGrid[Mathf.CeilToInt((float) width / SubGridSize),Mathf.CeilToInt((float) width / SubGridSize)];
-            
-            for (int i = 0; i < width; i += 5)
+            SubGrids = new SubGrid[Mathf.CeilToInt((float)width / SubGridSize),
+                Mathf.CeilToInt((float)height / SubGridSize)];
+
+            for (int i = 0; i < width; i += SubGridSize)
             {
-                for (int j = 0; j < height; j += 5)
+                int negativeX = 0;
+                if (width - i < SubGridSize)
                 {
-                    Tile[,] subGridTiles = new Tile[5, 5];
-                        
+                    negativeX = width - (i + SubGridSize);
+                }
+                for (int j = 0; j < height; j += SubGridSize)
+                {
+                    int negativeY = 0;
+                    if (height - j < SubGridSize)
+                    {
+                        negativeY =  height - (j + SubGridSize);
+                    }
+                    Tile[,] subGridTiles = new Tile[SubGridSize, SubGridSize];
+
                     for (int k = 0; k < SubGridSize; k++)
                     {
                         for (int l = 0; l < SubGridSize; l++)
                         {
-                            subGridTiles[k, l] = _tiles[i + k, j + l];
+                            subGridTiles[k, l] = _tiles[i + k + negativeX, j + l + negativeY];
                         }
                     }
-                    
-                    SubGrids[i / 5, j / 5] = new SubGrid(subGridTiles, SubGridSize, SubGridSize);
+
+                    SubGrids[i / SubGridSize, j / SubGridSize] = new SubGrid(subGridTiles, SubGridSize, SubGridSize);
                 }
             }
         }
-        
+
+        private bool PointInPolygon(Vector2 p, (double, double)[] coords)
+        {
+            if (coords == null || coords.Length < 3)
+                return false;
+
+            bool inside = false;
+
+            for (int i = 0, j = coords.Length - 1; i < coords.Length; j = i++)
+            {
+                Vector2 a = new Vector2((float)coords[i].Item1, (float)coords[i].Item2);
+                Vector2 b = new Vector2((float)coords[j].Item1, (float)coords[j].Item2);
+
+                bool intersect = ((a.y > p.y) != (b.y > p.y)) &&
+                                 (p.x < (b.x - a.x) * (p.y - a.y) /
+                                     ((b.y - a.y) == 0 ? 0.00001f : (b.y - a.y)) + a.x);
+
+                if (intersect)
+                    inside = !inside;
+            }
+
+            return inside;
+        }
+
         private void Awake()
         {
             tileArea = tileSize * tileSize;
         }
 
-        void Start()
+        IEnumerator Start()
         {
             Shader shader = Shader.Find("Hidden/Internal-Colored");
             _lineMaterial = new UnityEngine.Material(shader);
-            _tiles =   new Tile[width, height];
-            GenerateGrid();
+            yield return GenerateGrid();
             CreateSubGrids();
-        }
-
-        public void Reset()
-        {
-            foreach (var tile in _tiles)
-            {
-                tile.ClearMaterial();
-            }
-        }
-        
-        public void Clear()
-        {
-            foreach (var tile in _tiles)
-            {
-                if (tile.GetMaterial()?.Category == MaterialCategory.Building) continue;
-                tile.ClearMaterial();
-            }
-        }
-
-        public Dictionary<string, int> GetMaterialList()
-        {
-            Dictionary<string, int> materialList = new();
-            ForEachTile((tile, _, _) =>
-            {
-                if (tile.GetMaterial() is not null)
-                {
-                    materialList[tile.GetMaterial()!.MaterialName] = materialList.GetValueOrDefault(tile.GetMaterial()!.MaterialName) + 1;
-                }
-            });
-
-            return materialList;
-        }
-
-        public string GetMaterialName(int x, int y)
-        {
-            return OutOfBounds(x, y) ? "Building" : GetMaterial(x, y)?.MaterialName;
-        }
-        
-        public string GetMaterialName(int index, int w, int h)
-        {
-            var x = index % w;
-            var y =index / h;
-
-            if (OutOfBounds(x, y))
-            {
-                return "Building";
-            }
-            
-            return _tiles[x, y].GetMaterial()?.MaterialName;
-        }
-
-        public int? GetMaterialId(int index, int maxWidth, int maxHeight)
-        {
-            var x = index % maxWidth;
-            var y =index / maxHeight;
-
-            if (OutOfBounds(x, y))
-            {
-                return null;
-            }
-            
-            return _tiles[x, y].GetMaterial()?.ID;
         }
     }
 }

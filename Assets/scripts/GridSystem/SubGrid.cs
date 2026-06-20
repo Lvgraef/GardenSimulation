@@ -1,10 +1,5 @@
 using System;
 using System.Collections.Generic;
-using camera;
-using UI;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace GridSystem
 {

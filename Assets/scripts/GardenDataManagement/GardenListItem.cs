@@ -8,18 +8,18 @@ namespace GardenDataManagement
     public class GardenListItem : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI label;
-        private Button button;
+        private Button _button;
 
         private void Awake()
         {
-            button = GetComponent<Button>();
+            _button = GetComponent<Button>();
         }
 
         public void Setup(string gardenName, Action<string> onClick)
         {
             label.text = gardenName;
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(() => onClick(gardenName));
+            _button.onClick.RemoveAllListeners();
+            _button.onClick.AddListener(() => onClick(gardenName));
         }
     }
 }

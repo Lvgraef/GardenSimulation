@@ -25,10 +25,10 @@ namespace GardenDataManagement
 
             string[] gardenNames = Datainterface.GetAllGardenNames();
 
-            foreach (string name in gardenNames)
+            foreach (string gardenName in gardenNames)
             {
                 GardenListItem item = Instantiate(gardenItemPrefab, gardenContainer);
-                item.Setup(name, HandleGardenClicked);
+                item.Setup(gardenName, HandleGardenClicked);
             }
         }
 
