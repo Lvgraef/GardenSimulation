@@ -108,4 +108,9 @@ InitTestScene*.unity*
 # IDE
 /.idea
 
+# Unity IL2CPP / builds
+*.apk
+*.aab
+*.unitypackage
+
 /results/

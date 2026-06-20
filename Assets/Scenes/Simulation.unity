@@ -2107,7 +2107,7 @@ MonoBehaviour:
   - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
   - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: -4226915916544939162, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
   - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
@@ -20242,6 +20242,30 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Rotate
       m_Flags: 8
+    - m_Name: One Modifier
+      m_Id: 5c116d99-0095-4dec-97e3-83458d638929
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 4f0da337-119b-4928-85f2-c6e87a874f77
+      m_Path: <Touchscreen>/primaryTouch/press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: d5968d82-6b11-4033-ae48-4eb1d9ab6fee
+      m_Path: <Touchscreen>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 8
     m_Flags: 0
   zoom:
     m_Name: Zoom
@@ -20283,6 +20307,30 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Zoom
       m_Flags: 0
+    - m_Name: One Modifier
+      m_Id: 8293d436-1139-43bc-82dc-d30cb6b2b12f
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 45a07e16-b300-42de-91fa-66d002fb4bdd
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: c8320867-5851-4c6d-9a1d-3ac68ec044ed
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 8
     m_Flags: 0
   pan:
     m_Name: Pan
@@ -20351,6 +20399,30 @@ MonoBehaviour:
     - m_Name: binding
       m_Id: 235a0279-a3ea-4ccc-9d0d-0a0dead39c6a
       m_Path: <Mouse>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: One Modifier
+      m_Id: 04c64a3b-cfc4-4af6-9439-60a38f4318bc
+      m_Path: OneModifier
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 4
+    - m_Name: modifier
+      m_Id: 1c3a390e-fa08-4b48-883e-30434106b252
+      m_Path: <Touchscreen>/primaryTouch/press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pan
+      m_Flags: 8
+    - m_Name: binding
+      m_Id: 558b18ad-0471-4fc2-af6c-167cb9ac7703
+      m_Path: <Touchscreen>/delta
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -67509,7 +67581,7 @@ MonoBehaviour:
   Materials:
   - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: -4226915916544939162, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
   - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
