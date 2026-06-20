@@ -2042,7 +2042,7 @@ MonoBehaviour:
   - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
   - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: -4226915916544939162, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
   - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
@@ -55855,7 +55855,7 @@ MonoBehaviour:
         m_Enable: 1
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 0
       m_LineStyle:
@@ -56206,7 +56206,7 @@ MonoBehaviour:
         m_Enable: 0
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 1
       m_LineStyle:
@@ -66889,11 +66889,10 @@ MonoBehaviour:
   Materials:
   - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: -4226915916544939162, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
   - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6801589998110283899, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   ButtonContainer: {fileID: 1026326289}
   ButtonPrefab: {fileID: 4319799257796120153, guid: 978514da4f53d424886618a4db25ca00, type: 3}
   EraserButton: {fileID: 1890375209}
@@ -67995,7 +67994,7 @@ MonoBehaviour:
         m_Enable: 1
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 0
       m_LineStyle:
@@ -68346,7 +68345,7 @@ MonoBehaviour:
         m_Enable: 0
         m_MaxWidth: 0
         m_Gap: 1
-        m_Suffix: '...'
+        m_Suffix: ...
     m_SplitLine:
       m_Show: 1
       m_LineStyle:

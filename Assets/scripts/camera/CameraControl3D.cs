@@ -34,7 +34,7 @@ namespace camera
         [SerializeField] private Transform mainCamera;
 
         private const float MinZoom = 2;
-        private const float MaxZoom = 10;
+        private const float MaxZoom = 30;
 
         void Start()
         {
