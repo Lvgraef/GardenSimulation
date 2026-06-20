@@ -1,43 +1,42 @@
 using System;
+using System.Collections;
 using camera;
-using UI;
 using gardensettings;
-using GardenSimulation.Services.Api;
+using GardenSimulation.Model;
+using Services;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using GardenSimulation.Model;
-using UnityEngine.Networking;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
         public const int SubGridSize = 5;
-        
+
         [SerializeField] private bool training;
-        
+
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
 
         public int width;
         public int height;
-		[SerializeField] private string address;
+        [SerializeField] private string address;
 
         [SerializeField] private CameraManager cameraManager;
         [SerializeField] private MaterialMenu menu;
-		[SerializeField] private GardenSettings gardenSettings;
-		private double minY;
-		private double minX;
+        [SerializeField] private GardenSettings gardenSettings;
+        [SerializeField] private Material buildingMaterial;
+        private double _minY;
+        private double _minX;
 
         public float tileSize = 0.5f;
         public float tileArea;
 
-        private (double, double)[] ParcelCoordinates;
-        private (double, double)[] PandCoordinates;
+        private (double, double)[] _parcelCoordinates;
+        private (double, double)[] _pandCoordinates;
 
         public event Action GridChangeEvent;
 
@@ -47,7 +46,7 @@ namespace GridSystem
         {
             GridChangeEvent?.Invoke();
         }
-        
+
 
         public void ForEachTile(Action<Tile, int, int> action)
         {
@@ -104,9 +103,7 @@ namespace GridSystem
                 return;
             }
 
-            if (selectedMaterial is null || (mat is not null &&
-                                             mat.MaterialName[..selectedMaterial.MaterialName.Length] ==
-                                             selectedMaterial.MaterialName)) return;
+            if (selectedMaterial is null || (mat is not null && mat.ID == selectedMaterial.ID)) return;
 
             PlaceMaterial(selectedMaterial, gridPos);
             GridChangeEvent?.Invoke();
@@ -123,6 +120,19 @@ namespace GridSystem
             return x > width - 1 || y > height - 1 || x < 0 || y < 0;
         }
 
+        public int? GetMaterialId(int index, int maxWidth, int maxHeight)
+        {
+            var x = index % maxWidth;
+            var y = index / maxHeight;
+
+            if (OutOfBounds(x, y))
+            {
+                return null;
+            }
+
+            return _tiles[x, y].GetMaterial()?.ID;
+        }
+
         private (int x, int y) WorldToGrid(Vector3 worldPos)
         {
             int x = Mathf.FloorToInt((worldPos - transform.position).x / tileSize);
@@ -136,28 +146,28 @@ namespace GridSystem
             int y = index / maxHeight;
 
             if (OutOfBounds(x, y)) return;
-            
+
             _tiles[x, y].SetMaterial(material);
         }
-        
-        public void PlaceMaterial(Material material, Vector3 vector)
+
+        public void PlaceMaterial(IMaterial material, Vector3 vector)
         {
             (int x, int y) = WorldToGrid(vector);
-            
+
             if (OutOfBounds(x, y)) return;
 
             if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[x, y].SetMaterial(material);
         }
 
-        public void PlaceMaterial(Material material, (int x, int y) tile)
+        public void PlaceMaterial(IMaterial material, (int x, int y) tile)
         {
             if (OutOfBounds(tile.x, tile.y)) return;
 
             if (_tiles[tile.x, tile.y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[tile.x, tile.y].SetMaterial(material);
         }
-        
+
         public void RemoveMaterial(Vector3 vector)
         {
             (int x, int y) = WorldToGrid(vector);
@@ -175,62 +185,55 @@ namespace GridSystem
             _tiles[tile.x, tile.y]?.ClearMaterial();
         }
 
-        public Material GetMaterial(int x, int y)
+        public IMaterial GetMaterial(int x, int y)
         {
             if (OutOfBounds(x, y) || _tiles[x, y] is null) return null;
 
             return _tiles[x, y].GetMaterial();
         }
-        
-        private void ClearAllTiles()
+
+        public void Reset()
         {
-            var allTiles = GetAllTiles();
-            
-            for (int x = 0; x < allTiles.GetLength(0); x++)
+            foreach (var tile in _tiles)
             {
-                for (int y = 0; y < allTiles.GetLength(1); y++)
-                {
-                    RemoveTile(x, y);
-                }
+                tile.ClearMaterial();
             }
         }
-        
+
         //TODO: probably doesn't work
-        public void CreateGrid(int Width, int Height)
+        public void CreateGrid(int gridWidth, int gridHeight)
         {
-            if(Width <= 0 || Height <= 0) return;
-            ClearAllTiles();
-            GenerateGrid();
+            if (gridWidth <= 0 || gridHeight <= 0) return;
+            Reset();
+            StartCoroutine(GenerateGrid());
         }
-        
+
 
         private IEnumerator GenerateGrid()
         {
-			yield return new WaitUntil(() =>
-			gardenSettings != null &&
-			!string.IsNullOrWhiteSpace(gardenSettings.Address));
-			address = gardenSettings.Address;
-			int index = address.IndexOf(',');
-			int count = 0;
-			for (int i = 0; i < address.Length; i++)
-			{
+            yield return new WaitUntil(() =>
+                gardenSettings is not null &&
+                !string.IsNullOrWhiteSpace(gardenSettings.Address));
+            address = gardenSettings.Address;
+            int index = address.IndexOf(',');
+            int count = 0;
+            for (int i = 0; i < address.Length; i++)
+            {
+                if (i > index && address[i] == ' ')
+                {
+                    if (count == 1)
+                    {
+                        address = address.Remove(i, 1);
+                        break;
+                    }
 
-				if (i > index && address[i] == ' ')
-				{
-					if (count == 1)
-					{
-						address = address.Remove(i, 1);
-						break;
-					}
-					count++;
-				}
-			}
+                    count++;
+                }
+            }
+
             APIClient api = new APIClient();
             Response response = null;
-            yield return api.GetCoordinatesByAddress(address, _response =>
-            {
-                response = _response;
-            });
+            yield return api.GetCoordinatesByAddress(address, response1 => { response = response1; });
 
             if (!response.Success)
             {
@@ -243,8 +246,8 @@ namespace GridSystem
 
             double maxX = double.NegativeInfinity;
             double maxY = double.NegativeInfinity;
-            minX = double.PositiveInfinity;
-            minY = double.PositiveInfinity;
+            _minX = double.PositiveInfinity;
+            _minY = double.PositiveInfinity;
 
             for (int i = 0; i < response.ParcelCoordinates.Length; i++)
             {
@@ -257,12 +260,12 @@ namespace GridSystem
 
                 maxX = Math.Max(maxX, p.Item1);
                 maxY = Math.Max(maxY, p.Item2);
-                minX = Math.Min(minX, p.Item1);
-                minY = Math.Min(minY, p.Item2);
+                _minX = Math.Min(_minX, p.Item1);
+                _minY = Math.Min(_minY, p.Item2);
             }
 
-            width  = Mathf.CeilToInt((float)((maxX - minX) / tileSize)) + 1;
-            height = Mathf.CeilToInt((float)((maxY - minY) / tileSize)) + 1;
+            width = Mathf.CeilToInt((float)((maxX - _minX) / tileSize)) + 1;
+            height = Mathf.CeilToInt((float)((maxY - _minY) / tileSize)) + 1;
 
             _tiles = new Tile[width, height];
 
@@ -274,37 +277,37 @@ namespace GridSystem
                 response.PandCoordinates[i] = p;
             }
 
-            ParcelCoordinates = response.ParcelCoordinates;
-            PandCoordinates = response.PandCoordinates;
-			float xOffset = width * tileSize / 2;
+            _parcelCoordinates = response.ParcelCoordinates;
+            _pandCoordinates = response.PandCoordinates;
+            float xOffset = width * tileSize / 2;
             float zOffset = height * tileSize / 2;
             transform.position = new Vector3(-xOffset, 0, -zOffset);
             for (int x = 0; x < width; x++)
-			{
-				for (int y = 0; y < height; y++)
-				{
-					_tiles[x, y] = new Tile(x, y, this);
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    _tiles[x, y] = new Tile(x, y, this);
 
-					Vector2 p = new Vector2(
-						(float)(minX + x * tileSize),
-						(float)(minY + y * tileSize)
-					);
+                    Vector2 p = new Vector2(
+                        (float)(_minX + x * tileSize),
+                        (float)(_minY + y * tileSize)
+                    );
 
-					bool insideParcel = PointInPolygon(p, ParcelCoordinates);
-					bool insideBuilding = PointInPolygon(p, PandCoordinates);
-					if (!insideParcel || insideBuilding)
-					{
-						PlaceMaterial(buildingMaterial, (x, y));
-					}	
-				}
-			}
+                    bool insideParcel = PointInPolygon(p, _parcelCoordinates);
+                    bool insideBuilding = PointInPolygon(p, _pandCoordinates);
+                    if (!insideParcel || insideBuilding)
+                    {
+                        PlaceMaterial(buildingMaterial, (x, y));
+                    }
+                }
+            }
         }
 
         private void OnRenderObject()
         {
             if (training) return;
             if (!_lineMaterial) return;
-			if (ParcelCoordinates == null || PandCoordinates == null) return;
+            if (_parcelCoordinates == null || _pandCoordinates == null) return;
             GL.PushMatrix();
             _lineMaterial.SetPass(0);
 
@@ -320,54 +323,70 @@ namespace GridSystem
             GL.Color(Color.green);
 
             for (int x = 0; x < width; x++)
-			{
-				for (int y = 0; y < height; y++)
-				{
-					if (_tiles[x, y].GetMaterial() == buildingMaterial)
-						continue;
-						Vector3 bl = origin + new Vector3(
-						x * tileSize,
-						0,
-						y * tileSize
-					);
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building)
+                        continue;
+                    Vector3 bl = origin + new Vector3(
+                        x * tileSize,
+                        0,
+                        y * tileSize
+                    );
 
-					Vector3 br = bl + new Vector3(tileSize, 0, 0);
-					Vector3 tr = bl + new Vector3(tileSize, 0, tileSize);
-					Vector3 tl = bl + new Vector3(0, 0, tileSize);
+                    Vector3 br = bl + new Vector3(tileSize, 0, 0);
+                    Vector3 tr = bl + new Vector3(tileSize, 0, tileSize);
+                    Vector3 tl = bl + new Vector3(0, 0, tileSize);
 
-					GL.Vertex(bl); GL.Vertex(br);
-					GL.Vertex(br); GL.Vertex(tr);
-					GL.Vertex(tr); GL.Vertex(tl);
-					GL.Vertex(tl); GL.Vertex(bl);
-				}
-			}
+                    GL.Vertex(bl);
+                    GL.Vertex(br);
+                    GL.Vertex(br);
+                    GL.Vertex(tr);
+                    GL.Vertex(tr);
+                    GL.Vertex(tl);
+                    GL.Vertex(tl);
+                    GL.Vertex(bl);
+                }
+            }
+
             GL.End();
             GL.PopMatrix();
         }
-        
+
         private void CreateSubGrids()
         {
-            SubGrids = new SubGrid[Mathf.CeilToInt((float) width / SubGridSize),Mathf.CeilToInt((float) width / SubGridSize)];
-            
-            for (int i = 0; i < width; i += 5)
+            SubGrids = new SubGrid[Mathf.CeilToInt((float)width / SubGridSize),
+                Mathf.CeilToInt((float)height / SubGridSize)];
+
+            for (int i = 0; i < width; i += SubGridSize)
             {
-                for (int j = 0; j < height; j += 5)
+                int negativeX = 0;
+                if (width - i < SubGridSize)
                 {
-                    Tile[,] subGridTiles = new Tile[5, 5];
-                        
+                    negativeX = width - (i + SubGridSize);
+                }
+                for (int j = 0; j < height; j += SubGridSize)
+                {
+                    int negativeY = 0;
+                    if (height - j < SubGridSize)
+                    {
+                        negativeY =  height - (j + SubGridSize);
+                    }
+                    Tile[,] subGridTiles = new Tile[SubGridSize, SubGridSize];
+
                     for (int k = 0; k < SubGridSize; k++)
                     {
                         for (int l = 0; l < SubGridSize; l++)
                         {
-                            subGridTiles[k, l] = _tiles[i + k, j + l];
+                            subGridTiles[k, l] = _tiles[i + k + negativeX, j + l + negativeY];
                         }
                     }
-                    
-                    SubGrids[i / 5, j / 5] = new SubGrid(subGridTiles, SubGridSize, SubGridSize);
+
+                    SubGrids[i / SubGridSize, j / SubGridSize] = new SubGrid(subGridTiles, SubGridSize, SubGridSize);
                 }
             }
         }
-        
+
         private bool PointInPolygon(Vector2 p, (double, double)[] coords)
         {
             if (coords == null || coords.Length < 3)

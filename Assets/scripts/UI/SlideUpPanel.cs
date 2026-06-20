@@ -1,7 +1,6 @@
-using UnityEngine;
 using System.Collections;
 using TMPro;
-using XCharts.Runtime;
+using UnityEngine;
 
 namespace UI
 {
@@ -13,15 +12,15 @@ namespace UI
       [SerializeField] private float animationDuration;
       [SerializeField] private GameObject miniReport;
       [SerializeField] private TMP_Text PanelText;
-      private bool isShown;
-      private Coroutine animationCoroutine;
+      private bool _isShown;
+      private Coroutine _animationCoroutine;
 
       public void Toggle()
       {
-         if (animationCoroutine != null) StopCoroutine(animationCoroutine);
+         if (_animationCoroutine != null) StopCoroutine(_animationCoroutine);
          
-         animationCoroutine = StartCoroutine(Animate(isShown ? 1f : 0f, isShown ? 0f : 1f, isShown));
-         isShown = !isShown;
+         _animationCoroutine = StartCoroutine(Animate(_isShown ? 1f : 0f, _isShown ? 0f : 1f, _isShown));
+         _isShown = !_isShown;
       }
 
       public IEnumerator Animate(float from, float to, bool isShown)

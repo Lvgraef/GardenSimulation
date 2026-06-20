@@ -18,9 +18,9 @@ namespace GardenDataManagement
         [SerializeField] private MaterialMenu menu;
         [SerializeField] private GardenSettings gardenSettings;
         
-        private string gardenName;
+        private string _gardenName;
 
-        private Dictionary<int, Material> GardenMaterials;
+        private Dictionary<int, Material> _gardenMaterials;
         
         private GardenDataModel BuildGardenData()
         {
@@ -37,7 +37,7 @@ namespace GardenDataManagement
 
             // Have to link the name to whatever we are planning to get the name from
             GardenDataModel dataModel = new GardenDataModel(
-                gardenName,
+                _gardenName,
                 gridManager.GetSize(),
                 gardenSettingsDataModel
             );
@@ -66,10 +66,10 @@ namespace GardenDataManagement
         
         private void Awake()
         {
-            GardenMaterials = new Dictionary<int, Material>();
+            _gardenMaterials = new Dictionary<int, Material>();
             foreach (var material in menu.Materials)
             {
-                GardenMaterials.Add(material.ID, material);
+                _gardenMaterials.Add(material.ID, material);
             }
 
             gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
@@ -83,7 +83,7 @@ namespace GardenDataManagement
         
         private void HandleGardenSelected(string selectedName)
         {
-            gardenName = selectedName;
+            _gardenName = selectedName;
             GetGardenData();
         }
 
@@ -98,13 +98,13 @@ namespace GardenDataManagement
         
         public void SaveGardenData()
         {
-            if (string.IsNullOrEmpty(gardenName))
+            if (string.IsNullOrEmpty(_gardenName))
             {
               
                 namePromptPopup.Show(
                     onConfirm: chosenName =>
                     {
-                        gardenName = chosenName;
+                        _gardenName = chosenName;
                         PerformSave();
                     },
                     onCancel: () => Debug.Log("Save cancelled")
@@ -137,7 +137,7 @@ namespace GardenDataManagement
         private void GetGardenData()
         {
             // Have to link the name to whatever we are planning to get the name from
-            var gardenData = Datainterface.GetGardenData(gardenName);
+            var gardenData = Datainterface.GetGardenData(_gardenName);
 
             if (gardenData == null)
             {
@@ -161,7 +161,7 @@ namespace GardenDataManagement
                 {
                     int tile = gardenData.Materials[x, y];
                     if(tile == -1) continue;
-                    Material material = GardenMaterials[tile];
+                    Material material = _gardenMaterials[tile];
                     var gridPos = (x, y);
                     gridManager.PlaceMaterial(material, gridPos);
                 }

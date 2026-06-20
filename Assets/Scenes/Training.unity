@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -193,12 +194,12 @@ MonoBehaviour:
   grid: {fileID: 82452225}
   gardenSettings: {fileID: 82452222}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -248,8 +249,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &82452226
@@ -315,6 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -341,12 +346,12 @@ MonoBehaviour:
   grid: {fileID: 91239605}
   gardenSettings: {fileID: 91239602}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -396,8 +401,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &91239606
@@ -463,6 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -489,12 +498,12 @@ MonoBehaviour:
   grid: {fileID: 167723208}
   gardenSettings: {fileID: 167723205}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -544,8 +553,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &167723209
@@ -611,6 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -637,12 +650,12 @@ MonoBehaviour:
   grid: {fileID: 220923176}
   gardenSettings: {fileID: 220923173}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -692,8 +705,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &220923177
@@ -759,6 +775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -785,12 +802,12 @@ MonoBehaviour:
   grid: {fileID: 297692775}
   gardenSettings: {fileID: 297692772}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -840,8 +857,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &297692776
@@ -1034,6 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -1060,12 +1081,12 @@ MonoBehaviour:
   grid: {fileID: 475673375}
   gardenSettings: {fileID: 475673372}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -1115,8 +1136,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &475673376
@@ -1182,6 +1206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -1208,12 +1233,12 @@ MonoBehaviour:
   grid: {fileID: 485488100}
   gardenSettings: {fileID: 485488097}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -1263,8 +1288,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &485488101
@@ -1330,6 +1358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -1356,12 +1385,12 @@ MonoBehaviour:
   grid: {fileID: 518523554}
   gardenSettings: {fileID: 518523551}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -1411,8 +1440,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &518523555
@@ -1478,6 +1510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -1504,12 +1537,12 @@ MonoBehaviour:
   grid: {fileID: 551970523}
   gardenSettings: {fileID: 551970520}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -1559,8 +1592,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &551970524
@@ -1626,6 +1662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -1652,12 +1689,12 @@ MonoBehaviour:
   grid: {fileID: 568488555}
   gardenSettings: {fileID: 568488552}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -1707,8 +1744,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &568488556
@@ -1774,6 +1814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -1800,12 +1841,12 @@ MonoBehaviour:
   grid: {fileID: 592982105}
   gardenSettings: {fileID: 592982102}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -1855,8 +1896,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &592982106
@@ -1922,6 +1966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -1948,12 +1993,12 @@ MonoBehaviour:
   grid: {fileID: 645532371}
   gardenSettings: {fileID: 645532368}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -2003,8 +2048,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &645532372
@@ -2207,6 +2255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -2233,12 +2282,12 @@ MonoBehaviour:
   grid: {fileID: 661718506}
   gardenSettings: {fileID: 661718503}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -2288,8 +2337,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &661718507
@@ -2355,6 +2407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -2381,12 +2434,12 @@ MonoBehaviour:
   grid: {fileID: 672555679}
   gardenSettings: {fileID: 672555676}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -2436,8 +2489,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &672555680
@@ -2503,6 +2559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -2529,12 +2586,12 @@ MonoBehaviour:
   grid: {fileID: 690864801}
   gardenSettings: {fileID: 690864798}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -2584,8 +2641,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &690864802
@@ -2651,6 +2711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -2677,12 +2738,12 @@ MonoBehaviour:
   grid: {fileID: 713297155}
   gardenSettings: {fileID: 713297152}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -2732,8 +2793,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &713297156
@@ -2799,6 +2863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -2879,8 +2944,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 1
   tileArea: 0
 --- !u!4 &715545158
@@ -2946,6 +3014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -2972,12 +3041,12 @@ MonoBehaviour:
   grid: {fileID: 745037871}
   gardenSettings: {fileID: 745037868}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -3027,8 +3096,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &745037872
@@ -3173,6 +3245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -3199,12 +3272,12 @@ MonoBehaviour:
   grid: {fileID: 751300328}
   gardenSettings: {fileID: 751300325}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -3254,8 +3327,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &751300329
@@ -3321,6 +3397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -3347,12 +3424,12 @@ MonoBehaviour:
   grid: {fileID: 763282590}
   gardenSettings: {fileID: 763282587}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -3402,8 +3479,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &763282591
@@ -3469,6 +3549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -3495,12 +3576,12 @@ MonoBehaviour:
   grid: {fileID: 781781939}
   gardenSettings: {fileID: 781781936}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -3550,8 +3631,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &781781940
@@ -3666,6 +3750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -3692,12 +3777,12 @@ MonoBehaviour:
   grid: {fileID: 846702060}
   gardenSettings: {fileID: 846702057}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -3747,8 +3832,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &846702061
@@ -3814,6 +3902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -3840,12 +3929,12 @@ MonoBehaviour:
   grid: {fileID: 851524135}
   gardenSettings: {fileID: 851524132}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -3895,8 +3984,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &851524136
@@ -3962,6 +4054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -3988,12 +4081,12 @@ MonoBehaviour:
   grid: {fileID: 894286456}
   gardenSettings: {fileID: 894286453}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -4043,8 +4136,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &894286457
@@ -4110,6 +4206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -4136,12 +4233,12 @@ MonoBehaviour:
   grid: {fileID: 969080355}
   gardenSettings: {fileID: 969080352}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -4191,8 +4288,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &969080356
@@ -4258,6 +4358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -4284,12 +4385,12 @@ MonoBehaviour:
   grid: {fileID: 989580912}
   gardenSettings: {fileID: 989580909}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -4339,8 +4440,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &989580913
@@ -4406,6 +4510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -4432,12 +4537,12 @@ MonoBehaviour:
   grid: {fileID: 1095474080}
   gardenSettings: {fileID: 1095474077}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -4487,8 +4592,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1095474081
@@ -4554,6 +4662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -4580,12 +4689,12 @@ MonoBehaviour:
   grid: {fileID: 1151129287}
   gardenSettings: {fileID: 1151129284}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -4635,8 +4744,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1151129288
@@ -4702,6 +4814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -4728,12 +4841,12 @@ MonoBehaviour:
   grid: {fileID: 1249187984}
   gardenSettings: {fileID: 1249187981}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -4783,8 +4896,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1249187985
@@ -4850,6 +4966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -4876,12 +4993,12 @@ MonoBehaviour:
   grid: {fileID: 1331700686}
   gardenSettings: {fileID: 1331700683}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -4931,8 +5048,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1331700687
@@ -4998,6 +5118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -5024,12 +5145,12 @@ MonoBehaviour:
   grid: {fileID: 1347945712}
   gardenSettings: {fileID: 1347945709}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -5079,8 +5200,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1347945713
@@ -5146,6 +5270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -5172,12 +5297,12 @@ MonoBehaviour:
   grid: {fileID: 1376370714}
   gardenSettings: {fileID: 1376370711}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -5227,8 +5352,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1376370715
@@ -5294,6 +5422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -5320,12 +5449,12 @@ MonoBehaviour:
   grid: {fileID: 1465166119}
   gardenSettings: {fileID: 1465166116}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -5375,8 +5504,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1465166120
@@ -5442,6 +5574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -5468,12 +5601,12 @@ MonoBehaviour:
   grid: {fileID: 1491131415}
   gardenSettings: {fileID: 1491131412}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -5523,8 +5656,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1491131416
@@ -5590,6 +5726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -5616,12 +5753,12 @@ MonoBehaviour:
   grid: {fileID: 1563856991}
   gardenSettings: {fileID: 1563856988}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -5671,8 +5808,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1563856992
@@ -5738,6 +5878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -5764,12 +5905,12 @@ MonoBehaviour:
   grid: {fileID: 1694788107}
   gardenSettings: {fileID: 1694788104}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -5819,8 +5960,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1694788108
@@ -5886,6 +6030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -5912,12 +6057,12 @@ MonoBehaviour:
   grid: {fileID: 1732790979}
   gardenSettings: {fileID: 1732790976}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -5967,8 +6112,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1732790980
@@ -6034,6 +6182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -6060,12 +6209,12 @@ MonoBehaviour:
   grid: {fileID: 1738581157}
   gardenSettings: {fileID: 1738581154}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -6115,8 +6264,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1738581158
@@ -6182,6 +6334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -6208,12 +6361,12 @@ MonoBehaviour:
   grid: {fileID: 1778448991}
   gardenSettings: {fileID: 1778448988}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -6263,8 +6416,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1778448992
@@ -6330,6 +6486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4557c50a29543f4bf26e4392a6d7b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gardensettings.GardenSettings
+  addressInput: {fileID: 0}
   fertilizerDropdown: {fileID: 0}
   compostCleanupDropdown: {fileID: 0}
   plantDiversityDropdown: {fileID: 0}
@@ -6356,12 +6513,12 @@ MonoBehaviour:
   grid: {fileID: 1850955238}
   gardenSettings: {fileID: 1850955235}
   randomizedMaterialsObject:
-  - {fileID: 5908965096371427213, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
-  - {fileID: 5908965096371427213, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: 6351875310761651169, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
-  - {fileID: 9078382484455037361, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
-  - {fileID: 38570916810793991, guid: ee65b710312c3934cbf3bbd6ed52af31, type: 3}
-  - {fileID: 1403921905561226654, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
+  - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
+  - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
+  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: -8214256778655889163, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
+  - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
+  - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
   buildingMaterialObject: {fileID: 5908965096371427213, guid: b2fe1eb76f017ed4eb9e81fc13e4838a, type: 3}
   maxWidth: 5
   maxHeight: 5
@@ -6411,8 +6568,11 @@ MonoBehaviour:
   training: 1
   width: 5
   height: 5
+  address: 
   cameraManager: {fileID: 0}
   menu: {fileID: 0}
+  gardenSettings: {fileID: 0}
+  buildingMaterial: {fileID: 0}
   tileSize: 0.5
   tileArea: 0
 --- !u!4 &1850955239

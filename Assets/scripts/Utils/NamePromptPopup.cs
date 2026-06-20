@@ -18,8 +18,8 @@ namespace Utils
     private const int MinLength = 3;
     private const int MaxLength = 20;
 
-    private Action<string> onConfirm;
-    private Action onCancel;
+    private Action<string> _onConfirm;
+    private Action _onCancel;
 
     private void Awake()
     {
@@ -34,8 +34,8 @@ namespace Utils
         
         nameInput.text = "";
         feedbackLabel.text = "";
-        this.onConfirm = onConfirm;
-        this.onCancel = onCancel;
+        this._onConfirm = onConfirm;
+        this._onCancel = onCancel;
         gameObject.SetActive(true);
         Debug.Log(gameObject.activeSelf);
         nameInput.Select();
@@ -54,13 +54,13 @@ namespace Utils
         }
 
         gameObject.SetActive(false);
-        onConfirm?.Invoke(name);
+        _onConfirm?.Invoke(name);
     }
 
     private void HandleCancel()
     {
         gameObject.SetActive(false);
-        onCancel?.Invoke();
+        _onCancel?.Invoke();
     }
 
     private string ValidateGardenName(string name)

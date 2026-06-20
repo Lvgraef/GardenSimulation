@@ -239,7 +239,7 @@ namespace ai
                 {
                     EndEpisode();
                     return;
-                };
+                }
                 currentMaterial = grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
             }
 
