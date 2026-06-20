@@ -13,10 +13,11 @@ namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
+        public Material BuildingMaterial => buildingMaterial;
+        
         public const int SubGridSize = 5;
 
         [SerializeField] private bool training;
-
         private Tile[,] _tiles;
 
         private UnityEngine.Material _lineMaterial;
@@ -56,6 +57,8 @@ namespace GridSystem
                 for (var j = 0; j < _tiles.GetLength(1); j++)
                 {
                     var tile = _tiles[i, j];
+                    // check for if tile actually exist
+                    if (tile == null) continue;
                     if (tile.GetMaterial()?.Category == MaterialCategory.Building) continue;
                     action(tile, i, j);
                 }
@@ -112,6 +115,7 @@ namespace GridSystem
 
         public void RemoveTile(int x, int y)
         {
+            if (OutOfBounds(x, y) || _tiles[x, y] is null) return;
             if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building) return;
             _tiles[x, y]?.ClearMaterial();
         }
@@ -131,6 +135,11 @@ namespace GridSystem
                 return null;
             }
 
+            if (_tiles[x, y] is null)
+            {
+                Debug.LogError("No tile data");
+                return null;
+            }
             return _tiles[x, y].GetMaterial()?.ID;
         }
 
@@ -147,8 +156,13 @@ namespace GridSystem
             int y = index / maxHeight;
 
             if (OutOfBounds(x, y)) return;
+            if (_tiles is null)
+            {
+                Debug.LogError("No tile data");
+                return;
+            }
 
-            _tiles[x, y].SetMaterial(material);
+            _tiles[x, y]?.SetMaterial(material);
         }
 
         public void PlaceMaterial(IMaterial material, Vector3 vector)
@@ -193,20 +207,42 @@ namespace GridSystem
             return _tiles[x, y].GetMaterial();
         }
 
+        
         public void Reset()
         {
+            //Checks if tiles even have tiles in it
+            if(_tiles == null) return;
             foreach (var tile in _tiles)
             {
-                tile.ClearMaterial();
+                tile?.ClearMaterial();
             }
         }
 
         //TODO: probably doesn't work
-        public void CreateGrid(int gridWidth, int gridHeight)
+        public void ImportGridData(int gridWidth, int gridHeight)
         {
             if (gridWidth <= 0 || gridHeight <= 0) return;
             Reset();
-            StartCoroutine(GenerateGrid());
+            _tiles =  new Tile[gridWidth, gridHeight];
+            this.width = gridWidth;
+            this.height = gridHeight;
+            GenerateImportedGrid();
+            CreateSubGrids();
+        }
+
+        private void GenerateImportedGrid()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    _tiles[x, y] = new Tile(x, y, this);
+                }
+            }
+
+            float xOffset = width * tileSize / 2;
+            float zOffset = height * tileSize / 2;
+            transform.position = new Vector3(-xOffset, 0, -zOffset);
         }
 
 
@@ -310,7 +346,9 @@ namespace GridSystem
         {
             if (training) return;
             if (!_lineMaterial) return;
-            if (_parcelCoordinates == null || _pandCoordinates == null) return;
+            // Blocks gl rendering for imported grid data also why is this needed?
+            //if (_parcelCoordinates == null || _pandCoordinates == null) return;
+            if(_tiles == null) return;
             GL.PushMatrix();
             _lineMaterial.SetPass(0);
 
@@ -329,7 +367,10 @@ namespace GridSystem
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (_tiles[x, y].GetMaterial()?.Category == MaterialCategory.Building)
+                    var tile = _tiles[x, y];
+
+                    if (tile is null) continue;
+                    if (tile.GetMaterial()?.Category == MaterialCategory.Building)
                         continue;
                     Vector3 bl = origin + new Vector3(
                         x * tileSize,
