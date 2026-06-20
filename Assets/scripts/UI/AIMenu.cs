@@ -17,7 +17,7 @@ namespace UI
         public int FlowerArea { get; private set; } = int.MinValue;
 
         [SerializeField] private GridInferenceAgent inferenceAgent;
-
+        [SerializeField] private GameObject advancedOptions;
         [SerializeField] private TMP_InputField xInput;
         [SerializeField] private TMP_InputField yInput;
         [SerializeField] private TMP_InputField stepsInput;
@@ -111,6 +111,11 @@ namespace UI
             {
                 TileArea = Mathf.RoundToInt((tile / 100f) * (gridManager.width * gridManager.height) * 3f);
             }
+        }
+
+        public void ToggleAdvancedOptions()
+        {
+            advancedOptions.SetActive(!advancedOptions.activeSelf);
         }
     }
 }
