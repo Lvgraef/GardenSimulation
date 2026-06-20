@@ -84,32 +84,32 @@ namespace UI
 
             if (int.TryParse(bushesInput.text, out var bushes))
             {
-                BushArea = bushes;
+                BushArea = Mathf.RoundToInt((bushes / 100f) * (gridManager.width * gridManager.height) * 3f);
             }
 
             if (int.TryParse(waterInput.text, out var water))
             {
-                WaterArea = water;
+                WaterArea = Mathf.RoundToInt((water / 100f) * (gridManager.width * gridManager.height) * 3f);
             }
 
             if (int.TryParse(treesInput.text, out var trees))
             {
-                TreeArea = trees;
+                TreeArea = Mathf.RoundToInt((trees / 100f) * (gridManager.width * gridManager.height) * 3f);
             }
 
             if (int.TryParse(grassInput.text, out var grass))
             {
-                GrassArea = grass;
+                GrassArea = Mathf.RoundToInt((grass / 100f) * (gridManager.width * gridManager.height) * 3f);
             }
 
             if (int.TryParse(flowerInput.text, out var flower))
             {
-                FlowerArea = flower;
+                FlowerArea = Mathf.RoundToInt((flower / 100f) * (gridManager.width * gridManager.height) * 3f);
             }
             
             if (int.TryParse(tilesInput.text, out var tile))
             {
-                TileArea = tile;
+                TileArea = Mathf.RoundToInt((tile / 100f) * (gridManager.width * gridManager.height) * 3f);
             }
         }
     }
