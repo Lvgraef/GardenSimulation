@@ -1,4 +1,5 @@
 ﻿using GardenDataManagement;
+using GridSystem;
 using TMPro;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace gardensettings
         [SerializeField] private TMP_Dropdown spidersDropdown;
         [SerializeField] private TMP_Dropdown otherAnimalsDropdown;
 
+        [SerializeField] private GridManager gridManager;
         public void Updated()
         {
             Address = addressInput.text;
@@ -34,6 +36,8 @@ namespace gardensettings
             Birds = birdsDropdown.value > 0;
             Spiders = spidersDropdown.value > 0;
             OtherAnimals = otherAnimalsDropdown.value > 0;
+            
+            gridManager.InvokeGridChangeEvent();
         }
 
         public void LoadFrom(GardenSettingsDataModel data)

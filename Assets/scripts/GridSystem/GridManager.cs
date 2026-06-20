@@ -50,6 +50,7 @@ namespace GridSystem
 
         public void ForEachTile(Action<Tile, int, int> action)
         {
+            if (_tiles is null) return;
             for (var i = 0; i < _tiles.GetLength(0); i++)
             {
                 for (var j = 0; j < _tiles.GetLength(1); j++)
@@ -211,10 +212,12 @@ namespace GridSystem
 
         private IEnumerator GenerateGrid()
         {
-            yield return new WaitUntil(() =>
-                gardenSettings is not null &&
-                !string.IsNullOrWhiteSpace(gardenSettings.Address));
+            if (_tiles is not null)
+            {
+                Reset();
+            }
             address = gardenSettings.Address;
+            if (address is null) yield break;
             int index = address.IndexOf(',');
             int count = 0;
             for (int i = 0; i < address.Length; i++)
@@ -415,12 +418,22 @@ namespace GridSystem
             tileArea = tileSize * tileSize;
         }
 
-        IEnumerator Start()
+        private IEnumerator CreateGrid()
+        {
+            yield return GenerateGrid();
+            CreateSubGrids();
+        }
+
+        public void UpdateAddress()
+        {
+            StartCoroutine(CreateGrid());
+
+        }
+        
+        void Start()
         {
             Shader shader = Shader.Find("Hidden/Internal-Colored");
             _lineMaterial = new UnityEngine.Material(shader);
-            yield return GenerateGrid();
-            CreateSubGrids();
         }
     }
 }
