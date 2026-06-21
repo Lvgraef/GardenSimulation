@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using gardensettings;
 using GridSystem;
@@ -13,9 +15,13 @@ namespace GardenDataManagement
         private const int EmptyTile = -2;
         private const int BuildingTile = -1;
         
+        // check for when data has been changed
+        private bool _isDirty;
+        
         [SerializeField] private GardenLoadMenu gardenLoadMenu;
         [SerializeField] private ConfirmationPopup confirmationPopup;
         [SerializeField] private NamePromptPopup namePromptPopup;
+        [SerializeField] private InfoPopup infoPopup;
         
         [SerializeField] private GridManager gridManager;
         [SerializeField] private MaterialMenu menu;
@@ -24,6 +30,20 @@ namespace GardenDataManagement
         private string _gardenName;
 
         private Dictionary<int, Material> _gardenMaterials;
+        
+        private void OnGridChanged() => _isDirty = true;
+        
+        private void Awake()
+        {
+            _gardenMaterials = new Dictionary<int, Material>();
+            foreach (var material in menu.Materials)
+            {
+                _gardenMaterials.Add(material.ID, material);
+            }
+            gridManager.GridChangeEvent += OnGridChanged;
+            gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
+        }
+        
         
         private GardenDataModel BuildGardenData()
         {
@@ -82,71 +102,131 @@ namespace GardenDataManagement
             return dataModel;
         }
         
-        private void Awake()
-        {
-            _gardenMaterials = new Dictionary<int, Material>();
-            foreach (var material in menu.Materials)
-            {
-                _gardenMaterials.Add(material.ID, material);
-            }
 
-            gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
-        }
         
         private void OnDestroy()
         {
+            if (gridManager != null)
+                gridManager.GridChangeEvent -= OnGridChanged;
             if (gardenLoadMenu != null)
                 gardenLoadMenu.onGardenSelected.RemoveListener(HandleGardenSelected);
         }
         
         private void HandleGardenSelected(string selectedName)
         {
-            _gardenName = selectedName;
-            GetGardenData();
+            PromptIfDirty(() =>
+            {
+                _gardenName = selectedName;
+                GetGardenData();
+            });
+        }
+        
+        public void CreateNewGarden()
+        {
+            PromptIfDirty(PerformNewGarden);
+        }
+        
+        private void PromptIfDirty(Action proceed)
+        {
+            if (!_isDirty)
+            {
+                proceed();
+                return;
+            }
+
+            confirmationPopup.Show(
+                "U heeft niet opgeslagen wijzigingen. Wilt u deze opslaan?",
+                onConfirm: () => SaveGardenData(onSuccess: proceed),
+                onCancel: () =>
+                    StartCoroutine(ShowDiscardConfirm(proceed))
+            );
         }
 
-        private void PerformSave()
+        private void PerformNewGarden()
+        {
+            gridManager.ClearGrid();
+            gardenSettings.ResetToDefaults();
+            _gardenName = null;
+
+            if (!string.IsNullOrEmpty(gardenSettings.Address))
+            {
+                gridManager.UpdateAddress();
+            }
+
+            _isDirty = false;
+        }
+
+        private void PerformSave(Action onSuccess = null)
         {
             var gardenData = BuildGardenData();
             if (!Datainterface.SaveGardenData(gardenData))
             {
                 Debug.LogError("Failed to save garden!");
+                return;
             }
-            else
-            {
-                Debug.Log("Garden data saved!");
-            }
+            Debug.Log("Garden data saved!");
+            _isDirty = false;
+            onSuccess?.Invoke();
+        }
+        
+        private IEnumerator ShowDiscardConfirm(Action proceed)
+        {
+            yield return null; // wait one frame so the first popup fully closes
+
+            confirmationPopup.Show(
+                "Weet u zeker dat u de wijzigingen wilt verwijderen?",
+                onConfirm: proceed,
+                onCancel: () => Debug.Log("New garden cancelled")
+            );
         }
         
         public void SaveGardenData()
         {
+            SaveGardenData(null);
+        }
+        
+        private void SaveGardenData(Action onSuccess)
+        {
+            var (w, h) = gridManager.GetSize();
+            if (w <= 0 || h <= 0 || gridManager.GetAllTiles() == null)
+            {
+                infoPopup.Show(
+                    "U kunt geen tuin opslaan zonder indeling.",
+                    onConfirm: () => { }
+                );
+                return;
+            }
+
             if (string.IsNullOrEmpty(_gardenName))
             {
-              
                 namePromptPopup.Show(
-                    onConfirm: chosenName =>
+                    onConfirm: chosenName => CheckOverwriteThenSave(chosenName, onSuccess),
+                    onCancel: () => Debug.Log("Save cancelled")
+                );
+                return;
+            }
+
+            CheckOverwriteThenSave(_gardenName, onSuccess);
+        }
+
+        private void CheckOverwriteThenSave(string candidateName, Action onSuccess)
+        {
+            if (Datainterface.GardenExists(candidateName))
+            {
+                confirmationPopup.Show(
+                    "Weet u het zeker dat u deze tuin indeling wilt overschrijven?",
+                    onConfirm: () =>
                     {
-                        _gardenName = chosenName;
-                        PerformSave();
+                        _gardenName = candidateName;
+                        PerformSave(onSuccess);
                     },
                     onCancel: () => Debug.Log("Save cancelled")
                 );
                 return;
             }
-            var gardenData = BuildGardenData(); 
-            
-            if (Datainterface.GardenExists(gardenData.GardenName))
-            {
-                confirmationPopup.Show(
-                    "Weet u het zeker dat u deze tuin indeling wilt overschrijven?",
-                    onConfirm: PerformSave,
-                    onCancel: () => Debug.Log("Save cancelled")
-                );
 
-                return;
-            }
-
-            PerformSave();
+            _gardenName = candidateName;
+            PerformSave(onSuccess);
         }
 
         public void OpenGardenLoadMenu()
@@ -194,6 +274,7 @@ namespace GardenDataManagement
                     gridManager.PlaceMaterial(material, (x, y));
                 }
             }
+            _isDirty = false;
         }
 
 

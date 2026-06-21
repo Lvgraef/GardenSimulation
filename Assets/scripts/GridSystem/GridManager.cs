@@ -306,6 +306,18 @@ namespace GridSystem
             float zOffset = height * tileSize / 2;
             transform.position = new Vector3(-xOffset, 0, -zOffset);
         }
+        
+        public void ClearGrid()
+        {
+            Reset();                      
+            _tiles = null;
+            SubGrids = null;
+            _parcelCoordinates = null;
+            _pandCoordinates = null;
+            width = 0;
+            height = 0;
+            GridChangeEvent?.Invoke();
+        }
 
 
         private IEnumerator GenerateGrid()
