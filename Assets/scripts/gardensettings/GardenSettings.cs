@@ -39,6 +39,28 @@ namespace gardensettings
             
             gridManager.InvokeGridChangeEvent();
         }
+        
+        public void ResetToDefaults()
+        {
+            
+            fertilizerDropdown.value = 0;
+            compostCleanupDropdown.value = 0;
+            plantDiversityDropdown.value = 0;
+            flyingInsectsDropdown.value = 0;
+            birdsDropdown.value = 0;
+            spidersDropdown.value = 0;
+            otherAnimalsDropdown.value = 0;
+
+            fertilizerDropdown.RefreshShownValue();
+            compostCleanupDropdown.RefreshShownValue();
+            plantDiversityDropdown.RefreshShownValue();
+            flyingInsectsDropdown.RefreshShownValue();
+            birdsDropdown.RefreshShownValue();
+            spidersDropdown.RefreshShownValue();
+            otherAnimalsDropdown.RefreshShownValue();
+
+            Updated();
+        }
 
         public void LoadFrom(GardenSettingsDataModel data)
         {
