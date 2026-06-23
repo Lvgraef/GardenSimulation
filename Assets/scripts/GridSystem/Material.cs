@@ -37,7 +37,7 @@ namespace GridSystem
         {
             return Instantiate(this,
                 manager.transform.position + new Vector3(tile.X * manager.tileSize + offset.x, offset.y,
-                    tile.Z * manager.tileSize + offset.z), new Quaternion());
+                    tile.Z * manager.tileSize + offset.z), this.transform.rotation);
         }
 
         public void Clear()

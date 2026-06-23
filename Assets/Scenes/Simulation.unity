@@ -2106,7 +2106,7 @@ MonoBehaviour:
   randomizedMaterialsObject:
   - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
   - {fileID: 1008437367270504450, guid: c2662a6b759f4eb47999990840da0d14, type: 3}
-  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: 223541526121167394, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
   - {fileID: -4226915916544939162, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
   - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
@@ -12291,8 +12291,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 462213402}
   m_HandleRect: {fileID: 462213401}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999998
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16169,7 +16169,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 967514354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.00000017881393, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -67853,7 +67853,7 @@ MonoBehaviour:
   outlineMaterial: {fileID: 2100000, guid: ca598d25359bc964a99dc81a1484a06a, type: 2}
   Materials:
   - {fileID: -9003084910098629826, guid: d340e80c2c9a5914a88e87c35be35ef4, type: 3}
-  - {fileID: -6064129441881389257, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
+  - {fileID: 223541526121167394, guid: de31fd508631b93419aa3b541c3e9f38, type: 3}
   - {fileID: -4226915916544939162, guid: 05f45795649028c4bb0be273e6737ea4, type: 3}
   - {fileID: 8945874947370921580, guid: df06d8af1aa1ae34d9fda0fcec9a7ab3, type: 3}
   - {fileID: -2225156136722977803, guid: ddbbc23778733a140ad2c313b7c32ef8, type: 3}
