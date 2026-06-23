@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -25,8 +24,8 @@ namespace camera
         [SerializeField] private InputAction pan;
         [SerializeField] private InputAction zoom;
         [SerializeField] private InputAction reset;
-        private float panSpeedTouch = 0.5f;
-        private float zoomSpeedTouch = 0.05f;
+        [SerializeField]private float panSpeedTouch = 0.5f;
+        [SerializeField]private float zoomSpeedTouch = 0.05f;
 
 
         private const float MinZoom = 1;
@@ -34,8 +33,8 @@ namespace camera
 
         private void Start()
         {
-            ResetTransform();
             EnhancedTouchSupport.Enable();
+            ResetTransform();
             pan.Enable();
             zoom.Enable();
             reset.Enable();
@@ -48,8 +47,15 @@ namespace camera
             {
                 ResetTransform();
             }
+            zooming();
+            panning();
+        }
 
 
+
+
+        // Zoom function for keyboard with = and - keys, mouse scroll wheel, and touch pinch gesture for touchscreen
+        private void zooming() {
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
 
             var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
@@ -69,34 +75,20 @@ namespace camera
                 zoomAmount += zoom * zoomSpeedTouch;
             }
 
-           
-            
-            // Zoom
             cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
-            
+        }
 
 
 
-            // Pan
-            bool isTouchPanning = false;
-            if (Touchscreen.current != null)
-            {
-                int count = 0;
-                foreach (var p in Touchscreen.current.touches)
-                {
-                    if (p.press.IsPressed())
-                    {
-                        count++;
-                    }
-                }
-                isTouchPanning = count == 3;
-            }
-
+        // Pan function for arrow keys, middle mouse button, and touch three-finger drag gesture for touchscreen
+        private void panning() {
+            var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
             bool isArrowPanning = Keyboard.current != null &&
-                            (Keyboard.current.wKey.isPressed ||
-                             Keyboard.current.aKey.isPressed ||
-                             Keyboard.current.dKey.isPressed ||
-                             Keyboard.current.sKey.isPressed);
+                               (Keyboard.current.wKey.isPressed ||
+                                Keyboard.current.aKey.isPressed ||
+                                Keyboard.current.dKey.isPressed ||
+                                Keyboard.current.sKey.isPressed);
+
             bool isMiddleMousePanning = Mouse.current != null && Mouse.current.middleButton.isPressed;
 
             if (isArrowPanning || isMiddleMousePanning)
@@ -105,14 +97,22 @@ namespace camera
                 transform.Translate(panAmount.x, 0, panAmount.y, Space.World);
             }
 
-            if (isTouchPanning)
+            if (activeTouches.Count == 3)
             {
-                var panAmount = pan.ReadValue<Vector2>();
-                transform.Translate(panAmount.x * panSpeedTouch, 0, panAmount.y * panSpeedTouch, Space.World);
+                Vector2 avgDeltaTouch =
+                    (activeTouches[0].delta +
+                     activeTouches[1].delta +
+                     activeTouches[2].delta) / 3f;
+
+                transform.Translate(
+                    -avgDeltaTouch.x * panSpeedTouch * Time.deltaTime,
+                    0,
+                    -avgDeltaTouch.y * panSpeedTouch * Time.deltaTime,
+                    Space.World);
             }
-            
         }
 
+        // Reset the camera position and size to the origin values
         private void ResetTransform()
         {
             transform.position = origin.originPosition;
