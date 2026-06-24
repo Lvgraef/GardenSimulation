@@ -19,18 +19,14 @@ namespace camera
         }
         private Vector2 CurrentPosition;
         [SerializeField] private Camera cameraComponent;
-
         [SerializeField] private Origin origin;
         [SerializeField] private InputAction pan;
         [SerializeField] private InputAction zoom;
         [SerializeField] private InputAction reset;
         [SerializeField]private float panSpeedTouch = 0.5f;
         [SerializeField]private float zoomSpeedTouch = 0.05f;
-
-
         private const float MinZoom = 1;
         private const float MaxZoom = 15;
-
         private void Start()
         {
             EnhancedTouchSupport.Enable();
@@ -39,7 +35,6 @@ namespace camera
             zoom.Enable();
             reset.Enable();
         }
-
         private void Update()
         {
             // Reset
@@ -51,13 +46,11 @@ namespace camera
             panning();
         }
 
-
-
-
-        // Zoom function for keyboard with = and - keys, mouse scroll wheel, and touch pinch gesture for touchscreen
+        /// <summary>
+        /// Zoom function for keyboard with = and - keys, mouse scroll wheel, and touch pinch gesture for touchscreen
+        /// </summary>
         private void zooming() {
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
-
             var zoomAmount = zoom.ReadValue<float>() * Time.deltaTime;
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
 
@@ -78,9 +71,9 @@ namespace camera
             cameraComponent.orthographicSize = Math.Clamp(cameraComponent.orthographicSize + zoomAmount, MinZoom, MaxZoom);
         }
 
-
-
-        // Pan function for arrow keys, middle mouse button, and touch three-finger drag gesture for touchscreen
+        /// <summary>
+        /// Pan function for wasd keys, middle mouse button, and touch three-finger drag gesture for touchscreen
+        /// </summary>
         private void panning() {
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
             bool isArrowPanning = Keyboard.current != null &&
@@ -112,7 +105,9 @@ namespace camera
             }
         }
 
-        // Reset the camera position and size to the origin values
+        /// <summary>
+        /// Reset the camera position and size to the origin values
+        /// </summary>
         private void ResetTransform()
         {
             transform.position = origin.originPosition;
