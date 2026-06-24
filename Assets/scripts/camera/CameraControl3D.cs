@@ -30,12 +30,13 @@ namespace camera
         [SerializeField] private InputAction reset;
         [SerializeField] private Origin origin;
         [SerializeField] private Transform mainCamera;
-        [SerializeField] private const float MinZoom = 1;
-        [SerializeField] private const float MaxZoom = 15;
         [SerializeField] private float rotationSpeedMouse = 0.001f;
         [SerializeField] private float rotationSpeedTouch = 0.1f;
         [SerializeField] private float panSpeedTouch = 0.5f;
         [SerializeField] private float zoomSpeedTouch = 0.05f;
+        
+        private const float MinZoom = 1;
+        private const float MaxZoom = 25;
 
         void Start()
         {
@@ -64,7 +65,7 @@ namespace camera
             
         }
 
-        //rotate function that handles mouse, touch and keyboard input for rotating the camera
+        ///rotate function that handles mouse, touch and keyboard input for rotating the camera
         private void rotating() {
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
@@ -99,7 +100,7 @@ namespace camera
             }
         }
 
-        //zoom function for keyboard with = and - keys, mouse scroll wheel and touch pinch gesture for touchscreen
+        ///zoom function for keyboard with = and - keys, mouse scroll wheel and touch pinch gesture for touchscreen
         private void zooming() {
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
@@ -128,7 +129,7 @@ namespace camera
             }
         }
 
-        //pan function for keyboard with WASD, mouse middle button and touch three finger drag gesture for touchscreen
+        ///pan function for keyboard with WASD, mouse middle button and touch three finger drag gesture for touchscreen
         private void panning() {
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;

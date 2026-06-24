@@ -14,25 +14,25 @@ namespace GardenDataManagement
     {
         private const int EmptyTile = -2;
         private const int BuildingTile = -1;
-        
+
         // check for when data has been changed
         private bool _isDirty;
-        
+
         [SerializeField] private GardenLoadMenu gardenLoadMenu;
         [SerializeField] private ConfirmationPopup confirmationPopup;
         [SerializeField] private NamePromptPopup namePromptPopup;
         [SerializeField] private InfoPopup infoPopup;
-        
+
         [SerializeField] private GridManager gridManager;
         [SerializeField] private MaterialMenu menu;
         [SerializeField] private GardenSettings gardenSettings;
-        
+
         private string _gardenName;
 
         private Dictionary<int, Material> _gardenMaterials;
-        
+
         private void OnGridChanged() => _isDirty = true;
-        
+
         private void Awake()
         {
             _gardenMaterials = new Dictionary<int, Material>();
@@ -40,20 +40,22 @@ namespace GardenDataManagement
             {
                 _gardenMaterials.Add(material.ID, material);
             }
+
             gridManager.GridChangeEvent += OnGridChanged;
             gardenLoadMenu.onGardenSelected.AddListener(HandleGardenSelected);
         }
-        
-        
+
+
         private GardenDataModel BuildGardenData()
         {
-            Tile [,] allTiles = gridManager.GetAllTiles();
+            Tile[,] allTiles = gridManager.GetAllTiles();
 
             if (allTiles == null)
             {
                 Debug.Log("No tiles found!");
                 return null;
             }
+
             GardenSettingsDataModel gardenSettingsDataModel = new GardenSettingsDataModel(
                 gardenSettings.Fertilizer,
                 gardenSettings.CompostCleanup,
@@ -70,7 +72,7 @@ namespace GardenDataManagement
                 gridManager.GetSize(),
                 gardenSettingsDataModel
             );
-  
+
             for (int x = 0; x < allTiles.GetLength(0); x++)
             {
                 for (int y = 0; y < allTiles.GetLength(1); y++)
@@ -99,11 +101,11 @@ namespace GardenDataManagement
                     dataModel.StoreMaterials(material.ID, (x, y));
                 }
             }
+
             return dataModel;
         }
-        
 
-        
+
         private void OnDestroy()
         {
             if (gridManager != null)
@@ -111,7 +113,7 @@ namespace GardenDataManagement
             if (gardenLoadMenu != null)
                 gardenLoadMenu.onGardenSelected.RemoveListener(HandleGardenSelected);
         }
-        
+
         private void HandleGardenSelected(string selectedName)
         {
             PromptIfDirty(() =>
@@ -120,12 +122,12 @@ namespace GardenDataManagement
                 GetGardenData();
             });
         }
-        
+
         public void CreateNewGarden()
         {
             PromptIfDirty(PerformNewGarden);
         }
-        
+
         private void PromptIfDirty(Action proceed)
         {
             if (!_isDirty)
@@ -159,16 +161,17 @@ namespace GardenDataManagement
         private void PerformSave(Action onSuccess = null)
         {
             var gardenData = BuildGardenData();
-            if (!Datainterface.SaveGardenData(gardenData))
+            if (!DataInterface.SaveGardenData(gardenData))
             {
                 Debug.LogError("Failed to save garden!");
                 return;
             }
+
             Debug.Log("Garden data saved!");
             _isDirty = false;
             onSuccess?.Invoke();
         }
-        
+
         private IEnumerator ShowDiscardConfirm(Action proceed)
         {
             yield return null; // wait one frame so the first popup fully closes
@@ -179,12 +182,12 @@ namespace GardenDataManagement
                 onCancel: () => Debug.Log("New garden cancelled")
             );
         }
-        
+
         public void SaveGardenData()
         {
             SaveGardenData(null);
         }
-        
+
         private void SaveGardenData(Action onSuccess)
         {
             var (w, h) = gridManager.GetSize();
@@ -211,7 +214,7 @@ namespace GardenDataManagement
 
         private void CheckOverwriteThenSave(string candidateName, Action onSuccess)
         {
-            if (Datainterface.GardenExists(candidateName))
+            if (DataInterface.GardenExists(candidateName))
             {
                 confirmationPopup.Show(
                     "Weet u het zeker dat u deze tuin indeling wilt overschrijven?",
@@ -233,12 +236,12 @@ namespace GardenDataManagement
         {
             gardenLoadMenu.gameObject.SetActive(true);
         }
-        
+
         // Need to refresh chartbar i think
         private void GetGardenData()
         {
             // Have to link the name to whatever we are planning to get the name from
-            var gardenData = Datainterface.GetGardenData(_gardenName);
+            var gardenData = DataInterface.GetGardenData(_gardenName);
 
             if (gardenData == null)
             {
@@ -252,10 +255,10 @@ namespace GardenDataManagement
                 return;
             }
 
-         
+
             gridManager.ImportGridData(gardenData.GridSize.Width, gardenData.GridSize.Height);
             gardenSettings.LoadFrom(gardenData.GardenSettings);
-            
+
             for (int x = 0; x < gardenData.Materials.GetLength(0); x++)
             {
                 for (int y = 0; y < gardenData.Materials.GetLength(1); y++)
@@ -274,10 +277,8 @@ namespace GardenDataManagement
                     gridManager.PlaceMaterial(material, (x, y));
                 }
             }
+
             _isDirty = false;
         }
-
-
-        
     }
 }

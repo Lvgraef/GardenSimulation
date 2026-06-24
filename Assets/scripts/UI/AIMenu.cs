@@ -70,13 +70,13 @@ namespace UI
 
             if (int.TryParse(xInput.text, out var x))
             {
-                xParsed = x;
+                xParsed = Mathf.Max(x, 0);
                 changed = true;
             }
 
             if (int.TryParse(yInput.text, out var y))
             {
-                yParsed = y;
+                yParsed = Mathf.Max(y, 0);
                 changed = true;
             }
 
@@ -84,32 +84,32 @@ namespace UI
 
             if (int.TryParse(bushesInput.text, out var bushes))
             {
-                BushArea = Mathf.RoundToInt((bushes / 100f) * (gridManager.width * gridManager.height) * 3f);
+                BushArea = Mathf.Max(0, Mathf.RoundToInt((bushes / 100f) * (gridManager.width * gridManager.height) * 3f));
             }
 
             if (int.TryParse(waterInput.text, out var water))
             {
-                WaterArea = Mathf.RoundToInt((water / 100f) * (gridManager.width * gridManager.height) * 3f);
+                WaterArea = Mathf.Max(0, Mathf.RoundToInt((water / 100f) * (gridManager.width * gridManager.height) * 3f));
             }
 
             if (int.TryParse(treesInput.text, out var trees))
             {
-                TreeArea = Mathf.RoundToInt((trees / 100f) * (gridManager.width * gridManager.height) * 3f);
+                TreeArea = Mathf.Max(0, Mathf.RoundToInt((trees / 100f) * (gridManager.width * gridManager.height) * 3f));
             }
 
             if (int.TryParse(grassInput.text, out var grass))
             {
-                GrassArea = Mathf.RoundToInt((grass / 100f) * (gridManager.width * gridManager.height) * 3f);
+                GrassArea = Mathf.Max(0, Mathf.RoundToInt((grass / 100f) * (gridManager.width * gridManager.height) * 3f));
             }
 
             if (int.TryParse(flowerInput.text, out var flower))
             {
-                FlowerArea = Mathf.RoundToInt((flower / 100f) * (gridManager.width * gridManager.height) * 3f);
+                FlowerArea = Mathf.Max(0, Mathf.RoundToInt((flower / 100f) * (gridManager.width * gridManager.height) * 3f));
             }
             
             if (int.TryParse(tilesInput.text, out var tile))
             {
-                TileArea = Mathf.RoundToInt((tile / 100f) * (gridManager.width * gridManager.height) * 3f);
+                TileArea = Mathf.Max(Mathf.RoundToInt((tile / 100f) * (gridManager.width * gridManager.height) * 3f));
             }
         }
 

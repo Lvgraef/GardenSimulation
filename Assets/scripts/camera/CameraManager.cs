@@ -50,7 +50,6 @@ namespace camera
 
             
             buttonImage.sprite = Is2D ? icon3D : icon2D;
-            // buttonText.text = Is2D ? "3D" : "2D";
         }
 
         public Camera GetCurrentCamera()

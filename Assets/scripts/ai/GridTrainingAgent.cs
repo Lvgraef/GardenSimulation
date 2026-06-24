@@ -16,29 +16,26 @@ namespace ai
     {
         [SerializeField] private GridManager grid;
         [SerializeField] private GardenSettings gardenSettings;
-        private IMaterial[] _randomizedMaterials;
-        private IMaterial _buildingMaterial;
-
         [SerializeField] private Material[] randomizedMaterialsObject;
         [SerializeField] private Material buildingMaterialObject;
+        [SerializeField] private int maxWidth = 5;
+        [SerializeField] private int maxHeight = 5;
 
+        private IMaterial[] _randomizedMaterials;
+        private IMaterial _buildingMaterial;
         private Calculator _calculator;
 
         private int _preFilled;
         private int _empty;
-
-        [SerializeField] private int maxWidth = 5;
-        [SerializeField] private int maxHeight = 5;
-
         private float _previousCalculationResult;
         private float _firstScore;
-
         private int _gridIndex;
 
         private List<int> _materialAreaCounts = new(6);
         private List<(int, int)> _emptyTiles = new();
         private List<IMaterial> _pickableMaterials = new();
 
+        /// Fill the grid randomly with a given material
         private void PreFillGridRandomly(IMaterial[] material, Func<int, int> countFunction)
         {
             _emptyTiles.Clear();
@@ -115,7 +112,7 @@ namespace ai
                 }
             }
 
-            
+
             float[] weights = new float[activeMaterials.Count];
             float totalWeight = 0;
             for (int i = 0; i < activeMaterials.Count; i++)
@@ -133,7 +130,7 @@ namespace ai
             }
 
             if (activeMaterials.Count == 0) return;
-            
+
             int lastMaterialID = activeMaterials[^1].ID;
             _materialAreaCounts[lastMaterialID] = size - totalDistributed;
         }
@@ -172,7 +169,7 @@ namespace ai
             });
 
             _empty = _emptyTiles.Count;
-            
+
             var calculationResult = _calculator.Calculate(true).CalculationResult;
             var result = (calculationResult.AnimalScore + calculationResult.PlantScore + calculationResult.SoilScore +
                           calculationResult.WaterScore);
@@ -182,6 +179,7 @@ namespace ai
 
         public override void CollectObservations(VectorSensor sensor)
         {
+            // Grid tile observations
             for (int i = 0; i < maxWidth; i++)
             {
                 for (int j = 0; j < maxHeight; j++)
@@ -191,6 +189,7 @@ namespace ai
                 }
             }
 
+            // Material count observations
             foreach (var materialAreaCount in _materialAreaCounts)
             {
                 float norm = materialAreaCount switch
@@ -198,15 +197,17 @@ namespace ai
                     int.MinValue => -1f,
                     _ => (float)materialAreaCount / (maxWidth * maxHeight)
                 };
-                
+
                 sensor.AddObservation(norm);
             }
-            
+
+            // Location of the next tile placement
             int currentX = _gridIndex % maxWidth;
             int currentY = _gridIndex / maxWidth;
             sensor.AddObservation((float)currentX / maxWidth);
             sensor.AddObservation((float)currentY / maxHeight);
 
+            // Garden settings
             sensor.AddObservation(gardenSettings.Birds);
             sensor.AddObservation(gardenSettings.FlyingInsects);
             sensor.AddObservation(gardenSettings.Spiders);
@@ -223,7 +224,7 @@ namespace ai
         public override void OnActionReceived(ActionBuffers actions)
         {
             bool constraint = true;
-            
+
             if (_gridIndex >= maxWidth * maxHeight)
             {
                 EndEpisode();
@@ -232,6 +233,7 @@ namespace ai
 
             int? currentMaterial = grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
 
+            // Skip non-empty tiles
             while (_gridIndex < maxWidth * maxHeight && currentMaterial is not null)
             {
                 _gridIndex++;
@@ -240,11 +242,13 @@ namespace ai
                     EndEpisode();
                     return;
                 }
+
                 currentMaterial = grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
             }
 
             var placementAction = actions.DiscreteActions[0];
 
+            // place material and give rewards based on budget
             if (currentMaterial is null)
             {
                 int currentBudget = _materialAreaCounts[placementAction];
@@ -276,18 +280,21 @@ namespace ai
 
             _gridIndex++;
 
+            // give calculation rewards
             var calculationResult = _calculator.Calculate(true).CalculationResult;
-            
+
             var result = (calculationResult.AnimalScore + calculationResult.PlantScore + calculationResult.SoilScore +
                           calculationResult.WaterScore);
             if (constraint)
             {
                 AddReward(0.5f * Math.Clamp(result - _previousCalculationResult, -0.2f, 0.2f));
             }
+
             _previousCalculationResult = result;
 
             if (_empty > 0) return;
 
+            // End of episode rewards
             foreach (var value in _materialAreaCounts)
             {
                 if (value == int.MinValue) continue;
@@ -299,12 +306,13 @@ namespace ai
                     AddReward(1f);
                 }
             }
-            
+
             var finalResult = _calculator.Calculate(true).CalculationResult;
-            
-            float totalEcoScore = finalResult.WaterScore + finalResult.SoilScore + finalResult.AnimalScore + finalResult.PlantScore - _firstScore;
-            
-            AddReward(0.1f * totalEcoScore); 
+
+            float totalEcoScore = finalResult.WaterScore + finalResult.SoilScore + finalResult.AnimalScore +
+                finalResult.PlantScore - _firstScore;
+
+            AddReward(0.1f * totalEcoScore);
 
             EndEpisode();
         }
@@ -313,6 +321,7 @@ namespace ai
         {
             _calculator = new Calculator(BasicCalculationModel.Instance, grid, gardenSettings);
 
+            // Virtual materials for faster training
             _randomizedMaterials = new IMaterial[]
             {
                 new VirtualMaterial("Water", MaterialCategory.NonPermeable, 0),
@@ -324,15 +333,6 @@ namespace ai
             };
 
             _buildingMaterial = new VirtualMaterial("Building", MaterialCategory.Building, -1);
-
-            // _randomizedMaterials = new IMaterial[randomizedMaterialsObject.Length];
-            //
-            // for (var index = 0; index < randomizedMaterialsObject.Length; index++)
-            // {
-            //     _randomizedMaterials[index] = randomizedMaterialsObject[index];
-            // }
-            //
-            // _buildingMaterial = buildingMaterialObject;
         }
     }
 }

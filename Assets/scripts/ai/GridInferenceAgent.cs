@@ -16,36 +16,32 @@ namespace ai
     public class GridInferenceAgent : Agent
     {
         public AIMenu aiMenu;
-        public SubGrid Grid;
         public GridManager gridManager;
-        [SerializeField] private GardenSettings gardenSettings;
-        private IMaterial[] _randomizedMaterials;
 
+        [SerializeField] private GardenSettings gardenSettings;
         [SerializeField] private Material[] randomizedMaterialsObject;
         [SerializeField] private Material buildingMaterialObject;
-
+        [SerializeField] private int maxWidth = 5;
+        [SerializeField] private int maxHeight = 5;
+        
+        private SubGrid _grid;
         private Calculator _calculator;
+        private IMaterial[] _randomizedMaterials;
 
         private int _preFilled;
         private int _empty;
-
-        [SerializeField] private int maxWidth = 5;
-        [SerializeField] private int maxHeight = 5;
-
         private int _gridIndex;
-
         private int _step;
-
         private List<int> _materialAreaCounts = new(6);
         private List<(int, int)> _emptyTiles = new();
 
         public override void OnEpisodeBegin()
         {
+            // reset and clear everything
             _gridIndex = 0;
-
             _emptyTiles.Clear();
 
-            Grid.ForEachTile((tile, x, y) =>
+            _grid.ForEachTile((tile, x, y) =>
             {
                 if (tile.GetMaterial() is null)
                 {
@@ -58,15 +54,17 @@ namespace ai
 
         public override void CollectObservations(VectorSensor sensor)
         {
+            // Grid tile observations
             for (int i = 0; i < maxWidth; i++)
             {
                 for (int j = 0; j < maxHeight; j++)
                 {
-                    int id = Grid.GetMaterial(i, j)?.ID ?? -1;
+                    int id = _grid.GetMaterial(i, j)?.ID ?? -1;
                     sensor.AddOneHotObservation(id + 1, _randomizedMaterials.Length + 1);
                 }
             }
 
+            // Material count observations
             foreach (var materialAreaCount in _materialAreaCounts)
             {
                 float norm = materialAreaCount switch
@@ -78,11 +76,13 @@ namespace ai
                 sensor.AddObservation(norm);
             }
 
+            // Location of the next tile placement
             int currentX = _gridIndex % maxWidth;
             int currentY = _gridIndex / maxWidth;
             sensor.AddObservation((float)currentX / maxWidth);
             sensor.AddObservation((float)currentY / maxHeight);
 
+            // Garden settings
             sensor.AddObservation(gardenSettings.Birds);
             sensor.AddObservation(gardenSettings.FlyingInsects);
             sensor.AddObservation(gardenSettings.Spiders);
@@ -104,19 +104,20 @@ namespace ai
                 return;
             }
 
-            int? currentMaterial = Grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
+            int? currentMaterial = _grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
 
-            while (_gridIndex < maxWidth * maxHeight && currentMaterial == -1)
+            // Skip non-empty tiles
+            while (_gridIndex < maxWidth * maxHeight && currentMaterial is not null)
             {
                 _gridIndex++;
-                currentMaterial = Grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
+                currentMaterial = _grid.GetMaterialId(_gridIndex, maxWidth, maxHeight);
             }
 
             var placementAction = actions.DiscreteActions[0];
 
             if (currentMaterial is null)
             {
-                Grid.PlaceMaterial(_randomizedMaterials[placementAction], _gridIndex, maxWidth, maxHeight);
+                _grid.PlaceMaterial(_randomizedMaterials[placementAction], _gridIndex, maxWidth, maxHeight);
                 _empty--;
 
                 if (_materialAreaCounts[placementAction] != int.MinValue)
@@ -189,6 +190,7 @@ namespace ai
 
                 var subGridsLength = gridManager.SubGrids.Length;
                 
+                // if global divide the global area preferences over the subgrids
                 int[] bushAreas = DistributeUniformly(aiMenu.BushArea, subGridsLength);
                 int[] flowerAreas = DistributeUniformly(aiMenu.FlowerArea, subGridsLength);
                 int[] grassAreas = DistributeUniformly(aiMenu.GrassArea, subGridsLength);
@@ -205,7 +207,7 @@ namespace ai
 
                     if (oY != y || oX != x)
                     {
-                        Grid = gridManager.SubGrids[x, y];
+                        _grid = gridManager.SubGrids[x, y];
                         _materialAreaCounts.Clear();
                         _materialAreaCounts.Add(waterAreas[y * (gridManager.width / GridManager.SubGridSize) + x]);
                         _materialAreaCounts.Add(tileAreas[y * (gridManager.width / GridManager.SubGridSize) + x]);
@@ -226,7 +228,7 @@ namespace ai
             }
             else
             {
-                Grid = gridManager.SubGrids[
+                _grid = gridManager.SubGrids[
                     Math.Min(aiMenu.SelectedSubGrid.Value.Item1, gridManager.SubGrids.GetLength(0)),
                     Math.Min(aiMenu.SelectedSubGrid.Value.Item2, gridManager.SubGrids.GetLength(1))];
                 _materialAreaCounts.Clear();

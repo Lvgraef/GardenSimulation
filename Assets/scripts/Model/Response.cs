@@ -1,4 +1,4 @@
-namespace GardenSimulation.Model
+namespace Model
 {
     public class Response
     {
