@@ -20,7 +20,7 @@ namespace GardenDataManagement
             Materials = materials;
             GardenSettings = gardenSettings;
         }
-        
+
         public GardenDataModel(string gardenName, (int Width, int Height) gridSize,
             GardenSettingsDataModel gardenSettings)
         {
@@ -64,6 +64,4 @@ namespace GardenDataManagement
             OtherAnimals = otherAnimals;
         }
     }
-    
-
 }

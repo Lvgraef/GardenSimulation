@@ -5,9 +5,8 @@ using Newtonsoft.Json;
 
 namespace GardenDataManagement
 {
-    public class Datainterface : MonoBehaviour
+    public class DataInterface : MonoBehaviour
     {
-        
         private const string GardenFolderName = "GardenData";
 
         private static string GetGardenFolder()
@@ -17,20 +16,21 @@ namespace GardenDataManagement
             {
                 Directory.CreateDirectory(folder);
             }
-            return folder; 
+
+            return folder;
         }
-        
+
         private static string GetGardenPath(string gardenName)
         {
             return Path.Combine(GetGardenFolder(), $"{gardenName}.json");
         }
-        
+
         public static bool GardenExists(string gardenName)
         {
             return File.Exists(GetGardenPath(gardenName));
         }
-            
-            
+
+
         public static bool SaveGardenData(GardenDataModel gardenData)
         {
             string path = GetGardenPath(gardenData.GardenName);
@@ -45,7 +45,6 @@ namespace GardenDataManagement
                 Debug.LogError(e);
                 return false;
             }
-            
         }
 
         public static GardenDataModel GetGardenData(string gardenName)
@@ -63,9 +62,8 @@ namespace GardenDataManagement
                 Debug.LogError(e);
                 throw;
             }
-            
         }
-        
+
         public static string[] GetAllGardenNames()
         {
             string folder = GetGardenFolder();
@@ -74,8 +72,8 @@ namespace GardenDataManagement
             {
                 files[i] = Path.GetFileNameWithoutExtension(files[i]);
             }
+
             return files;
         }
     }
-
 }

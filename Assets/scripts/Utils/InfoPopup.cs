@@ -20,7 +20,7 @@ namespace Utils
         public void Show(string message, Action onConfirm, Action onCancel = null)
         {
             messageLabel.text = message;
-            this._onConfirm = onConfirm;
+            _onConfirm = onConfirm;
             gameObject.SetActive(true);
         }
 

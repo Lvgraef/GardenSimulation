@@ -20509,6 +20509,10 @@ MonoBehaviour:
     originRotation: {x: 45, y: 0}
     originDistance: 5
   mainCamera: {fileID: 330585546}
+  rotationSpeedMouse: 0.001
+  rotationSpeedTouch: 0.1
+  panSpeedTouch: 0.5
+  zoomSpeedTouch: 0.05
 --- !u!1 &610297627
 GameObject:
   m_ObjectHideFlags: 0
@@ -60948,6 +60952,8 @@ MonoBehaviour:
       m_Action: Reset
       m_Flags: 0
     m_Flags: 0
+  panSpeedTouch: 0.5
+  zoomSpeedTouch: 0.05
 --- !u!1 &1827963989
 GameObject:
   m_ObjectHideFlags: 0

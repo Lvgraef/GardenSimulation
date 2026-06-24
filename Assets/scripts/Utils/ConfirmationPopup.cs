@@ -23,8 +23,8 @@ namespace Utils
         public void Show(string message, Action onConfirm, Action onCancel = null)
         {
             messageLabel.text = message;
-            this._onConfirm = onConfirm;
-            this._onCancel = onCancel;
+            _onConfirm = onConfirm;
+            _onCancel = onCancel;
             gameObject.SetActive(true);
         }
 

@@ -23,7 +23,7 @@ namespace GardenDataManagement
                 Destroy(child.gameObject);
             }
 
-            string[] gardenNames = Datainterface.GetAllGardenNames();
+            string[] gardenNames = DataInterface.GetAllGardenNames();
 
             foreach (string gardenName in gardenNames)
             {

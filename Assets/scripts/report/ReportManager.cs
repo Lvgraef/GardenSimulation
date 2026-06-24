@@ -43,13 +43,13 @@ namespace report
         {
             ReportData data = _calculator.Calculate(false);
 
-            nonPermeableAreaText.text = "Volledige volharding: " + data.nonPermeableArea.ToString(CultureInfo.CurrentCulture);
-            semiPermeableAreaText.text = "Doorlatend verhard of grind: " + data.semiPermeableArea.ToString(CultureInfo.CurrentCulture);
-            bareAreaText.text = "Niet verhard en zonder beplanting: " + data.bareArea.ToString(CultureInfo.CurrentCulture);
-            flowerAreaText.text = "Bloemen of moestuin of bodembedekker: " + data.flowerArea.ToString(CultureInfo.CurrentCulture);
-            grassAreaText.text = "Gras (Gemaaid): " + data.grassArea.ToString(CultureInfo.CurrentCulture);
-            shrubAreaText.text = "Struiken, heg, haag of kleine bomen: " + data.shrubArea.ToString(CultureInfo.CurrentCulture);
-            treeAreaText.text = "Grote boom: " + data.treeArea.ToString(CultureInfo.CurrentCulture);
+            nonPermeableAreaText.text = "Volledige volharding: " + data.NonPermeableArea.ToString(CultureInfo.CurrentCulture);
+            semiPermeableAreaText.text = "Doorlatend verhard of grind: " + data.SemiPermeableArea.ToString(CultureInfo.CurrentCulture);
+            bareAreaText.text = "Niet verhard en zonder beplanting: " + data.BareArea.ToString(CultureInfo.CurrentCulture);
+            flowerAreaText.text = "Bloemen of moestuin of bodembedekker: " + data.FlowerArea.ToString(CultureInfo.CurrentCulture);
+            grassAreaText.text = "Gras (Gemaaid): " + data.GrassArea.ToString(CultureInfo.CurrentCulture);
+            shrubAreaText.text = "Struiken, heg, haag of kleine bomen: " + data.ShrubArea.ToString(CultureInfo.CurrentCulture);
+            treeAreaText.text = "Grote boom: " + data.TreeArea.ToString(CultureInfo.CurrentCulture);
             
             sustainabilityReportChart.UpdateData(0, 0, data.CalculationResult.WaterScore);
             sustainabilityReportChart.UpdateData(0, 1, data.CalculationResult.SoilScore);

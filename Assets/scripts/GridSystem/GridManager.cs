@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using camera;
 using gardensettings;
-using GardenSimulation.Model;
+using Model;
 using Services;
 using UI;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace GridSystem
     public class GridManager : MonoBehaviour
     {
         public Material BuildingMaterial => buildingMaterial;
-        
+
         public const int SubGridSize = 5;
 
         [SerializeField] private bool training;
@@ -202,6 +202,7 @@ namespace GridSystem
                 Debug.LogError("No tile data");
                 return null;
             }
+
             return _tiles[x, y].GetMaterial()?.ID;
         }
 
@@ -269,25 +270,24 @@ namespace GridSystem
             return _tiles[x, y].GetMaterial();
         }
 
-        
+
         public void Reset()
         {
-            //Checks if tiles even have tiles in it
-            if(_tiles == null) return;
+            //Checks if tiles are present
+            if (_tiles == null) return;
             foreach (var tile in _tiles)
             {
                 tile?.ClearMaterial();
             }
         }
 
-        //TODO: probably doesn't work
         public void ImportGridData(int gridWidth, int gridHeight)
         {
             if (gridWidth <= 0 || gridHeight <= 0) return;
             Reset();
-            _tiles =  new Tile[gridWidth, gridHeight];
-            this.width = gridWidth;
-            this.height = gridHeight;
+            _tiles = new Tile[gridWidth, gridHeight];
+            width = gridWidth;
+            height = gridHeight;
             GenerateImportedGrid();
             CreateSubGrids();
         }
@@ -306,10 +306,10 @@ namespace GridSystem
             float zOffset = height * tileSize / 2;
             transform.position = new Vector3(-xOffset, 0, -zOffset);
         }
-        
+
         public void ClearGrid()
         {
-            Reset();                      
+            Reset();
             _tiles = null;
             SubGrids = null;
             _parcelCoordinates = null;
@@ -421,9 +421,7 @@ namespace GridSystem
         {
             if (training) return;
             if (!_lineMaterial) return;
-            // Blocks gl rendering for imported grid data also why is this needed?
-            //if (_parcelCoordinates == null || _pandCoordinates == null) return;
-            if(_tiles == null) return;
+            if (_tiles == null) return;
             GL.PushMatrix();
             _lineMaterial.SetPass(0);
 
@@ -520,9 +518,9 @@ namespace GridSystem
                 Vector2 a = new Vector2((float)coords[i].Item1, (float)coords[i].Item2);
                 Vector2 b = new Vector2((float)coords[j].Item1, (float)coords[j].Item2);
 
-                bool intersect = ((a.y > p.y) != (b.y > p.y)) &&
-                                 (p.x < (b.x - a.x) * (p.y - a.y) /
-                                     ((b.y - a.y) == 0 ? 0.00001f : (b.y - a.y)) + a.x);
+                bool intersect = a.y > p.y != b.y > p.y &&
+                                 p.x < (b.x - a.x) * (p.y - a.y) /
+                                 (b.y - a.y == 0 ? 0.00001f : b.y - a.y) + a.x;
 
                 if (intersect)
                     inside = !inside;
