@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -50,6 +51,11 @@ namespace UI
             PanelText.text = "Open Mini Report";
             miniReport.SetActive(false);
          }
+      }
+
+      private void Start()
+      {
+         Toggle();
       }
    }
 }
